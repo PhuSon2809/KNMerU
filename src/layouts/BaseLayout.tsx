@@ -1,11 +1,17 @@
 import { memo } from 'react'
 import { Outlet } from 'react-router-dom'
+import { images } from '~/assets'
 
 const BaseLayout = memo(() => {
   return (
-    <div>
+    <main className='relative flex h-full min-h-screen w-full flex-col items-stretch'>
       <Outlet />
-    </div>
+      <img
+        src={images.bg_texture}
+        alt='bg-texture'
+        className='pointer-events-none absolute inset-0 isolate size-full opacity-40'
+      />
+    </main>
   )
 })
 

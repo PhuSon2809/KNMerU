@@ -4,10 +4,17 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     fontFamily: {
-      bagel: ['DFVN Bagel Fat One', 'sans-serif']
+      bagel: ['DFVN Bagel Fat One', 'sans-serif'],
+      dongle: ['Dongle-Regular', 'sans-serif']
     },
     extend: {
+      screens: {
+        '2xl': '1440px'
+      },
       colors: {
+        blue: {
+          main: 'var(--red-main)'
+        },
         blue: {
           main: 'var(--blue-main)'
         },
@@ -27,14 +34,24 @@ export default {
           main: 'var(--yellow-main)',
           dark: 'var(--yellow-dark)'
         },
-        white: {
-          main: 'var(--white-mer)'
+        text: {
+          white: 'var(--white-mer)',
+          back: 'var(--black-mer)'
         },
-        black: {
-          main: 'var(--black-mer)'
+        gray: {
+          1: 'var(--gray-1)',
+          2: 'var(--gray-2)',
+          3: 'var(--gray-3)',
+          4: 'var(--gray-4)',
+          5: 'var(--gray-5)',
+          6: 'var(--gray-6)',
+          7: 'var(--gray-7)'
         }
       },
-      borderRadius: {}
+      borderRadius: {
+        1: '20px',
+        2: '30px'
+      }
     }
   },
   plugins: [

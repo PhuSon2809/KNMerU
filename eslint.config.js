@@ -36,6 +36,7 @@ export default tseslint.config(
           jsxSingleQuote: true
         }
       ],
+      'react-refresh/only-export-components': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
       'react-hooks/exhaustive-deps': 'off',
       'no-extra-boolean-cast': 'off',

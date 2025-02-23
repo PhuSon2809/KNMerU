@@ -13,11 +13,39 @@
   --yellow-dark: #d1a840;
   --white-mer: #f2f1f1;
   --black-mer: #383737;
+  --gray-1: #f2f1f1;
+  --gray-2: #d8d8d8;
+  --gray-3: #b2b0b0;
+  --gray-4: #868686;
+  --gray-5: #727070;
+  --gray-6: #4c4747;
+  --gray-7: #383737;
 }
 
 @font-face {
   font-family: 'DFVN Bagel Fat One';
   src: url('./assets/fonts/DFVN_Bagel_Fat_One.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Dongle-Regular';
+  src: url('./assets/fonts/Dongle-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Dongle-Regular';
+  src: url('./assets/fonts/Dongle-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Dongle-Regular';
+  src: url('./assets/fonts/Dongle-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
 }
