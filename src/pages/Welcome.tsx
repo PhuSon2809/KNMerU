@@ -30,7 +30,7 @@ const Welcome = memo(() => {
   return (
     <div className='flex-1 flex-col flex-center'>
       <h2 className='text-5xl leading-[72px] text-pink-main'>Chào mừng bạn đến với</h2>
-      <Logo className='h-auto w-[677px] text-white-main' />
+      <Logo className='h-auto w-[83%] text-white-main' />
       <div className='mt-11 flex items-center gap-[25px]'>
         {buttons.map((button) => (
           <Button
