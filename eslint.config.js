@@ -5,7 +5,6 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
 
-
 export default tseslint.config(
   { ignores: ['dist', 'vite.config.ts'] },
   {
@@ -13,7 +12,7 @@ export default tseslint.config(
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
       ecmaVersion: 2020,
-      globals: globals.browser,
+      globals: globals.browser
     },
     plugins: {
       'react-hooks': reactHooks,
@@ -22,10 +21,7 @@ export default tseslint.config(
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
+      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       'prettier/prettier': [
         'warn',
         {
@@ -36,10 +32,14 @@ export default tseslint.config(
           endOfLine: 'auto',
           useTabs: false,
           singleQuote: true,
-          printWidth: 120,
+          printWidth: 100,
           jsxSingleQuote: true
         }
-      ]
-    },
-  },
+      ],
+      '@typescript-eslint/no-explicit-any': 'off',
+      'react-hooks/exhaustive-deps': 'off',
+      'no-extra-boolean-cast': 'off',
+      'prefer-const': 'off'
+    }
+  }
 )

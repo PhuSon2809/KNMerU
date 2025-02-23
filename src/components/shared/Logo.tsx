@@ -1,7 +1,18 @@
-import { memo } from 'react'
+import classNames from 'classnames'
+import { FC, memo } from 'react'
+import { logo } from '~/assets'
 
-const Logo = memo(() => {
-  return <div>Logo</div>
-})
+interface LogoProps {
+  className?: string
+}
 
-export default Logo
+const Logo: FC<LogoProps> = ({ className }) => {
+  return (
+    <div className={classNames(className)}>
+      <img src={logo} alt='logo-KNMerU' className='size-full' />
+    </div>
+  )
+}
+
+Logo.displayName = 'Logo'
+export default memo(Logo)
