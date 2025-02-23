@@ -6,7 +6,7 @@ import ButtonBase from '~/components/shared/ButtonBase'
 interface CharactersChooseItemProps {
   className?: string
   isSelected: boolean
-  onClick: () => void
+  onClick?: () => void
 }
 
 const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
@@ -94,7 +94,7 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
               e?.preventDefault()
               e?.stopPropagation()
               setShowDetail(false)
-              onClick()
+              onClick?.()
             }}
           >
             Chọn nhân vật

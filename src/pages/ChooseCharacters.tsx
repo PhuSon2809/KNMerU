@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import CharactersChooseItem from '~/components/features/choose-characters/CharactersChooseItem'
 import ButtonBase from '~/components/shared/ButtonBase'
 import TitleCharacters from '~/components/shared/TitleCharacters'
+import { path } from '~/constants/path'
 import useHorizontalScroll from '~/hooks/useHorizontalScroll'
 
 const ChooseCharacters = memo(() => {
@@ -36,7 +37,7 @@ const ChooseCharacters = memo(() => {
           </ButtonBase>
           <ButtonBase
             variant='pink'
-            onClick={() => navigate(-1)}
+            onClick={() => navigate(path.nameCharacters)}
             LeftIcon={() => <span className='mgc_magic_3_fill' />}
           >
             Xác nhận

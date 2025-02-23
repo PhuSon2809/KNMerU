@@ -13,7 +13,7 @@ import { path } from '~/constants/path'
 
 export const registerFormSchema = z
   .object({
-    name: z.string().min(1, 'Vui lòng nhập tên token'),
+    name: z.string().min(1, 'Vui lòng nhập tên'),
     email: z.string().email('Email không hợp lệ'),
     phone: z
       .string()
