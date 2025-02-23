@@ -9,11 +9,23 @@ import { z } from 'zod'
 import { FormControl, FormField, FormItem, FormMessage } from '~/components/shared/Form'
 import InputBase from '~/components/shared/InputBase'
 import toast from 'react-hot-toast'
+import { path } from '~/constants/path'
 
-export const loginFormSchema = z.object({
-  email: z.string().min(1, 'Please enter a token name'),
-  password: z.string().min(1, 'Please enter a sympasswordbol')
-})
+export const registerFormSchema = z
+  .object({
+    name: z.string().min(1, 'Vui lòng nhập tên token'),
+    email: z.string().email('Email không hợp lệ'),
+    phone: z
+      .string()
+      .min(1, 'Vui lòng nhập số điện thoại')
+      .regex(/^(?:\+84|0)(?:\d{9}|\d{10})$/, 'Số điện thoại không hợp lệ'),
+    password: z.string().min(6, 'Mật khẩu phải có ít nhất 6 ký tự'),
+    checkPassword: z.string().min(6, 'Mật khẩu xác nhận phải có ít nhất 6 ký tự')
+  })
+  .refine((data) => data.password === data.checkPassword, {
+    message: 'Mật khẩu xác nhận không khớp',
+    path: ['checkPassword']
+  })
 
 const Register = memo(() => {
   const navigate = useNavigate()
@@ -21,19 +33,20 @@ const Register = memo(() => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [showPassword, setShowPassword] = useState<boolean>(false)
 
-  const form = useForm<z.infer<typeof loginFormSchema>>({
-    resolver: zodResolver(loginFormSchema),
-    defaultValues: { email: '', password: '' }
+  const form = useForm<z.infer<typeof registerFormSchema>>({
+    resolver: zodResolver(registerFormSchema),
+    defaultValues: { name: '', email: '', phone: '', password: '', checkPassword: '' }
   })
 
-  const onSubmitForm = async (values: z.infer<typeof loginFormSchema>) => {
+  const onSubmitForm = async (values: z.infer<typeof registerFormSchema>) => {
     if (isLoading) return
     try {
       setIsLoading(true)
-      console.log('login from ===> ', values)
+      console.log('register from ===> ', values)
+      navigate(path.chooseCharacters)
     } catch (error) {
       console.log('error', error)
-      toast.error('Đăng nhâp thất bại! Thử lại nhé.')
+      toast.error('Đăng ký thất bại! Thử lại nhé.')
     } finally {
       setIsLoading(false)
     }
@@ -41,7 +54,7 @@ const Register = memo(() => {
 
   return (
     <div className='relative size-full flex-1 flex-center'>
-      <div className='flex min-w-[569px] flex-col gap-11'>
+      <div className='z-10 flex min-w-[569px] flex-col gap-11'>
         <div className='flex items-center justify-between'>
           <ButtonBase variant='green' size='icon' onClick={() => navigate(-1)}>
             <span className='mgc_arrow_left_fill' />
@@ -53,6 +66,26 @@ const Register = memo(() => {
         <div className='space-y-5 rounded-1 border-[3px] border-dashed border-pink-main bg-white/90 p-6 backdrop-blur-[20px]'>
           <FormProvider {...form}>
             <div className='space-y-[18px]'>
+              <FormField
+                control={form.control}
+                name='name'
+                render={({ field, fieldState }) => (
+                  <FormItem>
+                    <FormControl>
+                      <InputBase
+                        {...field}
+                        label='Tên của bạn*'
+                        placeholder='Nguyễn Văn A'
+                        value={field.value || ''}
+                        error={fieldState.error?.message}
+                      />
+                      {fieldState.error?.message && (
+                        <FormMessage>{fieldState.error?.message}</FormMessage>
+                      )}
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name='email'
@@ -75,24 +108,17 @@ const Register = memo(() => {
               />
               <FormField
                 control={form.control}
-                name='password'
+                name='phone'
                 render={({ field, fieldState }) => (
                   <FormItem>
                     <FormControl>
                       <InputBase
                         {...field}
-                        label='Nhập mật khẩu*'
-                        placeholder='************'
+                        label='Số điện thoại*'
+                        type='number'
+                        placeholder='0192381923'
                         value={field.value || ''}
                         error={fieldState.error?.message}
-                        type={showPassword ? 'text' : 'password'}
-                        RightIcon={() => (
-                          <button onClick={() => setShowPassword((prev) => !prev)}>
-                            <span
-                              className={showPassword ? 'mgc_eye_fill' : 'mgc_eye_close_fill'}
-                            />
-                          </button>
-                        )}
                       />
                       {fieldState.error?.message && (
                         <FormMessage>{fieldState.error?.message}</FormMessage>
@@ -101,13 +127,72 @@ const Register = memo(() => {
                   </FormItem>
                 )}
               />
+              <div className='flex items-center gap-[18px]'>
+                <FormField
+                  control={form.control}
+                  name='password'
+                  render={({ field, fieldState }) => (
+                    <FormItem>
+                      <FormControl>
+                        <InputBase
+                          {...field}
+                          label='Nhập mật khẩu*'
+                          placeholder='************'
+                          value={field.value || ''}
+                          error={fieldState.error?.message}
+                          type={showPassword ? 'text' : 'password'}
+                          RightIcon={() => (
+                            <button onClick={() => setShowPassword((prev) => !prev)}>
+                              <span
+                                className={showPassword ? 'mgc_eye_fill' : 'mgc_eye_close_fill'}
+                              />
+                            </button>
+                          )}
+                        />
+                        {fieldState.error?.message && (
+                          <FormMessage>{fieldState.error?.message}</FormMessage>
+                        )}
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name='checkPassword'
+                  render={({ field, fieldState }) => (
+                    <FormItem>
+                      <FormControl>
+                        <InputBase
+                          {...field}
+                          label='Nhập lại mật khẩu*'
+                          placeholder='************'
+                          value={field.value || ''}
+                          error={fieldState.error?.message}
+                          type={showPassword ? 'text' : 'password'}
+                          RightIcon={() => (
+                            <button onClick={() => setShowPassword((prev) => !prev)}>
+                              <span
+                                className={showPassword ? 'mgc_eye_fill' : 'mgc_eye_close_fill'}
+                              />
+                            </button>
+                          )}
+                        />
+                        {fieldState.error?.message && (
+                          <FormMessage>{fieldState.error?.message}</FormMessage>
+                        )}
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </div>
               <ButtonBase
                 size='md'
+                variant='green'
                 className='!mt-[46px] w-full'
                 onClick={() => form.handleSubmit(onSubmitForm)()}
-                LeftIcon={() => <span className='mgc_moon_stars_fill' />}
+                LeftIcon={() => <span className='mgc_sun_fill' />}
               >
-                Đăng nhập
+                Đăng ký ngay
               </ButtonBase>
             </div>
           </FormProvider>
@@ -128,11 +213,15 @@ const Register = memo(() => {
       </div>
 
       <img src={icons.leaf} alt='leaf' className='absolute inset-0 -rotate-45 scale-75' />
-      <img src={icons.crown} alt='crown' className='absolute right-0 top-5 scale-75' />
+      <img
+        src={icons.crown}
+        alt='crown'
+        className='absolute right-0 top-16 rotate-[25deg] scale-[60%]'
+      />
       <img
         src={icons.blink_1}
         alt='blink-1'
-        className='xl 2xl: absolute bottom-0 right-10 scale-75'
+        className='xl 2xl: absolute bottom-0 right-5 scale-75'
       />
     </div>
   )

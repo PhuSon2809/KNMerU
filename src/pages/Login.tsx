@@ -44,7 +44,7 @@ const Login = memo(() => {
 
   return (
     <div className='relative size-full flex-1 flex-center'>
-      <div className='flex min-w-[569px] flex-col gap-11'>
+      <div className='z-10 flex min-w-[569px] flex-col gap-11'>
         <div className='flex items-center justify-between'>
           <ButtonBase variant='green' size='icon' onClick={() => navigate(-1)}>
             <span className='mgc_arrow_left_fill' />
@@ -130,11 +130,15 @@ const Login = memo(() => {
       </div>
 
       <img src={icons.leaf} alt='leaf' className='absolute inset-0 -rotate-45 scale-75' />
-      <img src={icons.crown} alt='crown' className='absolute right-0 top-5 scale-75' />
+      <img
+        src={icons.crown}
+        alt='crown'
+        className='absolute right-0 top-16 rotate-[25deg] scale-[60%]'
+      />
       <img
         src={icons.blink_1}
         alt='blink-1'
-        className='xl 2xl: absolute bottom-0 right-10 scale-75'
+        className='xl 2xl: absolute bottom-0 right-5 scale-75'
       />
     </div>
   )

@@ -11,7 +11,7 @@ const buttonVariants = cva(
         blue: 'bg-blue-main text-text-white',
         pink: 'bg-pink-main text-text-white',
         gray: 'bg-gray-1 text-gray-4',
-        green: 'bg-green-main text-gray-7',
+        green: 'bg-green-main text-gray-7 hover:text-pink-main',
         yellow: 'bg-yellow-main text-gray-7',
         orange: 'bg-orange-main text-text-white'
       },

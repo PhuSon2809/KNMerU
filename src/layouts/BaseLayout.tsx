@@ -9,7 +9,7 @@ const BaseLayout = memo(() => {
       <img
         src={images.bg_texture}
         alt='bg-texture'
-        className='pointer-events-none absolute inset-0 isolate size-full opacity-30'
+        className='pointer-events-none absolute inset-0 isolate size-full opacity-55'
       />
     </main>
   )

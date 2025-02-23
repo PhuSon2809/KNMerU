@@ -3,5 +3,6 @@ export const path = {
   login: '/login',
   register: '/register',
   home: '/home',
-  chooseCharacters: '/choose-characters'
+  chooseCharacters: '/choose-characters',
+  nameCharacters: '/name-characters'
 }
