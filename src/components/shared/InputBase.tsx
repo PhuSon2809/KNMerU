@@ -39,8 +39,8 @@ const InputBase = React.forwardRef<HTMLInputElement, InputBaseProps>((props, ref
       <div
         onClick={focus}
         className={classNames(
-          'relative flex h-[50px] items-center gap-2 rounded py-2',
-          LeftIcon || RightIcon ? 'px-3' : '',
+          'relative flex h-[50px] items-center gap-2 rounded px-3 py-2',
+          LeftIcon || RightIcon ? '' : '',
           containerInputClassName
         )}
       >

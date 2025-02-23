@@ -1,3 +1,16 @@
+export const socials: Social[] = [
+  {
+    id: 1,
+    icon: 'mgc_mail_fill',
+    variant: 'orange'
+  },
+  {
+    id: 2,
+    icon: 'mgc_facebook_fill',
+    variant: 'blue'
+  }
+]
+
 export const informations: Information[] = [
   {
     id: 1,
@@ -7,7 +20,7 @@ export const informations: Information[] = [
       'Vượt lớp: Hoàn thành nhiệm vụ trong 7 ngày/lớp, tổng hành trình 30 ngày.',
       'Vượt nhanh: Tham gia hoạt động, đăng ảnh + bình luận để xét duyệt.'
     ],
-    vairiant: 'pink'
+    variant: 'pink'
   },
   {
     id: 2,
@@ -17,7 +30,7 @@ export const informations: Information[] = [
       'Hoàn thành nhiệm vụ → lên lớp.',
       'Có thanh tiến độ theo dõi quá trình.'
     ],
-    vairiant: 'orange'
+    variant: 'orange'
   },
   {
     id: 3,
@@ -28,6 +41,6 @@ export const informations: Information[] = [
       'Tham gia hoạt động.',
       'Phần thưởng: Nhận quà khi lên lớp 3 và lớp 5.'
     ],
-    vairiant: 'blue'
+    variant: 'blue'
   }
 ]

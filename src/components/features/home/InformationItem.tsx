@@ -21,7 +21,7 @@ const InformationItem: FC<InformationItemProps> = memo((props) => {
     <div
       className={classNames(
         className,
-        bgCard[information.vairiant],
+        bgCard[information.variant],
         'relative flex h-full min-h-[195px] w-[388px] flex-col gap-3 rounded-2xl p-4 text-gray-1'
       )}
     >
@@ -35,7 +35,7 @@ const InformationItem: FC<InformationItemProps> = memo((props) => {
           </li>
         ))}
       </ul>
-      <span className='absolute bottom-0 right-0 text-[149px] opacity-20'>0{information.id}</span>
+      <span className='absolute -bottom-8 right-0 text-[149px] opacity-20'>0{information.id}</span>
     </div>
   )
 })

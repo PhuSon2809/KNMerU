@@ -12,14 +12,14 @@ export default {
         '2xl': '1440px'
       },
       colors: {
-        blue: {
+        red: {
           main: 'var(--red-main)'
         },
         blue: {
           main: 'var(--blue-main)'
         },
         green: {
-          main: 'var(--green-main)'
+          main: '#17eb89'
         },
         pink: {
           main: 'var(--pink-main)'
@@ -32,6 +32,7 @@ export default {
         },
         yellow: {
           main: 'var(--yellow-main)',
+          light: 'var(--yellow-light)',
           dark: 'var(--yellow-dark)'
         },
         text: {
@@ -51,6 +52,9 @@ export default {
       borderRadius: {
         1: '20px',
         2: '30px'
+      },
+      boxShadow: {
+        pink: '-4px 6px 0px 0px #FF92CB'
       }
     }
   },

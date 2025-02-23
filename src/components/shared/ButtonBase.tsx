@@ -4,7 +4,7 @@ import type { VariantProps } from 'class-variance-authority'
 import classNames from 'classnames'
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center whitespace-nowrap text-[20px]/[30px] transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/50 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-6 [&_svg]:shrink-0',
+  'inline-flex items-center justify-center whitespace-nowrap text-[20px]/[30px] transition-all duration-300 ease-in-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/50 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-6 [&_svg]:shrink-0',
   {
     variants: {
       variant: {
@@ -12,12 +12,13 @@ const buttonVariants = cva(
         pink: 'bg-pink-main text-text-white',
         gray: 'bg-gray-1 text-gray-4',
         green: 'bg-green-main text-gray-7',
+        yellow: 'bg-yellow-main text-gray-7',
         orange: 'bg-orange-main text-text-white'
       },
       size: {
-        default: 'h-[46px] px-4 py-2',
-        md: 'h-[60px] px-4 py-2',
-        lg: 'h-[73px] px-4 py-2',
+        default: 'min-h-[46px] px-4 py-2',
+        md: 'min-h-[60px] px-4 py-2',
+        lg: 'min-h-[73px] px-4 py-2',
         icon: 'h-[49px] w-[56px] px-4 py-2',
         circleIcon: 'size-[38px]'
       },

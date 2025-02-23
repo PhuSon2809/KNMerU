@@ -1,18 +1,20 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import { memo, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
+import { z } from 'zod'
 import { icons } from '~/assets'
 import ButtonBase from '~/components/shared/ButtonBase'
-import Logo from '~/components/shared/Logo'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
 import { FormControl, FormField, FormItem, FormMessage } from '~/components/shared/Form'
 import InputBase from '~/components/shared/InputBase'
-import toast from 'react-hot-toast'
+import Logo from '~/components/shared/Logo'
+import { path } from '~/constants/path'
+import { socials } from '~/mocks/data'
 
 export const loginFormSchema = z.object({
-  email: z.string().min(1, 'Please enter a token name'),
-  password: z.string().min(1, 'Please enter a sympasswordbol')
+  email: z.string().min(1, 'Vui lòng nhập email').email('Email không đúng định dạng'),
+  password: z.string().min(1, 'Vui lòng nhập mật khẩu')
 })
 
 const Login = memo(() => {
@@ -31,6 +33,7 @@ const Login = memo(() => {
     try {
       setIsLoading(true)
       console.log('login from ===> ', values)
+      navigate(path.home)
     } catch (error) {
       console.log('error', error)
       toast.error('Đăng nhâp thất bại! Thử lại nhé.')
@@ -117,12 +120,11 @@ const Login = memo(() => {
             <div className='h-[1px] w-full bg-orange-main' />
           </div>
           <div className='flex items-center gap-[25px]'>
-            <ButtonBase size='md' variant='gray' className='w-full'>
-              <span className='mgc_facebook_fill' />
-            </ButtonBase>
-            <ButtonBase size='md' variant='gray' className='w-full'>
-              <span className='mgc_mail_fill' />
-            </ButtonBase>
+            {socials.map((social) => (
+              <ButtonBase key={social.id} size='md' variant='gray' className='w-full'>
+                <span className={social.icon} />
+              </ButtonBase>
+            ))}
           </div>
         </div>
       </div>
