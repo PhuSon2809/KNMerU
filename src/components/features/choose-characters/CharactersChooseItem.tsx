@@ -20,6 +20,7 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
       <div
         onClick={() => setShowDetail((prev) => !prev)}
         className={classNames(
+          isShowDetail && 'w-full',
           showDetail ? 'w-[587px] shrink-0 rounded-1 bg-pink-main py-[12.5px] pl-3 pr-6' : 'w-fit',
           'flex items-center transition-500'
         )}
@@ -72,6 +73,7 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
         </div>
         <div
           className={classNames(
+            isShowDetail && 'w-[320px]',
             showDetail ? 'flex' : 'hidden',
             'w-[285px] shrink-0 flex-col items-start gap-1 pl-6 text-white transition-500'
           )}
@@ -88,18 +90,20 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
               ullamcorper su
             </p>
           </div>
-          <ButtonBase
-            variant='green'
-            className='ml-auto'
-            onClick={(e) => {
-              e?.preventDefault()
-              e?.stopPropagation()
-              setShowDetail(false)
-              onClick?.()
-            }}
-          >
-            Chọn nhân vật
-          </ButtonBase>
+          {!isShowDetail && (
+            <ButtonBase
+              variant='green'
+              className='ml-auto'
+              onClick={(e) => {
+                e?.preventDefault()
+                e?.stopPropagation()
+                setShowDetail(false)
+                onClick?.()
+              }}
+            >
+              Chọn nhân vật
+            </ButtonBase>
+          )}
         </div>
       </div>
     )

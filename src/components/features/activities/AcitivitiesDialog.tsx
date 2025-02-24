@@ -26,15 +26,12 @@ const AcitivitiesDialog: FC<AcitivitiesDialogProps> = memo(({ titleDialog, open,
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [selectedFiles, setSelectedFiles] = useState<SelectedFile[]>([])
 
-  console.log('isSent', isSent)
-
   const form = useForm<z.infer<typeof commentFormSchema>>({
     resolver: zodResolver(commentFormSchema),
     defaultValues: { comment: '' }
   })
 
   const onSubmitForm = async (values: z.infer<typeof commentFormSchema>) => {
-    console.log('click')
     if (isLoading) return
     if (selectedFiles.length === 0) return toast.error('Bạn chọn file để gửi bình luận nhé!')
     try {
