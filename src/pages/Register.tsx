@@ -10,6 +10,7 @@ import { FormControl, FormField, FormItem, FormMessage } from '~/components/shar
 import InputBase from '~/components/shared/InputBase'
 import toast from 'react-hot-toast'
 import { path } from '~/constants/path'
+import classNames from 'classnames'
 
 export const registerFormSchema = z
   .object({
@@ -45,32 +46,34 @@ const Register = memo(() => {
       setIsLoading(true)
       console.log('register from ===> ', values)
       setTimeout(() => setIsSuccess(true), 5000)
-      navigate(path.chooseCharacters)
     } catch (error) {
       console.log('error', error)
       toast.error('Đăng ký thất bại! Thử lại nhé.')
     } finally {
-      setIsLoading(false)
+      setTimeout(() => setIsLoading(false), 5001)
+      // setIsLoading(false)
     }
   }
 
   return (
-    <div className='relative size-full flex-1 pb-40 pt-20 flex-center'>
+    <div className={classNames('relative size-full flex-1 pb-40 pt-20 flex-center')}>
       {isSuccess ? (
-        <div className='flex flex-col items-center justify-center'>
-          <Logo className='' />
-          <img src={icons.star} alt='star' className='' />
-          <p className='text-pink-main'>
-            Chúc mừng bạn đã <br /> đăng ký <span className='text-green-main'>thành công</span>
-          </p>
+        <div className='flex flex-col items-center justify-center gap-11'>
+          <Logo className='w-[325px]' />
+          <div className='flex flex-col items-center gap-3'>
+            <img src={icons.star} alt='star' className='w-[80px]' />
+            <p className='text-[60px]/[90px] text-pink-main'>
+              Chúc mừng bạn đã <br /> đăng ký <span className='text-green-dark'>thành công</span>
+            </p>
+          </div>
           <div className='w-full gap-[25px] flex-center'>
-            <ButtonBase variant='green' size='icon' onClick={() => navigate(-1)}>
+            <ButtonBase variant='green' size='icon' onClick={() => setIsSuccess(false)}>
               <span className='mgc_arrow_left_fill' />
             </ButtonBase>
             <ButtonBase
               variant='pink'
-              onClick={() => navigate(path.nameCharacters)}
-              LeftIcon={() => <span className='mgc_magic_3_fill' />}
+              onClick={() => navigate(path.chooseCharacters)}
+              LeftIcon={() => <span className='mgc_emoji_2_fill' />}
             >
               Tham gia ngay
             </ButtonBase>
@@ -212,6 +215,7 @@ const Register = memo(() => {
                   size='md'
                   variant='green'
                   className='!mt-[46px] w-full'
+                  isLoading={isLoading}
                   onClick={() => form.handleSubmit(onSubmitForm)()}
                   LeftIcon={() => <span className='mgc_sun_fill' />}
                 >
@@ -235,17 +239,21 @@ const Register = memo(() => {
           </div>
         </div>
       )}
-      <img src={icons.leaf} alt='leaf' className='absolute inset-0 -rotate-45 scale-75' />
-      <img
-        src={icons.crown}
-        alt='crown'
-        className='absolute right-0 top-16 rotate-[25deg] scale-[60%]'
-      />
-      <img
-        src={icons.blink_1}
-        alt='blink-1'
-        className='xl 2xl: absolute bottom-0 right-5 scale-75'
-      />
+      {!isSuccess && (
+        <>
+          <img src={icons.leaf} alt='leaf' className='absolute left-0 top-40 w-[70px] -rotate-45' />
+          <img
+            src={icons.crown}
+            alt='crown'
+            className='absolute right-0 top-11 w-[90px] rotate-[19deg]'
+          />
+          <img
+            src={icons.blink_1}
+            alt='blink-1'
+            className='xl 2xl: absolute bottom-5 right-0 w-[105px]'
+          />
+        </>
+      )}
     </div>
   )
 })

@@ -71,6 +71,11 @@ const NameCharacters = memo(() => {
                 />
                 <span className='mgc_check_circle_line mt-8 text-gray-5' />
               </div>
+
+              <div className='rounded-1 bg-blue-main px-2 pb-[2px] pt-1 font-dongle text-gray-1'>
+                Tên nhân vật sẽ không thể thay đổi, bạn lưu ý khi đặt tên cho bé nha*
+              </div>
+
               <ul className='font-dongle text-[20px]/[20px] text-orange-main'>
                 <li>Tên phải có từ 3 đến 20 ký tự.</li>
                 <li>Chỉ bao gồm chữ cái (A-Z, a-z) và số (0-9).</li>

@@ -4,10 +4,14 @@
 
 :root {
   --blue-main: #5daeff;
+  --blue-dark: #5399e0;
   --green-main: #17eb89;
+  --green-dark: #039854;
   --pink-main: #ff92cb;
+  --pink-dark: #d1689f;
   --red-main: #ed494c;
   --orange-main: #f08a4a;
+  --orange-dark: #d0773f;
   --skin-main: #f9c194;
   --yellow-main: #fffae8;
   --yellow-light: #fcd700;

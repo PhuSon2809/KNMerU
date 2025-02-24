@@ -1,21 +1,9 @@
 import { memo } from 'react'
-import ButtonBase from '~/components/shared/ButtonBase'
-import { Dialog, DialogContent, DialogTrigger } from '~/components/shared/Dialog'
-import ActionDialog from '~/components/shared/ActionDialog'
+import { Dialog, DialogContent } from '~/components/shared/Dialog'
 
-const ActivitiesDialog = memo(() => {
+const EventDialog = memo(() => {
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <ButtonBase
-          variant='orange'
-          size='lg'
-          className='min-w-[212px]'
-          LeftIcon={() => <span className='mgc_pen_fill' />}
-        >
-          Học vượt cấp
-        </ButtonBase>
-      </DialogTrigger>
       <DialogContent
         noOverlayBackground
         noBlur
@@ -30,7 +18,6 @@ const ActivitiesDialog = memo(() => {
               <span className='font-dongle'>Bao gồm 6 câu hỏi</span>
             </div>
           </div>
-          <ActionDialog title='Nộp bài' />
         </div>
         <div className='flex w-full flex-col gap-3'></div>
       </DialogContent>
@@ -38,4 +25,4 @@ const ActivitiesDialog = memo(() => {
   )
 })
 
-export default ActivitiesDialog
+export default EventDialog

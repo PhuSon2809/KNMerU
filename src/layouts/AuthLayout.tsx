@@ -1,7 +1,9 @@
+import classNames from 'classnames'
 import { memo, useEffect, useRef, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { images } from '~/assets'
 import BgTexture from '~/components/shared/BgTexture'
+import { path } from '~/constants/path'
 
 const AuthLayout = memo(() => {
   const location = useLocation()
@@ -20,9 +22,9 @@ const AuthLayout = memo(() => {
   }, [location.pathname])
 
   return (
-    <main className='relative flex min-h-screen w-full'>
+    <main className='relative flex min-h-[1024px] w-full'>
       <div className='relative w-full flex-1'>
-        <div className='min-h-screen w-full' style={{ height: `${contentHeight}px` }}>
+        <div className='min-h-[1024px] w-full' style={{ height: `${contentHeight}px` }}>
           <img
             src={images.KV_photo}
             alt='kv-photo'
@@ -34,7 +36,10 @@ const AuthLayout = memo(() => {
       </div>
       <div
         ref={contentRef}
-        className='flex size-full min-h-screen flex-1 items-center bg-yellow-main pr-20'
+        className={classNames(
+          location.pathname === path.register ? 'min-h-[1091px]' : 'min-h-[1024px]',
+          'flex size-full min-h-[1024px] flex-1 items-center bg-yellow-main pr-20'
+        )}
       >
         <Outlet />
       </div>

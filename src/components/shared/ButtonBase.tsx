@@ -8,12 +8,12 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        blue: 'bg-blue-main text-text-white',
-        pink: 'bg-pink-main text-text-white',
-        gray: 'bg-gray-1 text-gray-4',
+        blue: 'bg-blue-main text-text-white hover:bg-blue-dark',
+        pink: 'bg-pink-main text-text-white hover:bg-pink-dark',
         green: 'bg-green-main text-gray-7 hover:text-pink-main',
-        yellow: 'bg-yellow-main text-gray-7',
-        orange: 'bg-orange-main text-text-white'
+        yellow: 'bg-yellow-main text-gray-7 hover:text-red-main',
+        orange: 'bg-orange-main text-text-white hover:bg-orange-dark',
+        gray: 'bg-gray-1 text-gray-4'
       },
       size: {
         default: 'min-h-[46px] px-4 py-2',

@@ -23,7 +23,7 @@ const PopoverActivities: FC<PopoverActivitiesProps> = memo(
             {activities.map((activ) => (
               <div
                 key={activ.id}
-                className='flex items-center gap-[10px] rounded-xl p-2 hover:bg-gray-2'
+                className='flex items-center gap-[10px] rounded-xl p-2 hover:bg-gray-2 hover:text-pink-main'
               >
                 <span className='mgc_fire_fill' />
                 <p className='text-dongle-24 mt-1'>{activ.label}</p>

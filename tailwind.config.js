@@ -17,16 +17,20 @@ export default {
           main: 'var(--red-main)'
         },
         blue: {
-          main: 'var(--blue-main)'
+          main: 'var(--blue-main)',
+          dark: 'var(--blue-dark)'
         },
         green: {
-          main: '#17eb89'
+          main: '#17eb89',
+          dark: '#039854'
         },
         pink: {
-          main: 'var(--pink-main)'
+          main: 'var(--pink-main)',
+          dark: 'var(--pink-dark)'
         },
         orange: {
-          main: 'var(--orange-main)'
+          main: 'var(--orange-main)',
+          dark: 'var(--orange-dark)'
         },
         skin: {
           main: 'var(--skin-main)'
