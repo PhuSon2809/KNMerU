@@ -5,6 +5,7 @@ import ClassPercent from '~/components/features/home/ClassPercent'
 import InformationItem from '~/components/features/home/InformationItem'
 import PopoverActivities from '~/components/features/home/PopoverActivities'
 import ButtonBase from '~/components/shared/ButtonBase'
+import BlindPocketDialog from '~/components/features/blind-pocket/BlindPocketDialog'
 import Header from '~/layouts/components/Header'
 import { informations, socials } from '~/mocks/data'
 
@@ -16,13 +17,14 @@ const Home = memo(() => {
     setAttendance((prev) => !prev)
   }, [])
 
-  const handleStudyBeyondLevel = useCallback(() => {}, [])
+  const handleStudyBeyondLevel = useCallback(() => { }, [])
 
   return (
     <div className='flex size-full flex-1 flex-col items-stretch'>
       <div className='relative flex w-full flex-col gap-9 rounded-bl-3xl rounded-br-3xl bg-green-main/[.56] px-[50px] py-14'>
         <Header />
         <ClassPercent />
+        <BlindPocketDialog />
         <div className='-bottom-9 flex items-center gap-3 absolute-center-x'>
           <ButtonBase
             variant={attendance ? 'green' : 'pink'}
@@ -54,7 +56,7 @@ const Home = memo(() => {
                   )}
                 />
               )}
-              onClick={() => {}}
+              onClick={() => { }}
             >
               Tham gia hoạt động
             </ButtonBase>

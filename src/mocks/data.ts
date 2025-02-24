@@ -1,3 +1,5 @@
+import { images } from '~/assets'
+
 export const socials: Social[] = [
   {
     id: 1,
@@ -48,6 +50,42 @@ export const informations: Information[] = [
 export const gifts = [
   {
     id: 1,
-    name: ''
+    name: 'Bút mực',
+    image: images.butmuc
+  },
+  {
+    id: 2,
+    name: 'Bút chì',
+    image: images.butchi
+  },
+  {
+    id: 3,
+    name: 'Gôm',
+    image: images.gom
+  },
+  {
+    id: 4,
+    name: 'Thước',
+    image: images.thuoc
+  },
+  {
+    id: 5,
+    name: 'Que tính toán học',
+    image: images.quetoanhoc
+  },
+  {
+    id: 6,
+    name: 'Đồ chuốt bút chì',
+    image: images.chuotbutchi
+  },
+  {
+    id: 7,
+    name: 'Tập vở',
+    image: images.tapvo
+  },
+  {
+    id: 8,
+    name: 'Sáp màu',
+    image: images.sapmau
   }
 ]
