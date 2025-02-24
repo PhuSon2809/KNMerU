@@ -44,3 +44,10 @@ export const informations: Information[] = [
     variant: 'blue'
   }
 ]
+
+export const gifts = [
+  {
+    id: 1,
+    name: ''
+  }
+]
