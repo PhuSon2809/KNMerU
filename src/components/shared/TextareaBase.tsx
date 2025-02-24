@@ -6,7 +6,7 @@ interface Icon {
   className?: string
 }
 
-export interface InputBaseProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface TextareaBaseProps extends React.InputHTMLAttributes<HTMLTextAreaElement> {
   labelClassName?: string
   containerClassName?: string
   containerInputClassName?: string
@@ -17,7 +17,7 @@ export interface InputBaseProps extends React.InputHTMLAttributes<HTMLInputEleme
   iconClassName?: string
 }
 
-const InputBase = React.forwardRef<HTMLInputElement, InputBaseProps>((props, ref) => {
+const TextareaBase = React.forwardRef<HTMLTextAreaElement, TextareaBaseProps>((props, ref) => {
   const {
     label,
     containerClassName,
@@ -39,14 +39,14 @@ const InputBase = React.forwardRef<HTMLInputElement, InputBaseProps>((props, ref
       <div
         onClick={focus}
         className={classNames(
-          'relative flex h-[50px] items-center gap-2 rounded px-3 py-2',
+          'relative flex h-[103px] items-center gap-2 rounded px-3 py-2',
           LeftIcon || RightIcon ? '' : '',
           containerInputClassName
         )}
       >
         {LeftIcon && <LeftIcon className={classNames('h-6 w-6', iconClassName)} />}
 
-        <input
+        <textarea
           ref={ref}
           className={classNames(
             'h-full w-full appearance-none bg-transparent px-3 font-dongle text-2xl leading-tight focus:outline-none',
@@ -56,11 +56,15 @@ const InputBase = React.forwardRef<HTMLInputElement, InputBaseProps>((props, ref
         />
 
         {RightIcon && <RightIcon className={classNames('h-6 w-6', iconClassName)} />}
-        <img src={images.bg_input} alt='bg-input' className='absolute inset-0 -z-[1] h-full' />
+        <img
+          src={images.bg_textarea}
+          alt='bg-textarea'
+          className='absolute inset-0 -z-[1] h-full'
+        />
       </div>
     </div>
   )
 })
 
-InputBase.displayName = 'InputBase'
-export default React.memo(InputBase)
+TextareaBase.displayName = 'TextareaBase'
+export default React.memo(TextareaBase)

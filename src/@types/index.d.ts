@@ -12,6 +12,12 @@ declare global {
     desc: string[]
     variant: Color
   }
+
+  interface SelectedFile {
+    name: string
+    url: string
+    file: File
+  }
 }
 
 export {}

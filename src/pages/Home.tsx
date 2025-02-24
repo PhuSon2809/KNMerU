@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 import { memo, useCallback, useState } from 'react'
 import { icons } from '~/assets'
+import AcitivitiesDialog from '~/components/features/activities/AcitivitiesDialog'
 import ClassPercent from '~/components/features/home/ClassPercent'
 import InformationItem from '~/components/features/home/InformationItem'
 import PopoverActivities from '~/components/features/home/PopoverActivities'
@@ -12,9 +13,16 @@ import { informations, socials } from '~/mocks/data'
 const Home = memo(() => {
   const [attendance, setAttendance] = useState<boolean>(false)
   const [popoverOpen, setPopoverOpen] = useState<boolean>(false)
+  const [eventOpen, setEventOpen] = useState<boolean>(false)
+  const [titleDialog, setTitleDialog] = useState<string>('')
 
   const handleAttendance = useCallback(() => {
     setAttendance((prev) => !prev)
+  }, [])
+
+  const handleOpenEventDialog = useCallback((title: string) => {
+    setTitleDialog(title)
+    setEventOpen(true)
   }, [])
 
   return (
@@ -34,7 +42,11 @@ const Home = memo(() => {
               {attendance ? 'Điểm danh thành công' : 'Điểm danh'}
             </ButtonBase>
             <QuestionDialog />
-            <PopoverActivities popoverOpen={popoverOpen} setPopoverOpen={setPopoverOpen}>
+            <PopoverActivities
+              popoverOpen={popoverOpen}
+              setPopoverOpen={setPopoverOpen}
+              onOpenEventDialog={handleOpenEventDialog}
+            >
               <ButtonBase
                 size='lg'
                 className='min-w-[212px]'
@@ -79,6 +91,8 @@ const Home = memo(() => {
           <img src={icons.coffee} alt='icon-coffee' className='absolute -right-16 top-5' />
         </div>
       </div>
+
+      <AcitivitiesDialog titleDialog={titleDialog} open={eventOpen} setOpen={setEventOpen} />
     </>
   )
 })
