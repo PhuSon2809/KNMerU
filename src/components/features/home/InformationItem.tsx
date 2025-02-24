@@ -30,7 +30,7 @@ const InformationItem: FC<InformationItemProps> = memo((props) => {
       </p>
       <ul>
         {information.desc.map((item) => (
-          <li key={item} className='font-dongle text-[24px]/[24px]'>
+          <li key={item} className='text-dongle-24'>
             {item}
           </li>
         ))}

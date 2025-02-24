@@ -5,13 +5,14 @@ import ButtonBase from '~/components/shared/ButtonBase'
 
 interface CharactersChooseItemProps {
   className?: string
-  isSelected: boolean
+  isSelected?: boolean
+  isShowDetail?: boolean
   onClick?: () => void
 }
 
 const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
-  ({ className, isSelected, onClick }) => {
-    const [showDetail, setShowDetail] = useState<boolean>(false)
+  ({ className, isSelected, isShowDetail = false, onClick }) => {
+    const [showDetail, setShowDetail] = useState<boolean>(isShowDetail)
 
     console.log('showDetail', showDetail)
 
@@ -20,7 +21,7 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
         onClick={() => setShowDetail((prev) => !prev)}
         className={classNames(
           showDetail ? 'w-[587px] shrink-0 rounded-1 bg-pink-main py-[12.5px] pl-3 pr-6' : 'w-fit',
-          'transition-500 flex items-center'
+          'flex items-center transition-500'
         )}
       >
         <div
@@ -29,7 +30,7 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
               ? 'rounded-1 rounded-tl-[80px] rounded-tr-[80px] bg-pink-main'
               : 'rounded-1 border-2 border-dashed border-orange-main',
             showDetail ? 'bg-orange-main' : 'hover:border-none hover:bg-orange-main',
-            'transition-300 group relative h-[278px] w-[266px] shrink-0 bg-gray-1',
+            'group relative h-[278px] w-[266px] shrink-0 bg-gray-1 transition-300',
             className
           )}
         >
@@ -40,14 +41,14 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
             className={classNames(
               isSelected && 'rotate-[-6.84deg]',
               !showDetail && 'group-hover:rotate-[-6.84deg] group-hover:scale-[85%]',
-              'transition-300 bottom-[25px] w-[243px] border-none absolute-center-x'
+              'bottom-[25px] w-[243px] border-none absolute-center-x transition-300'
             )}
           />
           <div
             className={classNames(
               isSelected ? 'rotate-[7.6deg] bg-green-main text-gray-7' : 'bg-pink-main text-white',
               showDetail ? '-bottom-[14px]' : '-bottom-[25px] group-hover:rotate-[7.6deg]',
-              'transition-300 h-[50px] px-6 py-[10px] uppercase flex-center absolute-center-x'
+              'h-[50px] px-6 py-[10px] uppercase flex-center absolute-center-x transition-300'
             )}
           >
             <p className='text-nowrap text-[20px]/[30px]'>Tên nhân Vật</p>
@@ -59,7 +60,7 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
                 isSelected
                   ? 'bottom-6 left-[9px] bg-yellow-light text-gray-7 opacity-100'
                   : '-bottom-12 left-12 bg-red-main text-white opacity-0',
-                'transition-500 absolute flex items-center gap-2 rounded-full px-2 py-1 group-hover:bottom-6 group-hover:left-[9px] group-hover:rotate-[-1.79deg] group-hover:opacity-100'
+                'absolute flex items-center gap-2 rounded-full px-2 py-1 transition-500 group-hover:bottom-6 group-hover:left-[9px] group-hover:rotate-[-1.79deg] group-hover:opacity-100'
               )}
             >
               <span className='mgc_folder_fill scale-[77%]' />
@@ -72,16 +73,16 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
         <div
           className={classNames(
             showDetail ? 'flex' : 'hidden',
-            'transition-500 w-[285px] shrink-0 flex-col items-start gap-1 pl-6 text-white'
+            'w-[285px] shrink-0 flex-col items-start gap-1 pl-6 text-white transition-500'
           )}
         >
           <div className='flex items-center gap-3'>
             <h4 className='text-[32px]/[48px]'>Tên nhân vật</h4>
-            <span className='text font-dongle text-[24px]/[24px]'>12 tuổi</span>
+            <span className='text-dongle-24'>12 tuổi</span>
           </div>
           <div>
             <h4 className='text-[32px]/[48px]'>Thông tin cá nhân</h4>
-            <p className='text font-dongle text-[24px]/[24px]'>
+            <p className='text-dongle-24'>
               er adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna
               aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
               ullamcorper su

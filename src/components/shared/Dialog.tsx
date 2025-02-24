@@ -17,7 +17,7 @@ const DialogOverlay = React.forwardRef<
   <DialogPrimitive.Overlay
     ref={ref}
     className={classNames(
-      'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50',
+      'fixed inset-0 z-50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
       className
     )}
     {...props}
@@ -57,14 +57,14 @@ const DialogContent = React.forwardRef<
       <DialogPrimitive.Content
         ref={ref}
         className={classNames(
-          'bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] fixed left-[50%] top-[50%] z-50 flex w-full max-w-4xl translate-x-[-50%] translate-y-[-50%] flex-col gap-4 rounded-3xl border p-6 shadow-lg duration-200',
+          'fixed left-[50%] top-[50%] z-50 flex h-[610px] w-[674px] shrink-0 translate-x-[-50%] translate-y-[-50%] flex-col gap-[10px] rounded-1 border border-gray-2 bg-white shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]',
           className
         )}
         {...props}
       >
         {children}
         {!hideClose && (
-          <DialogPrimitive.Close className='data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute right-4 top-4 opacity-70 transition-opacity hover:opacity-100 focus:outline-none disabled:pointer-events-none'>
+          <DialogPrimitive.Close className='absolute right-6 top-7 size-[38px] rounded-full bg-blue-main text-gray-1 opacity-90 transition-opacity flex-center hover:opacity-100 focus:outline-none disabled:pointer-events-none'>
             <span className='mgc_fullscreen_exit_2_fill' />
             <span className='sr-only'>Close</span>
           </DialogPrimitive.Close>

@@ -1,6 +1,7 @@
 import { memo, useEffect, useRef, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { images } from '~/assets'
+import BgTexture from '~/components/shared/BgTexture'
 
 const AuthLayout = memo(() => {
   const location = useLocation()
@@ -37,11 +38,7 @@ const AuthLayout = memo(() => {
       >
         <Outlet />
       </div>
-      <img
-        src={images.bg_texture}
-        alt='bg-texture'
-        className='pointer-events-none absolute inset-0 isolate size-full opacity-55'
-      />
+      <BgTexture />
     </main>
   )
 })

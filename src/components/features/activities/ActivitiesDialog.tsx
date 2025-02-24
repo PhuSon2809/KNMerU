@@ -2,10 +2,8 @@ import { memo } from 'react'
 import ButtonBase from '~/components/shared/ButtonBase'
 import { Dialog, DialogContent, DialogTrigger } from '~/components/shared/Dialog'
 import ActionDialog from '~/components/shared/ActionDialog'
-import CharactersChooseItem from '../choose-characters/CharactersChooseItem'
-import InputBase from '~/components/shared/InputBase'
 
-const ProfileDialog = memo(() => {
+const ActivitiesDialog = memo(() => {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -32,22 +30,12 @@ const ProfileDialog = memo(() => {
               <span className='font-dongle'>Bao gồm 6 câu hỏi</span>
             </div>
           </div>
-          <ActionDialog title='Nộp bài' onClick={() => {}} />
+          <ActionDialog title='Nộp bài' />
         </div>
-        <div className='flex w-full flex-col gap-3'>
-          <CharactersChooseItem isShowDetail={true} />
-          <div className='flex items-center gap-2'>
-            <InputBase label='Tên của bạn' value='Nguyễn Văn A' disabled />
-            <InputBase label='Email' value='VanA111@gmail.com' disabled />
-          </div>
-          <div className='flex items-center gap-2'>
-            <InputBase label='Số điện thoại' value='0192381923' disabled />
-            <InputBase label='Mật khẩu' value='************' disabled />
-          </div>
-        </div>
+        <div className='flex w-full flex-col gap-3'></div>
       </DialogContent>
     </Dialog>
   )
 })
 
-export default ProfileDialog
+export default ActivitiesDialog

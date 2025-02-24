@@ -4,6 +4,7 @@ import { icons } from '~/assets'
 import ClassPercent from '~/components/features/home/ClassPercent'
 import InformationItem from '~/components/features/home/InformationItem'
 import PopoverActivities from '~/components/features/home/PopoverActivities'
+import QuestionDialog from '~/components/features/question/QuestionDialog'
 import ButtonBase from '~/components/shared/ButtonBase'
 import Header from '~/layouts/components/Header'
 import { informations, socials } from '~/mocks/data'
@@ -16,14 +17,12 @@ const Home = memo(() => {
     setAttendance((prev) => !prev)
   }, [])
 
-  const handleStudyBeyondLevel = useCallback(() => {}, [])
-
   return (
     <div className='flex size-full flex-1 flex-col items-stretch'>
       <div className='relative flex w-full flex-col gap-9 rounded-bl-3xl rounded-br-3xl bg-green-main/[.56] px-[50px] py-14'>
         <Header />
         <ClassPercent />
-        <div className='-bottom-9 flex items-center gap-3 absolute-center-x'>
+        <div className='-bottom-9 z-10 flex items-center gap-3 absolute-center-x'>
           <ButtonBase
             variant={attendance ? 'green' : 'pink'}
             size='lg'
@@ -33,15 +32,7 @@ const Home = memo(() => {
           >
             {attendance ? 'Điểm danh thành công' : 'Điểm danh'}
           </ButtonBase>
-          <ButtonBase
-            variant='orange'
-            size='lg'
-            className='min-w-[212px]'
-            LeftIcon={() => <span className='mgc_pen_fill' />}
-            onClick={handleStudyBeyondLevel}
-          >
-            Học vượt cấp
-          </ButtonBase>
+          <QuestionDialog />
           <PopoverActivities popoverOpen={popoverOpen} setPopoverOpen={setPopoverOpen}>
             <ButtonBase
               size='lg'
