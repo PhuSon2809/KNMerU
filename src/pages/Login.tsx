@@ -43,7 +43,7 @@ const Login = memo(() => {
   }
 
   return (
-    <div className='relative size-full flex-1 flex-center'>
+    <div className='relative size-full flex-1 py-10 flex-center'>
       <div className='z-10 flex min-w-[569px] flex-col gap-11'>
         <div className='flex items-center justify-between'>
           <ButtonBase variant='green' size='icon' onClick={() => navigate(-1)}>

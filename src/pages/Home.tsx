@@ -20,7 +20,7 @@ const Home = memo(() => {
 
   return (
     <div className='flex size-full flex-1 flex-col items-stretch'>
-      <div className='bg-green-main/[.56] relative flex w-full flex-col gap-9 rounded-bl-3xl rounded-br-3xl px-[50px] py-14'>
+      <div className='relative flex w-full flex-col gap-9 rounded-bl-3xl rounded-br-3xl bg-green-main/[.56] px-[50px] py-14'>
         <Header />
         <ClassPercent />
         <div className='-bottom-9 flex items-center gap-3 absolute-center-x'>

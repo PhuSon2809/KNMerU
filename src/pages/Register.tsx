@@ -53,8 +53,8 @@ const Register = memo(() => {
   }
 
   return (
-    <div className='relative size-full flex-1 flex-center'>
-      <div className='z-10 flex min-w-[569px] flex-col gap-11'>
+    <div className='relative size-full flex-1 pb-40 pt-20 flex-center'>
+      <div className='z-10 flex h-full min-w-[569px] flex-col gap-11'>
         <div className='flex items-center justify-between'>
           <ButtonBase variant='green' size='icon' onClick={() => navigate(-1)}>
             <span className='mgc_arrow_left_fill' />
