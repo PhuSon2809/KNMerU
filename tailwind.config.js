@@ -75,6 +75,12 @@ export default {
         },
         '.absolute-center-x': {
           '@apply absolute left-1/2 -translate-x-1/2': {}
+        },
+        '.transition-300': {
+          '@apply transition-all duration-300 ease-in-out': {}
+        },
+        '.transition-500': {
+          '@apply transition-all duration-500 ease-in-out': {}
         }
       }
       addUtilities(newUtilities, ['responsive', 'hover'])

@@ -56,7 +56,7 @@ const InputBase = React.forwardRef<HTMLInputElement, InputBaseProps>((props, ref
         />
 
         {RightIcon && <RightIcon className={classNames('h-6 w-6', iconClassName)} />}
-        <img src={images.bg_input} alt='bg-input' className='absolute inset-0 -z-[1]' />
+        <img src={images.bg_input} alt='bg-input' className='absolute inset-0 -z-[1] h-full' />
       </div>
     </div>
   )
