@@ -4,10 +4,14 @@
 
 :root {
   --blue-main: #5daeff;
+  --blue-dark: #5399e0;
   --green-main: #17eb89;
+  --green-dark: #039854;
   --pink-main: #ff92cb;
+  --pink-dark: #d1689f;
   --red-main: #ed494c;
   --orange-main: #f08a4a;
+  --orange-dark: #d0773f;
   --skin-main: #f9c194;
   --yellow-main: #fffae8;
   --yellow-light: #fcd700;
@@ -31,14 +35,14 @@
 }
 
 @font-face {
-  font-family: 'Dongle-Regular';
+  font-family: 'Dongle-Bold';
   src: url('./assets/fonts/Dongle-Bold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Dongle-Regular';
+  font-family: 'Dongle-Light';
   src: url('./assets/fonts/Dongle-Light.ttf') format('truetype');
   font-weight: 300;
   font-style: normal;
@@ -47,6 +51,13 @@
 @font-face {
   font-family: 'Dongle-Regular';
   src: url('./assets/fonts/Dongle-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'DFVN-Purenotes';
+  src: url('./assets/fonts/DFVN_Purenotes.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
 }
@@ -72,4 +83,13 @@ body {
 [class*=' mgc_']::before {
   color: inherit !important;
   font-size: 24px !important;
+}
+
+.hide-scrollbar {
+  overflow: auto;
+  scrollbar-width: none; /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
 }

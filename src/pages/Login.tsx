@@ -129,16 +129,16 @@ const Login = memo(() => {
         </div>
       </div>
 
-      <img src={icons.leaf} alt='leaf' className='absolute inset-0 -rotate-45 scale-75' />
+      <img src={icons.leaf} alt='leaf' className='absolute inset-0 w-[88px] -rotate-45' />
       <img
         src={icons.crown}
         alt='crown'
-        className='absolute right-0 top-16 rotate-[25deg] scale-[60%]'
+        className='absolute -top-5 right-0 w-[90px] rotate-[19deg]'
       />
       <img
         src={icons.blink_1}
         alt='blink-1'
-        className='xl 2xl: absolute bottom-0 right-5 scale-75'
+        className='xl 2xl: absolute bottom-[0] right-5 w-[105px]'
       />
     </div>
   )

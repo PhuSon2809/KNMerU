@@ -12,7 +12,14 @@ import TitleCharacters from '~/components/shared/TitleCharacters'
 import { path } from '~/constants/path'
 
 export const nameFormSchema = z.object({
-  name: z.string().min(1, 'Vui lòng nhập tên')
+  name: z
+    .string()
+    .min(3, 'Tên phải có ít nhất 3 ký tự.')
+    .max(20, 'Tên không được vượt quá 20 ký tự.')
+    .regex(
+      /^[A-Za-z0-9]+$/,
+      'Tên chỉ được chứa chữ cái (A-Z, a-z) và số (0-9), không chứa ký tự đặc biệt, dấu cách hoặc dấu gạch dưới.'
+    )
 })
 
 const NameCharacters = memo(() => {
@@ -71,6 +78,11 @@ const NameCharacters = memo(() => {
                 />
                 <span className='mgc_check_circle_line mt-8 text-gray-5' />
               </div>
+
+              <div className='rounded-1 bg-blue-main px-2 pb-[2px] pt-1 font-dongle text-gray-1'>
+                Tên nhân vật sẽ không thể thay đổi, bạn lưu ý khi đặt tên cho bé nha*
+              </div>
+
               <ul className='font-dongle text-[20px]/[20px] text-orange-main'>
                 <li>Tên phải có từ 3 đến 20 ký tự.</li>
                 <li>Chỉ bao gồm chữ cái (A-Z, a-z) và số (0-9).</li>

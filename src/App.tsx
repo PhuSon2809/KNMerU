@@ -1,12 +1,18 @@
 import { Suspense } from 'react'
 import { RouterProvider } from 'react-router-dom'
 import { routers } from './routers/routes'
+import { Toaster } from 'react-hot-toast'
 
 function App() {
   return (
-    <Suspense fallback={<div className='fixed inset-0 flex items-center justify-center'>Loading...</div>}>
-      <RouterProvider router={routers} />
-    </Suspense>
+    <>
+      <Suspense
+        fallback={<div className='fixed inset-0 flex items-center justify-center'>Loading...</div>}
+      >
+        <RouterProvider router={routers} />
+      </Suspense>
+      <Toaster position='top-center' reverseOrder={false} />
+    </>
   )
 }
 

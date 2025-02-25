@@ -1,3 +1,5 @@
+import { Gift } from './gift'
+
 declare global {
   type Color = 'pink' | 'orange' | 'blue' | 'green' | 'yellow'
   interface Social {
@@ -12,6 +14,12 @@ declare global {
     desc: string[]
     variant: Color
   }
+
+  interface SelectedFile {
+    name: string
+    url: string
+    file: File
+  }
 }
 
-export {}
+export { Gift }

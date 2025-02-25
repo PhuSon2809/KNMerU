@@ -5,7 +5,8 @@ export default {
   theme: {
     fontFamily: {
       bagel: ['DFVN Bagel Fat One', 'sans-serif'],
-      dongle: ['Dongle-Regular', 'sans-serif']
+      dongle: ['Dongle-Regular', 'sans-serif'],
+      purenotes: ['DFVN-Purenotes', 'sans-serif']
     },
     extend: {
       screens: {
@@ -16,16 +17,20 @@ export default {
           main: 'var(--red-main)'
         },
         blue: {
-          main: 'var(--blue-main)'
+          main: 'var(--blue-main)',
+          dark: 'var(--blue-dark)'
         },
         green: {
-          main: '#17eb89'
+          main: '#17eb89',
+          dark: '#039854'
         },
         pink: {
-          main: 'var(--pink-main)'
+          main: 'var(--pink-main)',
+          dark: 'var(--pink-dark)'
         },
         orange: {
-          main: 'var(--orange-main)'
+          main: 'var(--orange-main)',
+          dark: 'var(--orange-dark)'
         },
         skin: {
           main: 'var(--skin-main)'
@@ -59,6 +64,7 @@ export default {
     }
   },
   plugins: [
+    require('tailwindcss-animate'),
     plugin(function ({ addUtilities }) {
       const newUtilities = {
         '.flex-center': {
@@ -75,6 +81,9 @@ export default {
         },
         '.absolute-center-x': {
           '@apply absolute left-1/2 -translate-x-1/2': {}
+        },
+        '.text-dongle-24': {
+          '@apply font-dongle text-[24px]/[24px]': {}
         },
         '.transition-300': {
           '@apply transition-all duration-300 ease-in-out': {}
