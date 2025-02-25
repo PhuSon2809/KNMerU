@@ -1,4 +1,5 @@
 import { Gift } from './gift'
+import { Characters } from './character'
 
 declare global {
   type Color = 'pink' | 'orange' | 'blue' | 'green' | 'yellow'
@@ -22,4 +23,4 @@ declare global {
   }
 }
 
-export { Gift }
+export { Gift, Characters }
