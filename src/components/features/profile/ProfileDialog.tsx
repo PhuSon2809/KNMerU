@@ -43,8 +43,10 @@ const ProfileDialog: FC<ProfileDialogProps> = memo(
             </div>
             <div
               className={classNames(
-                titleDialog === 'Xem túi quà' ? 'pt-16' : 'pt-0',
-                'hide-scrollbar flex w-full flex-1 flex-col gap-3 overflow-y-auto transition-300'
+                titleDialog === TitleDialog.pocket
+                  ? 'hide-scrollbar overflow-y-auto pt-16'
+                  : 'overflow-hidden pt-0',
+                'flex max-h-full w-full flex-1 flex-col gap-3 transition-300'
               )}
             >
               <CharactersChooseItem
@@ -84,24 +86,21 @@ const ProfileDialog: FC<ProfileDialogProps> = memo(
                   </div>
                 </>
               )}
-              <div
-                className={classNames(
-                  titleDialog === TitleDialog.infor ? 'translate-y-0' : 'translate-y-[56px]',
-                  'flex flex-1 flex-col gap-3 transition-500'
-                )}
-              >
-                <div className='grid h-full flex-1 grid-cols-3'>
-                  <GiftItem className='col-span-1' />
-                  <GiftItem className='col-span-1' />
-                  <GiftItem className='col-span-1' />
-                  <GiftItem className='col-span-1' />
-                  <GiftItem className='col-span-1' />
-                  <GiftItem className='col-span-1' />
-                </div>
-                <div className='rounded-2xl bg-orange-main p-4 text-gray-1 text-dongle-24'>
-                  Những món quà này sẽ được gửi đến các bé
-                </div>
-              </div>
+              {titleDialog === TitleDialog.infor && (
+                <>
+                  <div className='hide-scrollbar grid h-full flex-1 grid-cols-3 gap-3 overflow-y-auto'>
+                    <GiftItem className='col-span-1' />
+                    <GiftItem className='col-span-1' />
+                    <GiftItem className='col-span-1' />
+                    <GiftItem className='col-span-1' />
+                    <GiftItem className='col-span-1' />
+                    <GiftItem className='col-span-1' />
+                  </div>
+                  <div className='rounded-2xl bg-orange-main p-4 pb-3 text-gray-1 text-dongle-24'>
+                    Những món quà này sẽ được gửi đến các bé
+                  </div>
+                </>
+              )}
             </div>
             <BgTexture />
           </div>

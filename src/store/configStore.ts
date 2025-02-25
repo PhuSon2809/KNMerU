@@ -6,11 +6,17 @@ import { PersistPartial } from 'redux-persist/es/persistReducer'
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 import storage from 'redux-persist/lib/storage'
 import { CACHE_EXPIRY_TIME } from '~/constants/common'
-import charactersReducer, { CharactersState } from './characters/characters.slice'
+import characterReducer, { CharacterState } from './character/character.slice'
+import authReducer, { AuthState } from './auth/auth.slice'
+import questionReducer, { QuestionState } from './question/question.slice'
+import giftReducer, { GiftState } from './gift/gift.slice'
 
 // Định nghĩa state gốc
 export interface RootState {
-  characters: CharactersState
+  auth: AuthState
+  characters: CharacterState
+  question: QuestionState
+  gift: GiftState
 }
 
 // Kiểu state bao gồm Redux Persist
@@ -18,13 +24,16 @@ export type PersistedRootState = RootState & PersistPartial & any
 
 // Kết hợp reducers
 const rootReducer: Reducer<PersistedRootState> = combineReducers({
-  characters: charactersReducer
+  auth: authReducer,
+  character: characterReducer,
+  question: questionReducer,
+  gift: giftReducer
 })
 
 // Cấu hình Redux Persist
 const persistConfig = {
   key: 'knmu',
-  whitelist: ['characters'],
+  whitelist: ['auth', 'character', 'question', 'gift'],
   storage,
   stateReconciler: autoMergeLevel2
 }

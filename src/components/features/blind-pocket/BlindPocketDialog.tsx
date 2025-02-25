@@ -31,7 +31,7 @@ const BlindPocketDialog: FC<BlindPocketDialogProps> = memo(({ open, setOpen }) =
             <>
               <CharactersChooseItem isShowDetail isInline className='z-10' />
               <div className={classNames('flex flex-1 flex-col gap-3 transition-500')}>
-                <div className='grid h-full flex-1 grid-cols-3'>
+                <div className='grid h-full flex-1 grid-cols-3 gap-3'>
                   <GiftItem className='col-span-1' />
                   <GiftItem className='col-span-1' />
                   <GiftItem className='col-span-1' />
@@ -46,9 +46,18 @@ const BlindPocketDialog: FC<BlindPocketDialogProps> = memo(({ open, setOpen }) =
           ) : (
             <>
               <DialogTitle>Chúc mừng bạn đã hoàn thành mốc</DialogTitle>
-              <div className='flex w-full flex-1 flex-col items-center gap-3'>
+              <div
+                className={classNames(
+                  isUnboxed && 'justify-center',
+                  'flex w-full flex-1 flex-col items-center gap-3'
+                )}
+              >
                 <GiftItem variant={isUnboxed ? 'gift' : 'unbox'} />
-                <ButtonBase variant='pink' className='w-fit' onClick={handelOpenBlindPocket}>
+                <ButtonBase
+                  variant={isUnboxed ? 'green' : 'pink'}
+                  className='w-fit'
+                  onClick={handelOpenBlindPocket}
+                >
                   {isUnboxed ? 'Xé túi mù ngay' : 'Thêm vào túi'}
                 </ButtonBase>
               </div>
