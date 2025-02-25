@@ -106,7 +106,7 @@ export const register = createAsyncThunk(
 )
 
 export const login = createAsyncThunk(
-  'auth/register',
+  'auth/login',
   async (params: LoginInput, { rejectWithValue }) => {
     try {
       const res = await axiosClient.post('/Authenticate/Login', params)
@@ -120,7 +120,7 @@ export const login = createAsyncThunk(
 )
 
 export const loginSocial = createAsyncThunk(
-  'auth/login',
+  'auth/loginSocial',
   async (params: LoginSocialInput, { rejectWithValue }) => {
     try {
       const res = await axiosClient.post('/Authenticate/LoginSocial', params)
