@@ -23,8 +23,8 @@ const BlindPocketItem: FC<BlindPocketItemProps> = memo(({ onClick, variant = 'no
 
       {variant === 'not-collected' && (
         <>
-          <span className='mgc_bling_fill text-yellow-light absolute -top-2 right-1' />
-          <div className='bg-yellow-light absolute -right-5 -top-4 rotate-[18deg] items-center justify-center rounded-full px-2 py-1 font-dongle text-gray-7 opacity-0 transition-all duration-300 ease-linear group-hover:opacity-100'>
+          <span className='mgc_bling_fill absolute -top-2 right-1 text-yellow-light' />
+          <div className='absolute -right-5 -top-4 rotate-[18deg] items-center justify-center rounded-full bg-yellow-light px-2 py-1 font-dongle text-gray-7 opacity-0 transition-all duration-300 ease-linear group-hover:opacity-100'>
             <p className='text-nowrap text-[20px]/[20px]'>Quà đặc biệt</p>
           </div>
         </>

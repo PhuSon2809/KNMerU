@@ -5,12 +5,17 @@ import { Dialog, DialogContent } from '~/components/shared/Dialog'
 import InputBase from '~/components/shared/InputBase'
 import CharactersChooseItem from '../choose-characters/CharactersChooseItem'
 import classNames from 'classnames'
+import GiftItem from '~/components/shared/GiftItem'
 
+export enum TitleDialog {
+  infor = 'Xem thông tin cá nhân',
+  pocket = 'Xem túi quà'
+}
 interface ProfileDialogProps {
-  titleDialog: string
+  titleDialog: TitleDialog
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
-  setTitleDialog: Dispatch<SetStateAction<string>>
+  setTitleDialog: Dispatch<SetStateAction<TitleDialog>>
 }
 
 const ProfileDialog: FC<ProfileDialogProps> = memo(
@@ -20,7 +25,7 @@ const ProfileDialog: FC<ProfileDialogProps> = memo(
         <DialogContent noOverlayBackground noBlur>
           <div
             className={classNames(
-              titleDialog === 'Xem thông tin cá nhân' ? 'gap-6' : '',
+              titleDialog === TitleDialog.infor ? 'gap-6' : '',
               'relative flex h-full flex-col overflow-hidden p-6'
             )}
           >
@@ -29,7 +34,7 @@ const ProfileDialog: FC<ProfileDialogProps> = memo(
                 variant='pink'
                 onClick={() =>
                   setTitleDialog(
-                    titleDialog === 'Xem túi quà' ? 'Xem thông tin cá nhân' : 'Xem túi quà'
+                    titleDialog === TitleDialog.pocket ? TitleDialog.infor : TitleDialog.pocket
                   )
                 }
               >
@@ -43,11 +48,11 @@ const ProfileDialog: FC<ProfileDialogProps> = memo(
               )}
             >
               <CharactersChooseItem
-                isShowDetail={true}
-                isInline={titleDialog === 'Xem thông tin cá nhân'}
+                isShowDetail
+                isInline={titleDialog === TitleDialog.infor}
                 className='z-10'
               />
-              {titleDialog === 'Xem túi quà' && (
+              {titleDialog === TitleDialog.pocket && (
                 <>
                   <div className='flex w-full items-center gap-6'>
                     <InputBase
@@ -81,12 +86,19 @@ const ProfileDialog: FC<ProfileDialogProps> = memo(
               )}
               <div
                 className={classNames(
-                  titleDialog === 'Xem thông tin cá nhân' ? 'translate-y-0' : 'translate-y-[56px]',
+                  titleDialog === TitleDialog.infor ? 'translate-y-0' : 'translate-y-[56px]',
                   'flex flex-1 flex-col gap-3 transition-500'
                 )}
               >
-                <div className='h-full flex-1'></div>
-                <div className='text-dongle-24 rounded-2xl bg-orange-main p-4 text-gray-1'>
+                <div className='grid h-full flex-1 grid-cols-3'>
+                  <GiftItem className='col-span-1' />
+                  <GiftItem className='col-span-1' />
+                  <GiftItem className='col-span-1' />
+                  <GiftItem className='col-span-1' />
+                  <GiftItem className='col-span-1' />
+                  <GiftItem className='col-span-1' />
+                </div>
+                <div className='rounded-2xl bg-orange-main p-4 text-gray-1 text-dongle-24'>
                   Những món quà này sẽ được gửi đến các bé
                 </div>
               </div>

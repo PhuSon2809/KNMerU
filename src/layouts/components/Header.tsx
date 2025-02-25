@@ -1,7 +1,7 @@
 import { memo, useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { icons } from '~/assets'
-import ProfileDialog from '~/components/features/profile/ProfileDialog'
+import ProfileDialog, { TitleDialog } from '~/components/features/profile/ProfileDialog'
 import ButtonBase from '~/components/shared/ButtonBase'
 import CharactersAvatar from '~/components/shared/CharactersAvatar'
 import Logo from '~/components/shared/Logo'
@@ -10,9 +10,9 @@ const Header = memo(() => {
   const navigate = useNavigate()
 
   const [open, setOpen] = useState<boolean>(false)
-  const [titleDialog, setTitleDialog] = useState<string>('')
+  const [titleDialog, setTitleDialog] = useState<TitleDialog>(TitleDialog.infor)
 
-  const handleOpenDialog = useCallback((title: string) => {
+  const handleOpenDialog = useCallback((title: TitleDialog) => {
     setTitleDialog(title)
     setOpen(true)
   }, [])
@@ -33,14 +33,14 @@ const Header = memo(() => {
               variant='pink'
               className='w-full !justify-start'
               LeftIcon={() => <span className='mgc_IDcard_fill' />}
-              onClick={() => handleOpenDialog('Xem túi quà')}
+              onClick={() => handleOpenDialog(TitleDialog.pocket)}
             >
               Xem thông tin
             </ButtonBase>
             <ButtonBase
               className='w-full !justify-start'
               LeftIcon={() => <span className='mgc_gift_fill' />}
-              onClick={() => handleOpenDialog('Xem thông tin cá nhân')}
+              onClick={() => handleOpenDialog(TitleDialog.infor)}
             >
               Túi quà
             </ButtonBase>

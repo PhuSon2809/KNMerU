@@ -1,3 +1,5 @@
+import { Gift } from './gift'
+
 declare global {
   type Color = 'pink' | 'orange' | 'blue' | 'green' | 'yellow'
   interface Social {
@@ -20,4 +22,4 @@ declare global {
   }
 }
 
-export {}
+export { Gift }
