@@ -9,15 +9,19 @@ import QuestionDialog from '~/components/features/question/QuestionDialog'
 import ButtonBase from '~/components/shared/ButtonBase'
 import Header from '~/layouts/components/Header'
 import { informations, socials } from '~/mocks/data'
+import { checkIn } from '~/store/auth/auth.slice'
+import { useAppDispatch, useAppSelector } from '~/store/configStore'
 
 const Home = memo(() => {
-  const [attendance, setAttendance] = useState<boolean>(false)
+  const dispatch = useAppDispatch()
+  const { isLoading, isAttendanced } = useAppSelector((s) => s.auth)
+  // const [attendance, setAttendance] = useState<boolean>(false)
   const [popoverOpen, setPopoverOpen] = useState<boolean>(false)
   const [eventOpen, setEventOpen] = useState<boolean>(false)
   const [titleDialog, setTitleDialog] = useState<string>('')
 
   const handleAttendance = useCallback(() => {
-    setAttendance((prev) => !prev)
+    dispatch(checkIn())
   }, [])
 
   const handleOpenEventDialog = useCallback((title: string) => {
@@ -33,13 +37,14 @@ const Home = memo(() => {
           <ClassPercent />
           <div className='-bottom-9 z-10 flex items-center gap-3 absolute-center-x'>
             <ButtonBase
-              variant={attendance ? 'green' : 'pink'}
               size='lg'
-              className={attendance ? 'min-w-[280px]' : 'min-w-[212px]'}
+              isLoading={isLoading}
+              variant={isAttendanced ? 'green' : 'pink'}
+              className={isAttendanced ? 'min-w-[280px]' : 'min-w-[212px]'}
               LeftIcon={() => <span className='mgc_bling_fill' />}
               onClick={handleAttendance}
             >
-              {attendance ? 'Điểm danh thành công' : 'Điểm danh'}
+              {isAttendanced ? 'Điểm danh thành công' : 'Điểm danh'}
             </ButtonBase>
             <QuestionDialog />
             <PopoverActivities

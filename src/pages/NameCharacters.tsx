@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { memo, useState } from 'react'
+import classNames from 'classnames'
+import { memo, useCallback, useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
@@ -10,6 +11,8 @@ import { FormControl, FormField, FormItem, FormMessage } from '~/components/shar
 import InputBase from '~/components/shared/InputBase'
 import TitleCharacters from '~/components/shared/TitleCharacters'
 import { path } from '~/constants/path'
+import { selectCharacter } from '~/store/character/character.slice'
+import { useAppDispatch, useAppSelector } from '~/store/configStore'
 
 export const nameFormSchema = z.object({
   name: z
@@ -24,25 +27,35 @@ export const nameFormSchema = z.object({
 
 const NameCharacters = memo(() => {
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
 
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const { isLoading } = useAppSelector((s) => s.characters)
 
   const form = useForm<z.infer<typeof nameFormSchema>>({
     resolver: zodResolver(nameFormSchema),
     defaultValues: { name: '' }
   })
 
+  const name = form.watch('name')
+
+  const isLengthValid = useMemo(() => name.length >= 3 && name.length <= 20, [name])
+  const isAlphaNumeric = useMemo(() => /^[A-Za-z0-9]+$/.test(name), [name])
+  const isNoSpecialChars = useMemo(() => !/[^\w]/.test(name), [name])
+
+  const getValidationStatus = useCallback(
+    (condition: boolean) => (condition ? 'text-green-main' : 'text-orange-main'),
+    []
+  )
+
   const onSubmitForm = async (values: z.infer<typeof nameFormSchema>) => {
     if (isLoading) return
     try {
-      setIsLoading(true)
       console.log('name from ===> ', values)
-      navigate(path.home)
+      const res = await dispatch(selectCharacter({ characterId: 0, characterName: values.name }))
+      if (res) navigate(path.home)
     } catch (error) {
       console.log('error', error)
       toast.error('Đặt tên thất bại! Thử lại nhé.')
-    } finally {
-      setIsLoading(false)
     }
   }
 
@@ -70,13 +83,22 @@ const NameCharacters = memo(() => {
                           containerClassName='w-[318px]'
                         />
                         {fieldState.error?.message && (
-                          <FormMessage>{fieldState.error?.message}</FormMessage>
+                          <FormMessage className='max-w-[px]'>
+                            {fieldState.error?.message}
+                          </FormMessage>
                         )}
                       </FormControl>
                     </FormItem>
                   )}
                 />
-                <span className='mgc_check_circle_line mt-8 text-gray-5' />
+                <span
+                  className={classNames(
+                    isLengthValid && isAlphaNumeric && isNoSpecialChars
+                      ? 'text-green-main'
+                      : 'text-gray-5',
+                    'mgc_check_circle_line mt-8'
+                  )}
+                />
               </div>
 
               <div className='rounded-1 bg-blue-main px-2 pb-[2px] pt-1 font-dongle text-gray-1'>
@@ -84,9 +106,15 @@ const NameCharacters = memo(() => {
               </div>
 
               <ul className='font-dongle text-[20px]/[20px] text-orange-main'>
-                <li>Tên phải có từ 3 đến 20 ký tự.</li>
-                <li>Chỉ bao gồm chữ cái (A-Z, a-z) và số (0-9).</li>
-                <li>Không chứa ký tự đặc biệt (!@#$%^&...), dấu cách hoặc dấu gạch dưới.</li>
+                <li className={getValidationStatus(isLengthValid)}>
+                  Tên phải có từ 3 đến 20 ký tự.
+                </li>
+                <li className={getValidationStatus(isAlphaNumeric)}>
+                  Chỉ bao gồm chữ cái (A-Z, a-z) và số (0-9).
+                </li>
+                <li className={getValidationStatus(isNoSpecialChars)}>
+                  Không chứa ký tự đặc biệt (!@#$%^&...), dấu cách hoặc dấu gạch dưới.
+                </li>
               </ul>
             </div>
           </FormProvider>

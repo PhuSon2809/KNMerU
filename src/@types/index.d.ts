@@ -1,4 +1,7 @@
-import { Gift } from './gift'
+export * from './user'
+export * from './gift'
+export * from './question'
+export * from './character'
 
 declare global {
   type Color = 'pink' | 'orange' | 'blue' | 'green' | 'yellow'
@@ -20,6 +23,10 @@ declare global {
     url: string
     file: File
   }
-}
 
-export { Gift }
+  interface ApiResponse<T> {
+    status: number
+    errorMessageCode: string | null
+    data: T
+  }
+}

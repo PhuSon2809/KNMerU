@@ -11,6 +11,9 @@ import InputBase from '~/components/shared/InputBase'
 import toast from 'react-hot-toast'
 import { path } from '~/constants/path'
 import classNames from 'classnames'
+import { useAppDispatch, useAppSelector } from '~/store/configStore'
+import { RegisterInput } from '~/@types'
+import { register, setIsSuccess } from '~/store/auth/auth.slice'
 
 export const registerFormSchema = z
   .object({
@@ -30,9 +33,10 @@ export const registerFormSchema = z
 
 const Register = memo(() => {
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
 
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [isSuccess, setIsSuccess] = useState<boolean>(false)
+  const { isLoading, isSuccess } = useAppSelector((s) => s.auth)
+
   const [showPassword, setShowPassword] = useState<boolean>(false)
 
   const form = useForm<z.infer<typeof registerFormSchema>>({
@@ -43,15 +47,18 @@ const Register = memo(() => {
   const onSubmitForm = async (values: z.infer<typeof registerFormSchema>) => {
     if (isLoading) return
     try {
-      setIsLoading(true)
-      console.log('register from ===> ', values)
-      setTimeout(() => setIsSuccess(true), 5000)
+      const params: RegisterInput = {
+        firstName: values.name,
+        lastName: '',
+        email: values.email,
+        phoneNumber: values.phone,
+        password: values.password
+      }
+      const res = await dispatch(register(params))
+      console.log('register res ===> ', res)
     } catch (error) {
       console.log('error', error)
       toast.error('Đăng ký thất bại! Thử lại nhé.')
-    } finally {
-      setTimeout(() => setIsLoading(false), 5001)
-      // setIsLoading(false)
     }
   }
 
@@ -67,7 +74,7 @@ const Register = memo(() => {
             </p>
           </div>
           <div className='w-full gap-[25px] flex-center'>
-            <ButtonBase variant='green' size='icon' onClick={() => setIsSuccess(false)}>
+            <ButtonBase variant='green' size='icon' onClick={() => dispatch(setIsSuccess(false))}>
               <span className='mgc_arrow_left_fill' />
             </ButtonBase>
             <ButtonBase

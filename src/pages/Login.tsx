@@ -11,6 +11,11 @@ import InputBase from '~/components/shared/InputBase'
 import Logo from '~/components/shared/Logo'
 import { path } from '~/constants/path'
 import { socials } from '~/mocks/data'
+import { useGoogleLogin } from '@react-oauth/google';
+import FacebookLogin from '@greatsumini/react-facebook-login';
+import { loginSocial } from '~/store/auth/auth.slice';
+import { AppDispatch } from '~/store/configStore';
+import { useDispatch } from 'react-redux'
 
 export const loginFormSchema = z.object({
   email: z.string().min(1, 'Vui lòng nhập email').email('Email không đúng định dạng'),
@@ -19,6 +24,7 @@ export const loginFormSchema = z.object({
 
 const Login = memo(() => {
   const navigate = useNavigate()
+  const dispatch = useDispatch<AppDispatch>()
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [showPassword, setShowPassword] = useState<boolean>(false)
@@ -41,6 +47,80 @@ const Login = memo(() => {
       setIsLoading(false)
     }
   }
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      if (!tokenResponse.access_token) {
+        toast.error('Google login failed');
+        return;
+      }
+      console.log(tokenResponse, "token")
+
+      dispatch(loginSocial({ idToken: tokenResponse.access_token, provider: 2 })) // Google = 2
+        .unwrap()
+        .then(() => {
+          toast.success('Đăng nhập thành công!');
+          navigate(path.home);
+        })
+        .catch(() => {
+          toast.error('Đăng nhập thất bại');
+        });
+    },
+    onError: () => toast.error('Google login failed'),
+    scope: 'openid email profile',
+    flow: 'implicit',
+
+  });
+
+  // const googleLogin = useGoogleLogin({
+  //   onSuccess: async (tokenResponse) => {
+  //     // Kiểm tra nếu không có access_token hoặc id_token
+  //     if (!tokenResponse.id_token) {
+  //       toast.error('Google login failed');
+  //       return;
+  //     }
+  //     console.log(tokenResponse, "token")
+
+  //     // Gửi dữ liệu login lên backend
+  //     const loginData = {
+  //       idToken: tokenResponse.id_token, // Lấy id_token từ response
+  //       provider: 2 // Google là provider 2
+  //     };
+
+  //     // Dispatch dữ liệu login về backend
+  //     dispatch(loginSocial(loginData))
+  //       .unwrap()
+  //       .then(() => {
+  //         toast.success('Đăng nhập thành công!');
+  //         navigate(path.home); // Điều hướng sau khi đăng nhập thành công
+  //       })
+  //       .catch(() => {
+  //         toast.error('Đăng nhập thất bại');
+  //       });
+  //   },
+  //   onError: () => toast.error('Google login failed'),
+  //   scope: 'openid email profile', // Các quyền truy cập cần thiết
+  //   flow: 'implicit', // Dùng implicit flow để nhận id_token
+  // });
+
+
+
+  const handleFacebookLoginSuccess = async (response: any) => {
+    if (!response.accessToken) {
+      toast.error('Đăng nhập Facebook thất bại');
+      return;
+    }
+
+    dispatch(loginSocial({ idToken: response.accessToken, provider: 1 })) // Facebook = 1
+      .unwrap()
+      .then(() => {
+        toast.success('Đăng nhập thành công!');
+        navigate(path.home);
+      })
+      .catch(() => {
+        toast.error('Đăng nhập thất bại');
+      });
+  };
 
   return (
     <div className='relative size-full flex-1 pb-40 pt-20 flex-center'>
@@ -119,13 +199,32 @@ const Login = memo(() => {
             <p className='font-dongle text-2xl text-orange-main'>Hoặc</p>
             <div className='h-[1px] w-full bg-orange-main' />
           </div>
-          <div className='flex items-center gap-[25px]'>
+
+          <div className="flex items-center gap-[25px]">
+            {/* Google Login Button */}
+            <ButtonBase size="md" variant="gray" className="w-full" onClick={() => googleLogin()}>
+              <span className="mgc_google_fill" />
+            </ButtonBase>
+
+            {/* Facebook Login Button */}
+            <FacebookLogin
+              appId="1632214231012046"
+              onSuccess={handleFacebookLoginSuccess}
+              onFail={() => toast.error('Facebook login failed')}
+              render={({ onClick }) => (
+                <ButtonBase size="md" variant="gray" className="w-full" onClick={onClick}>
+                  <span className="mgc_facebook_fill" />
+                </ButtonBase>
+              )}
+            />
+          </div>
+          {/* <div className='flex items-center gap-[25px]'>
             {socials.map((social) => (
               <ButtonBase key={social.id} size='md' variant='gray' className='w-full'>
                 <span className={social.icon} />
               </ButtonBase>
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
 

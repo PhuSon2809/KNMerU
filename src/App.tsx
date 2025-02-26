@@ -1,9 +1,18 @@
-import { Suspense } from 'react'
+import { Suspense, useEffect } from 'react'
+import { Toaster } from 'react-hot-toast'
+import { Provider } from 'react-redux'
 import { RouterProvider } from 'react-router-dom'
 import { routers } from './routers/routes'
-import { Toaster } from 'react-hot-toast'
+import store, { useAppDispatch } from './store/configStore'
+import { getCharacters } from './store/character/character.slice'
 
 function App() {
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch(getCharacters())
+  }, [])
+
   return (
     <>
       <Suspense
