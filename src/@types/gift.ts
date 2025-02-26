@@ -1,5 +1,6 @@
 export interface Gift {
   id: number
   name: string
-  image: string
+  description: string
+  imageUrl: string
 }

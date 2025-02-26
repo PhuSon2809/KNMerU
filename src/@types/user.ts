@@ -5,7 +5,7 @@ export interface UserInfor {
   email: string
   phoneNumber: string
   imageUrl: string
-  characterId: string | null
+  characterId: number | null
   characterName: string | null
   characterOriginalName: string | null
   characterImageUrl: string | null
@@ -21,7 +21,12 @@ export interface RegisterInput {
 
 export interface LoginInput {
   email: string
-  phoneNumber: string
+  password: string
+}
+
+export interface LoginRes {
+  token: string
+  durationInHours: number
 }
 
 export interface LoginSocialInput {

@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { memo, useCallback, useState } from 'react'
+import { memo, useCallback, useEffect, useState } from 'react'
 import { icons } from '~/assets'
 import AcitivitiesDialog from '~/components/features/activities/AcitivitiesDialog'
 import ClassPercent from '~/components/features/home/ClassPercent'
@@ -11,11 +11,13 @@ import Header from '~/layouts/components/Header'
 import { informations, socials } from '~/mocks/data'
 import { checkIn } from '~/store/auth/auth.slice'
 import { useAppDispatch, useAppSelector } from '~/store/configStore'
+import { getUserGifts } from '~/store/gift/gift.slice'
 
 const Home = memo(() => {
   const dispatch = useAppDispatch()
+
   const { isLoading, isAttendanced } = useAppSelector((s) => s.auth)
-  // const [attendance, setAttendance] = useState<boolean>(false)
+
   const [popoverOpen, setPopoverOpen] = useState<boolean>(false)
   const [eventOpen, setEventOpen] = useState<boolean>(false)
   const [titleDialog, setTitleDialog] = useState<string>('')
@@ -27,6 +29,10 @@ const Home = memo(() => {
   const handleOpenEventDialog = useCallback((title: string) => {
     setTitleDialog(title)
     setEventOpen(true)
+  }, [])
+
+  useEffect(() => {
+    dispatch(getUserGifts())
   }, [])
 
   return (

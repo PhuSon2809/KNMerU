@@ -1,6 +1,7 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { LoginInput, LoginSocialInput, RegisterInput, UserInfor } from '~/@types'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { LoginInput, LoginRes, LoginSocialInput, RegisterInput, UserInfor } from '~/@types'
 import { axiosClient } from '~/apis/axiosClient'
+import { isSuccessRes, removeAccessToken, setAccessToken } from '~/utils'
 
 export interface AuthState {
   isLoading: boolean
@@ -9,6 +10,7 @@ export interface AuthState {
   isAuthenticated: boolean
   isAttendanced: boolean
   userInfo: UserInfor | null
+  userLogin: LoginInput
 }
 
 const initialState: AuthState = {
@@ -17,15 +19,25 @@ const initialState: AuthState = {
   isSuccess: false,
   isAttendanced: false,
   isAuthenticated: false,
-  userInfo: null
+  userInfo: null,
+  userLogin: { email: '', password: '' }
 }
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setIsSuccess: (state, action) => {
+    setIsSuccess: (state, action: PayloadAction<boolean>) => {
       state.isSuccess = action.payload
+    },
+    setAuthenticated: (state, action: PayloadAction<boolean>) => {
+      state.isAuthenticated = action.payload
+    },
+    setUserLogin: (state, action: PayloadAction<{ email: string; password: string }>) => {
+      state.userLogin = action.payload
+    },
+    setUserInfor: (state, action: PayloadAction<UserInfor | null>) => {
+      state.userInfo = action.payload
     }
   },
   extraReducers(builder) {
@@ -59,10 +71,11 @@ const authSlice = createSlice({
       .addCase(getUserInfor.pending, (state) => {
         state.isLoading = true
       })
-      .addCase(getUserInfor.fulfilled, (state) => {
+      .addCase(getUserInfor.fulfilled, (state, action) => {
         state.isLoading = false
         state.isError = false
         state.isSuccess = true
+        state.userInfo = action.payload.data
       })
       .addCase(getUserInfor.rejected, (state) => {
         state.isLoading = false
@@ -83,20 +96,34 @@ const authSlice = createSlice({
         state.isError = true
         state.isSuccess = false
       })
+      .addCase(logout.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.isLoading = false
+        state.isError = false
+        state.isSuccess = true
+        state.isAttendanced = true
+      })
+      .addCase(logout.rejected, (state) => {
+        state.isLoading = false
+        state.isError = true
+        state.isSuccess = false
+      })
   }
 })
 
-export const { setIsSuccess } = authSlice.actions
+export const { setIsSuccess, setUserLogin, setAuthenticated, setUserInfor } = authSlice.actions
 const authReducer = authSlice.reducer
 
 export default authReducer
 
-export const register = createAsyncThunk(
+export const register = createAsyncThunk<ApiResponse<any[]>, RegisterInput>(
   'auth/register',
-  async (params: RegisterInput, { rejectWithValue }) => {
+  async (params: RegisterInput, { dispatch, rejectWithValue }) => {
     try {
-      const res = await axiosClient.post('/Authenticate/Register', params)
-      console.log('register res ===> ', res)
+      const res: ApiResponse<any[]> = await axiosClient.post('/Authenticate/Register', params)
+      dispatch(setUserLogin({ email: params.email, password: params.password }))
       return res
     } catch (error) {
       console.log('register error ===>  ' + error)
@@ -105,12 +132,16 @@ export const register = createAsyncThunk(
   }
 )
 
-export const login = createAsyncThunk(
+export const login = createAsyncThunk<ApiResponse<LoginRes>, LoginInput>(
   'auth/login',
-  async (params: LoginInput, { rejectWithValue }) => {
+  async (params: LoginInput, { dispatch, rejectWithValue }) => {
     try {
-      const res = await axiosClient.post('/Authenticate/Login', params)
+      const res: ApiResponse<LoginRes> = await axiosClient.post('/Authenticate/Login', params)
       console.log('login res ===> ', res)
+      if (isSuccessRes(res.status)) {
+        setAccessToken(res.data.token)
+        dispatch(setAuthenticated(true))
+      }
       return res
     } catch (error) {
       console.log('login error ===>  ' + error)
@@ -135,9 +166,9 @@ export const loginSocial = createAsyncThunk(
 
 export const getUserInfor = createAsyncThunk(
   'auth/getUserInfor',
-  async (_: any, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const res = await axiosClient.get('/User/GetInformation')
+      const res: ApiResponse<UserInfor> = await axiosClient.get('/User/GetInformation')
       console.log('getUserInfor res ===> ', res)
       return res
     } catch (error) {
@@ -154,6 +185,17 @@ export const checkIn = createAsyncThunk('attendance/checkIn', async (_, { reject
     return res
   } catch (error) {
     console.log('checkIn error ===>  ' + error)
+    return rejectWithValue(error)
+  }
+})
+
+export const logout = createAsyncThunk('auth/logout', async (_, { dispatch, rejectWithValue }) => {
+  try {
+    removeAccessToken()
+    localStorage.clear()
+    dispatch(setUserInfor(null))
+    dispatch(setAuthenticated(false))
+  } catch (error: any) {
     return rejectWithValue(error)
   }
 })

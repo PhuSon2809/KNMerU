@@ -1,5 +1,6 @@
 import classNames from 'classnames'
 import { FC, memo, useState } from 'react'
+import { Character } from '~/@types'
 import { images } from '~/assets'
 import ButtonBase from '~/components/shared/ButtonBase'
 
@@ -9,10 +10,11 @@ interface CharactersChooseItemProps {
   isShowDetail?: boolean
   isInline?: boolean
   onClick?: () => void
+  character: Character
 }
 
 const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
-  ({ className, isSelected, isShowDetail = false, isInline = false, onClick }) => {
+  ({ className, isSelected, isShowDetail = false, isInline = false, onClick, character }) => {
     const [showDetail, setShowDetail] = useState<boolean>(isShowDetail)
 
     return (
@@ -24,7 +26,7 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
             : 'rounded-1 py-[12.5px] pl-3 pr-6',
           isShowDetail && 'w-full',
           showDetail ? 'w-[587px] shrink-0 bg-pink-main' : 'w-fit',
-          'flex items-center transition-500'
+          'flex items-stretch transition-500'
         )}
       >
         <div
@@ -39,14 +41,16 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
           )}
         >
           <img
-            src={images.characters}
+            src={character.imageUrl || images.characters}
             alt='characters'
             draggable={false}
             className={classNames(
-              isInline ? 'w-[112px] transition-500' : 'w-[243px] transition-300',
+              isInline
+                ? 'bottom-auto top-[-40px] w-[112px] transition-500'
+                : 'w-[243px] transition-300',
               isSelected && 'rotate-[-6.84deg]',
               !showDetail && 'group-hover:rotate-[-6.84deg] group-hover:scale-[85%]',
-              'bottom-[25px] border-none absolute-center-x'
+              'bottom-[50px] border-none absolute-center-x'
             )}
           />
 
@@ -58,7 +62,7 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
               'h-[50px] items-center justify-center px-6 py-[10px] uppercase absolute-center-x transition-300'
             )}
           >
-            <p className='text-nowrap text-[20px]/[30px]'>Tên nhân Vật</p>
+            <p className='text-nowrap text-[20px]/[30px]'>{character.name || 'Tên nhân Vật'}</p>
           </div>
 
           {(!showDetail || isSelected) && (
@@ -82,20 +86,16 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
             isInline ? 'hidden' : 'flex',
             isShowDetail && 'w-[320px]',
             showDetail ? 'flex' : 'hidden',
-            'w-[285px] shrink-0 flex-col items-start gap-1 pl-6 text-white transition-500'
+            'min-h-full w-[285px] flex-1 shrink-0 flex-col items-start gap-1 pl-6 text-white transition-500'
           )}
         >
           <div className='flex items-center gap-3'>
-            <h4 className='text-[32px]/[48px]'>Tên nhân vật</h4>
+            <h4 className='text-[32px]/[48px]'>{character.name || 'Tên nhân vật'}</h4>
             <span className='text-dongle-24'>12 tuổi</span>
           </div>
-          <div>
+          <div className='flex-1'>
             <h4 className='text-[32px]/[48px]'>Thông tin cá nhân</h4>
-            <p className='text-dongle-24'>
-              er adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna
-              aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-              ullamcorper su
-            </p>
+            <p className='text-dongle-24'>{character.description}</p>
           </div>
           {!isShowDetail && (
             <ButtonBase
@@ -115,7 +115,7 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
         {isInline && (
           <div className='absolute bottom-[-1px] z-10 h-[22px] w-full rounded-1 bg-yellow-light flex-center'>
             <p className='font-dongle text-[16px]/[16px] uppercase text-gray-6'>
-              [TÊN NHÂN VẬT] - Đang có 2 món quà
+              [{character.name || 'TÊN NHÂN VẬT'}] - Đang có 2 món quà
             </p>
           </div>
         )}

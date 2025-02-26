@@ -14,7 +14,7 @@ import giftReducer, { GiftState } from './gift/gift.slice'
 // Định nghĩa state gốc
 export interface RootState {
   auth: AuthState
-  characters: CharacterState
+  character: CharacterState
   question: QuestionState
   gift: GiftState
 }

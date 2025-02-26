@@ -14,6 +14,7 @@ import classNames from 'classnames'
 import { useAppDispatch, useAppSelector } from '~/store/configStore'
 import { RegisterInput } from '~/@types'
 import { register, setIsSuccess } from '~/store/auth/auth.slice'
+import { isSuccessRes } from '~/utils'
 
 export const registerFormSchema = z
   .object({
@@ -54,8 +55,8 @@ const Register = memo(() => {
         phoneNumber: values.phone,
         password: values.password
       }
-      const res = await dispatch(register(params))
-      console.log('register res ===> ', res)
+      const payload = await dispatch(register(params)).unwrap()
+      if (isSuccessRes(payload.status)) console.log('register success res ===> ', payload.status)
     } catch (error) {
       console.log('error', error)
       toast.error('Đăng ký thất bại! Thử lại nhé.')
@@ -69,8 +70,8 @@ const Register = memo(() => {
           <Logo className='w-[325px]' />
           <div className='flex flex-col items-center gap-3'>
             <img src={icons.star} alt='star' className='w-[80px]' />
-            <p className='text-[60px]/[90px] text-pink-main'>
-              Chúc mừng bạn đã <br /> đăng ký <span className='text-green-dark'>thành công</span>
+            <p className='text-center text-[60px]/[90px] text-pink-main'>
+              Chúc mừng bạn đã đăng ký <span className='text-green-dark'>thành công</span>
             </p>
           </div>
           <div className='w-full gap-[25px] flex-center'>

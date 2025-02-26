@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { memo, useState } from 'react'
+import { memo, useCallback, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
@@ -11,6 +11,9 @@ import InputBase from '~/components/shared/InputBase'
 import Logo from '~/components/shared/Logo'
 import { path } from '~/constants/path'
 import { socials } from '~/mocks/data'
+import { getUserInfor, login } from '~/store/auth/auth.slice'
+import { useAppDispatch, useAppSelector } from '~/store/configStore'
+import { isSuccessRes } from '~/utils'
 
 export const loginFormSchema = z.object({
   email: z.string().min(1, 'Vui lòng nhập email').email('Email không đúng định dạng'),
@@ -19,8 +22,10 @@ export const loginFormSchema = z.object({
 
 const Login = memo(() => {
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
 
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const { isLoading } = useAppSelector((s) => s.auth)
+
   const [showPassword, setShowPassword] = useState<boolean>(false)
 
   const form = useForm<z.infer<typeof loginFormSchema>>({
@@ -28,25 +33,28 @@ const Login = memo(() => {
     defaultValues: { email: '', password: '' }
   })
 
-  const onSubmitForm = async (values: z.infer<typeof loginFormSchema>) => {
+  const onSubmitForm = useCallback(async (values: z.infer<typeof loginFormSchema>) => {
     if (isLoading) return
     try {
-      setIsLoading(true)
-      console.log('login from ===> ', values)
-      navigate(path.home)
+      const payload = await dispatch(login(values)).unwrap()
+      if (!isSuccessRes(payload.status)) return toast.error('Đăng nhập thất bại! Thử lại nhé.')
+      const payloadUserInfor = await dispatch(getUserInfor()).unwrap()
+      if (isSuccessRes(payloadUserInfor.status) && payloadUserInfor.data.characterId !== null) {
+        navigate(path.home)
+      } else {
+        navigate(path.chooseCharacters)
+      }
     } catch (error) {
       console.log('error', error)
       toast.error('Đăng nhâp thất bại! Thử lại nhé.')
-    } finally {
-      setIsLoading(false)
     }
-  }
+  }, [])
 
   return (
     <div className='relative size-full flex-1 pb-40 pt-20 flex-center'>
       <div className='z-10 flex min-w-[569px] flex-col gap-11'>
         <div className='flex items-center justify-between'>
-          <ButtonBase variant='green' size='icon' onClick={() => navigate(-1)}>
+          <ButtonBase variant='green' size='icon' onClick={() => navigate(path.welcome)}>
             <span className='mgc_arrow_left_fill' />
           </ButtonBase>
           <Logo className='h-[110px] w-auto' />
@@ -107,6 +115,7 @@ const Login = memo(() => {
               <ButtonBase
                 size='md'
                 className='!mt-[46px] w-full'
+                isLoading={isLoading}
                 onClick={() => form.handleSubmit(onSubmitForm)()}
                 LeftIcon={() => <span className='mgc_moon_stars_fill' />}
               >

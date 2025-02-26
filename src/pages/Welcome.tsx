@@ -3,9 +3,12 @@ import { useNavigate } from 'react-router-dom'
 import ButtonBase from '~/components/shared/ButtonBase'
 import Logo from '~/components/shared/Logo'
 import { path } from '~/constants/path'
+import { setIsSuccess } from '~/store/auth/auth.slice'
+import { useAppDispatch } from '~/store/configStore'
 
 const Welcome = memo(() => {
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
 
   const buttons = useMemo(
     () => [
@@ -21,7 +24,10 @@ const Welcome = memo(() => {
         variant: 'pink',
         label: 'Đăng ký ngay',
         icon: 'mgc_sun_fill',
-        onClick: () => navigate(path.register)
+        onClick: () => {
+          dispatch(setIsSuccess(false))
+          navigate(path.register)
+        }
       }
     ],
     []

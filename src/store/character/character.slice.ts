@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Character, SelectCharacterInput } from '~/@types'
 import { axiosClient } from '~/apis/axiosClient'
 
@@ -7,19 +7,25 @@ export type CharacterState = {
   isError: boolean
   isSuccess: boolean
   characters: Character[]
+  characterSelected: Character | null
 }
 
 const initialState: CharacterState = {
   isLoading: false,
   isError: false,
   isSuccess: false,
-  characters: []
+  characters: [],
+  characterSelected: null
 }
 
 export const characterSlice = createSlice({
   name: 'character',
   initialState,
-  reducers: {},
+  reducers: {
+    setCharacterSelected: (state, action: PayloadAction<Character | null>) => {
+      state.characterSelected = action.payload
+    }
+  },
   extraReducers(builder) {
     builder
       .addCase(getCharacters.pending, (state) => {
@@ -52,7 +58,7 @@ export const characterSlice = createSlice({
   }
 })
 
-// export const {} = charactersSlice.actions
+export const { setCharacterSelected } = characterSlice.actions
 const characterReducer = characterSlice.reducer
 export default characterReducer
 
@@ -81,7 +87,7 @@ export const selectCharacter = createAsyncThunk(
       console.log('selectCharacter res ===> ', res)
       return res
     } catch (error) {
-      console.log('selectCharacter error ===>  ' + error)
+      console.log('selectCharacter error ===>  ', error)
       return rejectWithValue(error)
     }
   }

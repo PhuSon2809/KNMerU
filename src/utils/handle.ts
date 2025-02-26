@@ -11,3 +11,5 @@ export const getAccessToken = () =>
     ?.split('=')[1]
 
 export const removeAccessToken = () => Cookie.remove(StorageKeys.ACCESS_TOKEN)
+
+export const isSuccessRes = (statusCode: number) => statusCode === 200

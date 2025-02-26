@@ -4,7 +4,7 @@ import { Gift } from '~/@types'
 import { images } from '~/assets'
 
 interface GiftItemProps {
-  gift?: Gift
+  gift: Gift
   variant?: 'unbox' | 'gift'
   className?: string
 }
@@ -29,7 +29,7 @@ const GiftItem: FC<GiftItemProps> = memo(({ gift, variant = 'unbox' }) => {
       </p>
       <div className={classNames('z-10 size-full flex-1')}>
         <img
-          src={gift && variant === 'gift' ? gift.image : images.unbox}
+          src={gift && variant === 'gift' ? gift.imageUrl : images.unbox}
           alt={gift && variant === 'gift' ? gift.name : 'unbox'}
           className='size-full object-cover object-center'
         />

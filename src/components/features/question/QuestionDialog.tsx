@@ -1,21 +1,20 @@
-import { memo, useCallback, useMemo } from 'react'
+import { memo, useMemo } from 'react'
+import ActionDialog from '~/components/shared/ActionDialog'
+import BgTexture from '~/components/shared/BgTexture'
 import ButtonBase from '~/components/shared/ButtonBase'
 import { Dialog, DialogContent, DialogTrigger } from '~/components/shared/Dialog'
 import QuestionItem from './QuestionItem'
-import ActionDialog from '~/components/shared/ActionDialog'
-import BgTexture from '~/components/shared/BgTexture'
-import { useAppDispatch, useAppSelector } from '~/store/configStore'
 
 const QuestionDialog = memo(() => {
-  const dispatch = useAppDispatch()
+  // const dispatch = useAppDispatch()
 
-  const { questions } = useAppSelector((s) => s.question)
+  // const { questions } = useAppSelector((s) => s.question)
 
   const isAllTrue = useMemo(() => false, [])
 
-  const handleQuestionClick = useCallback(() => {}, [])
+  // const handleQuestionClick = useCallback(() => {}, [])
 
-  const hanndleAnswerQuestions = useCallback(() => {}, [])
+  // const hanndleAnswerQuestions = useCallback(() => {}, [])
 
   return (
     <Dialog>

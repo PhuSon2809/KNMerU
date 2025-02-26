@@ -1,4 +1,4 @@
-import { Dispatch, FC, memo, SetStateAction } from 'react'
+import { Dispatch, FC, memo, SetStateAction, useMemo } from 'react'
 import BgTexture from '~/components/shared/BgTexture'
 import ButtonBase from '~/components/shared/ButtonBase'
 import { Dialog, DialogContent } from '~/components/shared/Dialog'
@@ -23,6 +23,15 @@ const ProfileDialog: FC<ProfileDialogProps> = memo(
   ({ titleDialog, open, setOpen, setTitleDialog }) => {
     const { userInfo } = useAppSelector((s) => s.auth)
     const { userGifts } = useAppSelector((s) => s.gift)
+    const { characters } = useAppSelector((s) => s.character)
+
+    const character = useMemo(
+      () =>
+        characters.find((c) => {
+          if (userInfo) return c.id === userInfo?.characterId
+        }),
+      []
+    )
 
     return (
       <Dialog open={open} onOpenChange={setOpen}>
@@ -53,11 +62,14 @@ const ProfileDialog: FC<ProfileDialogProps> = memo(
                 'flex max-h-full w-full flex-1 flex-col gap-3 transition-300'
               )}
             >
-              <CharactersChooseItem
-                isShowDetail
-                isInline={titleDialog === TitleDialog.infor}
-                className='z-10'
-              />
+              {character && (
+                <CharactersChooseItem
+                  isShowDetail
+                  className='z-10'
+                  character={character}
+                  isInline={titleDialog === TitleDialog.infor}
+                />
+              )}
               {titleDialog === TitleDialog.pocket && (
                 <>
                   <div className='flex w-full items-center gap-6'>
@@ -93,12 +105,9 @@ const ProfileDialog: FC<ProfileDialogProps> = memo(
               {titleDialog === TitleDialog.infor && (
                 <>
                   <div className='hide-scrollbar grid h-full flex-1 grid-cols-3 gap-3 overflow-y-auto'>
-                    <GiftItem className='col-span-1' />
-                    <GiftItem className='col-span-1' />
-                    <GiftItem className='col-span-1' />
-                    <GiftItem className='col-span-1' />
-                    <GiftItem className='col-span-1' />
-                    <GiftItem className='col-span-1' />
+                    {userGifts.map((gift) => (
+                      <GiftItem key={gift.id} gift={gift} className='col-span-1' />
+                    ))}
                   </div>
                   <div className='rounded-2xl bg-orange-main p-4 pb-3 text-gray-1 text-dongle-24'>
                     Những món quà này sẽ được gửi đến các bé

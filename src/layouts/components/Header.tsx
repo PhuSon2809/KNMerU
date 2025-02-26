@@ -1,13 +1,18 @@
 import { memo, useCallback, useState } from 'react'
+import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { icons } from '~/assets'
 import ProfileDialog, { TitleDialog } from '~/components/features/profile/ProfileDialog'
 import ButtonBase from '~/components/shared/ButtonBase'
 import CharactersAvatar from '~/components/shared/CharactersAvatar'
 import Logo from '~/components/shared/Logo'
+import { path } from '~/constants/path'
+import { logout } from '~/store/auth/auth.slice'
+import { useAppDispatch } from '~/store/configStore'
 
 const Header = memo(() => {
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
 
   const [open, setOpen] = useState<boolean>(false)
   const [titleDialog, setTitleDialog] = useState<TitleDialog>(TitleDialog.infor)
@@ -17,11 +22,17 @@ const Header = memo(() => {
     setOpen(true)
   }, [])
 
+  const handleLogout = useCallback(async () => {
+    await dispatch(logout())
+    navigate(path.login)
+    toast.success('Bạn đã dăng xuất thành công')
+  }, [])
+
   return (
     <>
       <header className='h-[126px] w-full rounded-1 border-2 border-gray-2 bg-gray-1 p-3 flex-between'>
         <div className='flex h-full items-center gap-6'>
-          <ButtonBase variant='green' size='icon' onClick={() => navigate(-1)}>
+          <ButtonBase variant='green' size='icon' onClick={handleLogout}>
             <span className='mgc_arrow_left_fill' />
           </ButtonBase>
           <CharactersAvatar />
