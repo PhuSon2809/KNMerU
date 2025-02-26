@@ -6,6 +6,7 @@ import InputBase from '~/components/shared/InputBase'
 import CharactersChooseItem from '../choose-characters/CharactersChooseItem'
 import classNames from 'classnames'
 import GiftItem from '~/components/shared/GiftItem'
+import { useAppSelector } from '~/store/configStore'
 
 export enum TitleDialog {
   infor = 'Xem thông tin cá nhân',
@@ -20,6 +21,9 @@ interface ProfileDialogProps {
 
 const ProfileDialog: FC<ProfileDialogProps> = memo(
   ({ titleDialog, open, setOpen, setTitleDialog }) => {
+    const { userInfo } = useAppSelector((s) => s.auth)
+    const { userGifts } = useAppSelector((s) => s.gift)
+
     return (
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent noOverlayBackground noBlur>

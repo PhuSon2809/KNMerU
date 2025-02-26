@@ -5,6 +5,8 @@ import { Dialog, DialogContent, DialogTitle } from '~/components/shared/Dialog'
 import GiftItem from '~/components/shared/GiftItem'
 import CharactersChooseItem from '../choose-characters/CharactersChooseItem'
 import classNames from 'classnames'
+import { useAppDispatch } from '~/store/configStore'
+import { getRandomGift } from '~/store/gift/gift.slice'
 
 interface BlindPocketDialogProps {
   open: boolean
@@ -12,14 +14,22 @@ interface BlindPocketDialogProps {
 }
 
 const BlindPocketDialog: FC<BlindPocketDialogProps> = memo(({ open, setOpen }) => {
+  const dispatch = useAppDispatch()
+
   const [isViewPocket, setIsViewPocket] = useState<boolean>(false)
   const [isUnboxed, setIsUnboxed] = useState<boolean>(false)
 
-  const handelOpenBlindPocket = useCallback(() => {
-    if (isUnboxed) {
-      setIsViewPocket(true)
-    } else {
-      setIsUnboxed(true)
+  const handelOpenBlindPocket = useCallback(async () => {
+    try {
+      const res = await dispatch(getRandomGift(1))
+      console.log('getRandomGift res 2 ===>', res)
+      if (isUnboxed) {
+        setIsViewPocket(true)
+      } else {
+        setIsUnboxed(true)
+      }
+    } catch (error) {
+      console.log('Failed to', error)
     }
   }, [isUnboxed])
 

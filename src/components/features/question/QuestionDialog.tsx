@@ -1,12 +1,21 @@
-import { memo, useMemo } from 'react'
+import { memo, useCallback, useMemo } from 'react'
 import ButtonBase from '~/components/shared/ButtonBase'
 import { Dialog, DialogContent, DialogTrigger } from '~/components/shared/Dialog'
 import QuestionItem from './QuestionItem'
 import ActionDialog from '~/components/shared/ActionDialog'
 import BgTexture from '~/components/shared/BgTexture'
+import { useAppDispatch, useAppSelector } from '~/store/configStore'
 
 const QuestionDialog = memo(() => {
+  const dispatch = useAppDispatch()
+
+  const { questions } = useAppSelector((s) => s.question)
+
   const isAllTrue = useMemo(() => false, [])
+
+  const handleQuestionClick = useCallback(() => {}, [])
+
+  const hanndleAnswerQuestions = useCallback(() => {}, [])
 
   return (
     <Dialog>
@@ -27,7 +36,7 @@ const QuestionDialog = memo(() => {
               <h4 className='text-[32px]/[48px] text-blue-main'>Học vượt cấp</h4>
               <span className='text-dongle-24'>Đây là bài kiểm tra vượt cấp</span>
               <div className='w-fit rounded-1 bg-orange-main px-3 pb-1 pt-[6px] flex-center'>
-                <span className='text-dongle-24 text-gray-1'>
+                <span className='text-gray-1 text-dongle-24'>
                   {!isAllTrue ? `Bạn đạt ${3}/${6} điểm` : `Bao gồm ${6} câu hỏi`}
                 </span>
               </div>
@@ -46,7 +55,7 @@ const QuestionDialog = memo(() => {
               />
             ))}
           </div>
-          <p className='font-purenotes absolute right-48 top-0 text-[116px] text-red-main opacity-20'>
+          <p className='absolute right-48 top-0 font-purenotes text-[116px] text-red-main opacity-20'>
             5đ
           </p>
           <BgTexture />

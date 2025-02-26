@@ -1,16 +1,26 @@
-import { memo, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import CharactersChooseItem from '~/components/features/choose-characters/CharactersChooseItem'
 import ButtonBase from '~/components/shared/ButtonBase'
 import TitleCharacters from '~/components/shared/TitleCharacters'
 import { path } from '~/constants/path'
 import useHorizontalScroll from '~/hooks/useHorizontalScroll'
+import { getCharacters } from '~/store/character/character.slice'
+import { useAppDispatch, useAppSelector } from '~/store/configStore'
 
 const ChooseCharacters = memo(() => {
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+
+  const { characters } = useAppSelector((s) => s.characters)
+
   const { containerRef, handleMouseDown, handleTouchStart } = useHorizontalScroll()
 
   const [idSelected, setIdSelected] = useState<number>(-1)
+
+  useEffect(() => {
+    dispatch(getCharacters())
+  }, [])
 
   return (
     <div className='relative flex size-full flex-1 flex-col items-stretch overflow-hidden pb-[200px] pt-[50px]'>
