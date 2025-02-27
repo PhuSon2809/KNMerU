@@ -1,5 +1,5 @@
 import Cookie from 'js-cookie'
-//
+import { ERROR_MESSAGES } from '~/constants/error'
 import { StorageKeys } from '~/constants/storage'
 
 export const setAccessToken = (accessToken: string) =>
@@ -13,3 +13,7 @@ export const getAccessToken = () =>
 export const removeAccessToken = () => Cookie.remove(StorageKeys.ACCESS_TOKEN)
 
 export const isSuccessRes = (statusCode: number) => statusCode === 200
+
+export const getErrorMessage = (errorCode: string): string => {
+  return ERROR_MESSAGES[errorCode] || 'Lỗi không xác định'
+}
