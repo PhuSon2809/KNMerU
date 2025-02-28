@@ -85,15 +85,17 @@ const Home = memo(() => {
             >
               {generalInfo?.isCheckedIn ? 'Điểm danh thành công' : 'Điểm danh'}
             </ButtonBase>
-            <ButtonBase
-              variant='orange'
-              size='lg'
-              className='min-w-[212px]'
-              LeftIcon={() => <span className='mgc_pen_fill' />}
-              onClick={handleOpenDialog(EnumQuestionType.skipped)}
-            >
-              Học vượt cấp
-            </ButtonBase>
+            {(generalInfo?.classLevel === 1 || generalInfo?.classLevel === 2) && (
+              <ButtonBase
+                variant='orange'
+                size='lg'
+                className='min-w-[212px]'
+                LeftIcon={() => <span className='mgc_pen_fill' />}
+                onClick={handleOpenDialog(EnumQuestionType.skipped)}
+              >
+                Học vượt cấp
+              </ButtonBase>
+            )}
             <PopoverActivities
               popoverOpen={open.popover}
               setPopoverOpen={(open) => setOpenState('popover')(open)}

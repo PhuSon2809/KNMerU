@@ -6,11 +6,8 @@ export enum EnumQuestionType {
 
 export interface Question {
   id: number
-  choices: Choice[]
-  answer: number
   content: string
-  classLevel: number | null
-  dailyQuestionDate: string
+  choices: Choice[]
 }
 
 export interface Choice {
@@ -26,4 +23,15 @@ export interface Answer {
 export interface AnswerInput {
   answers: Answer[]
   type: number
+}
+
+export interface AnswerCheck {
+  questionId: number
+  isCorrect: boolean
+}
+
+export interface TestResult {
+  answers: AnswerCheck[]
+  totalCorrectQuestion: number
+  totalQuestion: number
 }

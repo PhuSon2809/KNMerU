@@ -1,20 +1,29 @@
-import { Suspense, useEffect } from 'react'
+import { Suspense, useEffect, useMemo } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { RouterProvider } from 'react-router-dom'
 import { routers } from './routers/routes'
 import { getCharacters } from './store/character/character.slice'
 import { useAppDispatch, useAppSelector } from './store/configStore'
 import { getGeneralInfor } from './store/root/root.slice'
+import { getAccessToken } from './utils'
 
 function App() {
   const dispatch = useAppDispatch()
 
+  const accessToken = getAccessToken()
+
   const { characters } = useAppSelector((s) => s.character)
+  const { isAuthenticated, userInfo } = useAppSelector((s) => s.auth)
+
+  const isLoggedIn = useMemo(
+    () => isAuthenticated && accessToken && userInfo && userInfo?.characterId !== null,
+    [isAuthenticated, accessToken, userInfo]
+  )
 
   useEffect(() => {
     if (characters.length === 0) dispatch(getCharacters())
-    dispatch(getGeneralInfor())
-  }, [characters])
+    if (isLoggedIn) dispatch(getGeneralInfor())
+  }, [characters, isLoggedIn])
 
   return (
     <>

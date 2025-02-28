@@ -1,15 +1,16 @@
 import classNames from 'classnames'
-import { FC, memo, useCallback, useState } from 'react'
+import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
-import { AnswerInput, EnumQuestionType } from '~/@types/question'
+import { AnswerInput, EnumQuestionType, TestResult } from '~/@types/question'
 import BgTexture from '~/components/shared/BgTexture'
 import ButtonBase from '~/components/shared/ButtonBase'
-import { Dialog, DialogContent } from '~/components/shared/Dialog'
+import { Dialog, DialogContent, DialogTitle } from '~/components/shared/Dialog'
 import { useAppDispatch, useAppSelector } from '~/store/configStore'
 import { answerQuestion } from '~/store/question/question.slice'
 import { getGeneralInfor } from '~/store/root/root.slice'
 import { getErrorMessage, isSuccessRes } from '~/utils'
 import QuestionItem from './QuestionItem'
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 
 interface QuestionDialogProps {
   open: boolean
@@ -24,12 +25,23 @@ const QuestionDialog: FC<QuestionDialogProps> = memo(({ open, setOpen, questionT
 
   const defaultAnswer = Array.from({ length: questions.length }, () => 0)
 
+  const [testResult, setTestResult] = useState<TestResult | null>(null)
+  const [status, setStatus] = useState({ isDone: false, isLoading: false })
   const [answersSelect, setAnswersSelect] = useState<number[]>(defaultAnswer)
-  const [status, setStatus] = useState({
-    isDone: false,
-    isError: false,
-    isLoading: false
-  })
+
+  const isRetry = useMemo(
+    () =>
+      testResult
+        ? questionType === EnumQuestionType.daily || questionType === EnumQuestionType.promoted
+          ? testResult?.totalCorrectQuestion < testResult?.totalQuestion
+          : testResult?.totalCorrectQuestion < 4
+        : false,
+    [questionType, testResult]
+  )
+  const score = useMemo(
+    () => (testResult ? (testResult?.totalCorrectQuestion / testResult?.totalQuestion) * 10 : 0),
+    [testResult]
+  )
 
   const handleSelectAnswer = useCallback((questionIndex: number, selectedAnswer: number) => {
     setAnswersSelect((prev) => {
@@ -42,7 +54,7 @@ const QuestionDialog: FC<QuestionDialogProps> = memo(({ open, setOpen, questionT
   const hanndleAnswerQuestions = useCallback(async () => {
     if (answersSelect.some((answer) => answer === 0))
       return toast.error('Hãy chọn đầy đủ câu hỏi trước khi nộp bài nhé!')
-    setStatus({ isDone: false, isError: false, isLoading: true })
+    setStatus({ isDone: false, isLoading: true })
     try {
       const answerData: AnswerInput = {
         answers: questions.map((question, idx) => ({
@@ -51,20 +63,33 @@ const QuestionDialog: FC<QuestionDialogProps> = memo(({ open, setOpen, questionT
         })),
         type: questionType
       }
-
       const res = await dispatch(answerQuestion(answerData)).unwrap()
-      if (isSuccessRes(res.status)) await dispatch(getGeneralInfor())
-      setStatus({ isDone: true, isError: false, isLoading: false })
+      if (isSuccessRes(res.status)) {
+        setTestResult(res.data)
+      }
     } catch (error) {
       console.log('error', error)
-      setStatus({ isDone: true, isError: true, isLoading: false })
       toast.error(getErrorMessage(error))
+    } finally {
+      setStatus({ isDone: true, isLoading: false })
     }
   }, [questions, answersSelect, questionType])
+
+  useEffect(() => {
+    if (!open) {
+      setTestResult(null)
+      setStatus({ isDone: false, isLoading: false })
+      setAnswersSelect(defaultAnswer)
+      dispatch(getGeneralInfor())
+    }
+  }, [open])
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent noBlur noOverlayBackground disabledClose={status.isLoading}>
+        <VisuallyHidden>
+          <DialogTitle>Hidden Title</DialogTitle>
+        </VisuallyHidden>
         <div className='relative flex h-full flex-col gap-6 overflow-hidden p-6'>
           <div className='flex items-start justify-between'>
             <div className='flex flex-col gap-1'>
@@ -85,39 +110,47 @@ const QuestionDialog: FC<QuestionDialogProps> = memo(({ open, setOpen, questionT
               </span>
               <div className='w-fit rounded-1 bg-orange-main px-3 pb-1 pt-[6px] flex-center'>
                 <span className='text-gray-1 text-dongle-24'>
-                  {status.isDone
-                    ? `Bạn đạt ${3}/${questions.length} điểm`
+                  {status.isDone && testResult
+                    ? `Bạn đạt ${testResult.totalCorrectQuestion}/${testResult.totalQuestion} điểm`
                     : `Bao gồm ${questions.length} câu hỏi`}
                 </span>
               </div>
             </div>
-            {(!status.isDone || status.isError) && (
+            {(!status.isDone || isRetry) && (
               <ButtonBase
                 variant='pink'
                 className='mr-[50px]'
                 isLoading={status.isLoading}
                 onClick={
-                  status.isError
-                    ? () => setStatus((prev) => ({ ...prev, isError: false }))
+                  isRetry
+                    ? () => {
+                        setTestResult(null)
+                        setStatus({ isDone: false, isLoading: false })
+                      }
                     : hanndleAnswerQuestions
                 }
               >
-                {status.isError ? 'Làm lại' : 'Nộp bài'}
+                {isRetry ? 'Làm lại' : 'Nộp bài'}
               </ButtonBase>
             )}
           </div>
           <div className='hide-scrollbar flex w-full flex-1 flex-col gap-6 overflow-y-auto'>
-            {questions.map((question, idx) => (
-              <QuestionItem
-                key={idx}
-                question={question}
-                isDone={status.isDone}
-                isError={status.isError}
-                sequenceNumber={idx + 1}
-                answersSelect={answersSelect}
-                onSelectAnswer={handleSelectAnswer}
-              />
-            ))}
+            {questions.map((question, idx) => {
+              return (
+                <QuestionItem
+                  key={idx}
+                  question={question}
+                  isDone={status.isDone}
+                  isCorrect={
+                    testResult?.answers.find((answer) => answer.questionId === question.id)
+                      ?.isCorrect || false
+                  }
+                  sequenceNumber={idx + 1}
+                  answersSelect={answersSelect}
+                  onSelectAnswer={handleSelectAnswer}
+                />
+              )
+            })}
           </div>
           <p
             className={classNames(
@@ -125,7 +158,7 @@ const QuestionDialog: FC<QuestionDialogProps> = memo(({ open, setOpen, questionT
               'absolute right-48 top-0 font-purenotes text-[116px] text-red-main transition-300'
             )}
           >
-            5đ
+            {parseFloat(score.toFixed(1))}đ
           </p>
           <BgTexture />
         </div>

@@ -16,6 +16,7 @@
     "@hookform/resolvers": "^3.9.1",
     "@radix-ui/react-dialog": "^1.1.6",
     "@radix-ui/react-popover": "^1.1.6",
+    "@radix-ui/react-visually-hidden": "^1.1.2",
     "@reduxjs/toolkit": "^2.6.0",
     "aos": "^2.3.4",
     "axios": "^1.7.9",

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { AnswerInput, Question } from '~/@types'
+import { AnswerInput, Question, TestResult } from '~/@types'
 import { axiosClient } from '~/apis/axiosClient'
 
 export type QuestionState = {
@@ -7,13 +7,15 @@ export type QuestionState = {
   isError: boolean
   isSuccess: boolean
   questions: Question[]
+  testResult: TestResult | null
 }
 
 const initialState: QuestionState = {
   isLoading: false,
   isError: false,
   isSuccess: false,
-  questions: []
+  questions: [],
+  testResult: null
 }
 
 export const questionSlice = createSlice({
@@ -36,27 +38,14 @@ export const questionSlice = createSlice({
         state.isError = true
         state.isSuccess = false
       })
-      .addCase(getQuestions.pending, (state) => {
-        state.isLoading = true
-      })
-      .addCase(getQuestions.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.isError = false
-        state.isSuccess = true
-        state.questions = action.payload.data
-      })
-      .addCase(getQuestions.rejected, (state) => {
-        state.isLoading = false
-        state.isError = true
-        state.isSuccess = false
-      })
       .addCase(answerQuestion.pending, (state) => {
         state.isLoading = true
       })
-      .addCase(answerQuestion.fulfilled, (state) => {
+      .addCase(answerQuestion.fulfilled, (state, action) => {
         state.isLoading = false
         state.isError = false
         state.isSuccess = true
+        state.testResult = action.payload.data
       })
       .addCase(answerQuestion.rejected, (state) => {
         state.isLoading = false
@@ -93,20 +82,6 @@ export const answerQuestion = createAsyncThunk(
       return res
     } catch (error) {
       console.log('AnswerQuestion error ===>  ' + error)
-      return rejectWithValue(error)
-    }
-  }
-)
-
-export const getQuestions = createAsyncThunk(
-  'question/questions',
-  async (_: any, { rejectWithValue }) => {
-    try {
-      const res: ApiResponse<Question[]> = await axiosClient.get('/Question/GetQuestions')
-      console.log('getQuestions res ===> ', res)
-      return res
-    } catch (error) {
-      console.log('getQuestions error ===>  ' + error)
       return rejectWithValue(error)
     }
   }

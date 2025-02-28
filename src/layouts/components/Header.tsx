@@ -8,11 +8,13 @@ import CharactersAvatar from '~/components/shared/CharactersAvatar'
 import Logo from '~/components/shared/Logo'
 import { path } from '~/constants/path'
 import { logout } from '~/store/auth/auth.slice'
-import { useAppDispatch } from '~/store/configStore'
+import { useAppDispatch, useAppSelector } from '~/store/configStore'
 
 const Header = memo(() => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+
+  const { generalInfo } = useAppSelector((s) => s.rootData)
 
   const [open, setOpen] = useState<boolean>(false)
   const [titleDialog, setTitleDialog] = useState<TitleDialog>(TitleDialog.infor)
@@ -59,7 +61,7 @@ const Header = memo(() => {
           <div className='h-full w-[189px] flex-col rounded-2xl border border-gray-2 p-3 text-[20px]/[20px] text-orange-main flex-center'>
             <p className='font-dongle'>Chuỗi hiện tại</p>
             <div className='flex items-center gap-1'>
-              <p>12</p>
+              <p>{generalInfo?.streak}</p>
               <img src={icons.rose} alt='rose' className='h-auto w-[21px]' />
             </div>
           </div>

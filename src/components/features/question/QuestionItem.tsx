@@ -1,10 +1,10 @@
 import classNames from 'classnames'
-import { FC, memo, useMemo } from 'react'
+import { FC, memo } from 'react'
 import { Question } from '~/@types/question'
 
 interface QuestionItemProps {
   isDone: boolean
-  isError: boolean
+  isCorrect: boolean
   question: Question
   sequenceNumber: number
   answersSelect: number[]
@@ -12,17 +12,7 @@ interface QuestionItemProps {
 }
 
 const QuestionItem: FC<QuestionItemProps> = memo((props) => {
-  const { isDone, isError, question, sequenceNumber, answersSelect, onSelectAnswer } = props
-
-  const isNotCorrectAnswer = useMemo(
-    () => answersSelect[sequenceNumber - 1] === question.answer,
-    [answersSelect, sequenceNumber, question]
-  )
-
-  const correctAnswer = useMemo(
-    () => question.choices.find((choice) => choice.option === question.answer),
-    [answersSelect, sequenceNumber, question]
-  )
+  const { isDone, isCorrect, question, sequenceNumber, answersSelect, onSelectAnswer } = props
 
   return (
     <div className='flex w-full flex-col gap-[6px]'>
@@ -61,16 +51,13 @@ const QuestionItem: FC<QuestionItemProps> = memo((props) => {
         {isDone && (
           <span
             className={
-              !isError && !isNotCorrectAnswer
+              isCorrect
                 ? 'mgc_check_circle_fill text-green-main'
                 : 'mgc_close_circle_fill text-red-main'
             }
           />
         )}
       </div>
-      {isDone && isError && isNotCorrectAnswer && (
-        <p className='text-gray-7 text-dongle-24'>Đáp án đúng: {correctAnswer?.content}</p>
-      )}
     </div>
   )
 })
