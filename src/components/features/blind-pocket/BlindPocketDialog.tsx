@@ -53,7 +53,7 @@ const BlindPocketDialog: FC<BlindPocketDialogProps> = memo(({ open, setOpen }) =
       }
     } catch (error) {
       console.log('Failed to', error)
-      toast.error(getErrorMessage(error) || 'Mở quà lỗi! Thử lại nhé')
+      toast.error(getErrorMessage(error) || 'Mở quà lỗi! Thử lại nhé 2')
     }
   }, [isUnboxed])
 
