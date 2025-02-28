@@ -11,6 +11,7 @@ import bg_texture from './images/bg-texture.png'
 import characters from './images/characters.png'
 import KV_photo from './images/KV-photo.png'
 import unbox from './images/unbox.png'
+import emptyBox from './lotties/empty-box.json'
 
 export { default as logo } from './logo.png'
 
@@ -24,3 +25,5 @@ export const images = {
   characters,
   unbox
 }
+
+export const lotties = { emptyBox }

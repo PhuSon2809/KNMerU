@@ -50,7 +50,7 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
                 : 'w-[243px] transition-300',
               isSelected && 'rotate-[-6.84deg]',
               !showDetail && 'group-hover:rotate-[-6.84deg] group-hover:scale-[85%]',
-              'bottom-[50px] border-none absolute-center-x'
+              'bottom-[20px] border-none absolute-center-x'
             )}
           />
 

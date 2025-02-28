@@ -54,20 +54,6 @@ export const giftSlice = createSlice({
         state.isError = true
         state.isSuccess = false
       })
-      .addCase(getGifts.pending, (state) => {
-        state.isLoading = true
-      })
-      .addCase(getGifts.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.isError = false
-        state.isSuccess = true
-        state.gifts = action.payload.data
-      })
-      .addCase(getGifts.rejected, (state) => {
-        state.isLoading = false
-        state.isError = true
-        state.isSuccess = false
-      })
   }
 })
 
@@ -79,7 +65,7 @@ export const getRandomGift = createAsyncThunk(
   'gift/get-random-gift',
   async (classLevel: number, { rejectWithValue }) => {
     try {
-      const res: ApiResponse<any> = await axiosClient.post('/Gift/GetRandomGift', { classLevel })
+      const res: ApiResponse<Gift> = await axiosClient.post('/Gift/GetRandomGift', { classLevel })
       console.log('getRandomGift res ===> ', res)
       return res
     } catch (error) {
@@ -102,14 +88,3 @@ export const getUserGifts = createAsyncThunk(
     }
   }
 )
-
-export const getGifts = createAsyncThunk('gift/get-gifts', async (_, { rejectWithValue }) => {
-  try {
-    const res: ApiResponse<any> = await axiosClient.get('/Gift/GetGifts')
-    console.log('getGifts res ===> ', res)
-    return res
-  } catch (error) {
-    console.log('getGifts error ===>  ' + error)
-    return rejectWithValue(error)
-  }
-})

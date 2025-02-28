@@ -4,7 +4,7 @@ import { Gift } from '~/@types'
 import { images } from '~/assets'
 
 interface GiftItemProps {
-  gift: Gift
+  gift?: Gift
   variant?: 'unbox' | 'gift'
   className?: string
 }

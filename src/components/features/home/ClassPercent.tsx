@@ -10,6 +10,7 @@ const ClassPercent = memo(() => {
   const { generalInfo } = useAppSelector((s) => s.rootData)
 
   const [open, setOpen] = useState<boolean>(false)
+  const [idxPocket, setIdxPocket] = useState<number>(0)
 
   const classes = useMemo(() => Array.from({ length: 5 }).map((_, i) => i + 1), [])
   const streak = useMemo(() => Array.from({ length: 25 }).map((_, i) => i + 1), [])
@@ -24,7 +25,20 @@ const ClassPercent = memo(() => {
             className='h-[130px] w-auto'
           />
           {Array.from({ length: 2 }).map((_, idx) => (
-            <BlindPocketItem key={idx} onClick={() => setOpen(true)} />
+            <BlindPocketItem
+              key={idx}
+              variant={
+                (idx === 0 ? generalInfo?.isOpenedFirstGift : generalInfo?.isOpenedSecondGift)
+                  ? 'collected'
+                  : 'not-collected'
+              }
+              onClick={() => {
+                if (generalInfo?.classLevel === 3 && generalInfo.isOpenedFirstGift && idx === 0)
+                  return
+                setIdxPocket(idx)
+                setOpen(true)
+              }}
+            />
           ))}
         </div>
         <div className='h-9 rounded-1 border border-gray-2 bg-gray-1 p-1 shadow-pink'>
@@ -61,7 +75,7 @@ const ClassPercent = memo(() => {
           ))}
         </div>
       </div>
-      <BlindPocketDialog open={open} setOpen={setOpen} />
+      <BlindPocketDialog open={open} setOpen={setOpen} idxPocket={idxPocket} />
     </>
   )
 })

@@ -6,7 +6,9 @@ import InputBase from '~/components/shared/InputBase'
 import CharactersChooseItem from '../choose-characters/CharactersChooseItem'
 import classNames from 'classnames'
 import GiftItem from '~/components/shared/GiftItem'
+import Lottie from 'lottie-react'
 import { useAppSelector } from '~/store/configStore'
+import { lotties } from '~/assets'
 
 export enum TitleDialog {
   infor = 'Xem thông tin cá nhân',
@@ -105,9 +107,16 @@ const ProfileDialog: FC<ProfileDialogProps> = memo(
               {titleDialog === TitleDialog.infor && (
                 <>
                   <div className='hide-scrollbar grid h-full flex-1 grid-cols-3 gap-3 overflow-y-auto'>
-                    {userGifts.map((gift) => (
-                      <GiftItem key={gift.id} gift={gift} className='col-span-1' />
-                    ))}
+                    {userGifts.length > 0 ? (
+                      userGifts.map((gift) => (
+                        <GiftItem key={gift.id} gift={gift} className='col-span-1' />
+                      ))
+                    ) : (
+                      <div className='col-span-3 flex flex-col items-center justify-center'>
+                        <Lottie animationData={lotties.emptyBox} className='w-[200px]' />
+                        <p>Bạn chưa có món quà nào trong túi</p>
+                      </div>
+                    )}
                   </div>
                   <div className='rounded-2xl bg-orange-main p-4 pb-3 text-gray-1 text-dongle-24'>
                     Những món quà này sẽ được gửi đến các bé
