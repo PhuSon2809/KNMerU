@@ -4,6 +4,7 @@ import { RouterProvider } from 'react-router-dom'
 import { routers } from './routers/routes'
 import { getCharacters } from './store/character/character.slice'
 import { useAppDispatch, useAppSelector } from './store/configStore'
+import { getGeneralInfor } from './store/root/root.slice'
 
 function App() {
   const dispatch = useAppDispatch()
@@ -12,6 +13,7 @@ function App() {
 
   useEffect(() => {
     if (characters.length === 0) dispatch(getCharacters())
+    dispatch(getGeneralInfor())
   }, [characters])
 
   return (

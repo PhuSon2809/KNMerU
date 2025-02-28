@@ -8,7 +8,6 @@ export interface AuthState {
   isError: boolean
   isSuccess: boolean
   isAuthenticated: boolean
-  isAttendanced: boolean
   userInfo: UserInfor | null
   userLogin: LoginInput
 }
@@ -17,7 +16,6 @@ const initialState: AuthState = {
   isLoading: false,
   isError: false,
   isSuccess: false,
-  isAttendanced: false,
   isAuthenticated: false,
   userInfo: null,
   userLogin: { email: '', password: '' }
@@ -82,20 +80,6 @@ const authSlice = createSlice({
         state.isError = true
         state.isSuccess = false
       })
-      .addCase(checkIn.pending, (state) => {
-        state.isLoading = true
-      })
-      .addCase(checkIn.fulfilled, (state) => {
-        state.isLoading = false
-        state.isError = false
-        state.isSuccess = true
-        state.isAttendanced = true
-      })
-      .addCase(checkIn.rejected, (state) => {
-        state.isLoading = false
-        state.isError = true
-        state.isSuccess = false
-      })
       .addCase(logout.pending, (state) => {
         state.isLoading = true
       })
@@ -103,7 +87,6 @@ const authSlice = createSlice({
         state.isLoading = false
         state.isError = false
         state.isSuccess = true
-        state.isAttendanced = true
       })
       .addCase(logout.rejected, (state) => {
         state.isLoading = false
@@ -177,17 +160,6 @@ export const getUserInfor = createAsyncThunk(
     }
   }
 )
-
-export const checkIn = createAsyncThunk('attendance/checkIn', async (_, { rejectWithValue }) => {
-  try {
-    const res = await axiosClient.post('/Attendance/CheckIn')
-    console.log('checkIn res ===> ', res)
-    return res
-  } catch (error) {
-    console.log('checkIn error ===>  ' + error)
-    return rejectWithValue(error)
-  }
-})
 
 export const logout = createAsyncThunk('auth/logout', async (_, { dispatch, rejectWithValue }) => {
   try {

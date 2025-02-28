@@ -78,21 +78,7 @@ export const getQuestion = createAsyncThunk(
       console.log('getQuestion res ===> ', res)
       return res
     } catch (error) {
-      console.log('getQuestion error ===>  ' + error)
-      return rejectWithValue(error)
-    }
-  }
-)
-
-export const getQuestions = createAsyncThunk(
-  'question/questions',
-  async (_: any, { rejectWithValue }) => {
-    try {
-      const res: ApiResponse<Question[]> = await axiosClient.get('/Question/GetQuestions')
-      console.log('getQuestions res ===> ', res)
-      return res
-    } catch (error) {
-      console.log('getQuestions error ===>  ' + error)
+      console.log('getQuestion error ===>  ', error)
       return rejectWithValue(error)
     }
   }
@@ -107,6 +93,20 @@ export const answerQuestion = createAsyncThunk(
       return res
     } catch (error) {
       console.log('AnswerQuestion error ===>  ' + error)
+      return rejectWithValue(error)
+    }
+  }
+)
+
+export const getQuestions = createAsyncThunk(
+  'question/questions',
+  async (_: any, { rejectWithValue }) => {
+    try {
+      const res: ApiResponse<Question[]> = await axiosClient.get('/Question/GetQuestions')
+      console.log('getQuestions res ===> ', res)
+      return res
+    } catch (error) {
+      console.log('getQuestions error ===>  ' + error)
       return rejectWithValue(error)
     }
   }

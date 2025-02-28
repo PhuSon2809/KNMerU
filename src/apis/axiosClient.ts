@@ -3,6 +3,12 @@ import { getAccessToken } from '~/utils'
 
 const API_URL = import.meta.env.VITE_API_URL
 
+interface ErrorResponse {
+  status: number
+  errorMessageCode: string
+  data: null
+}
+
 const axiosClient = axios.create({
   baseURL: API_URL,
   headers: {
@@ -33,7 +39,8 @@ const setupAxiosClient = () => {
   axiosClient.interceptors.response.use(
     (response: AxiosResponse) => response.data,
     (err) => {
-      return Promise.reject(err.response || err)
+      const errorData: ErrorResponse | undefined = err.response?.data
+      return Promise.reject(errorData || err)
     }
   )
 }
@@ -47,17 +54,14 @@ const setupAxiosFormData = () => {
       }
       return config
     },
-    (error) => {
-      return Promise.reject(error)
-    }
+    (error) => Promise.reject(error)
   )
 
   axiosFormData.interceptors.response.use(
-    (response: AxiosResponse) => {
-      return response.data
-    },
-    async (err) => {
-      return Promise.reject(err.response || err)
+    (response: AxiosResponse) => response.data,
+    (err) => {
+      const errorData: ErrorResponse | undefined = err.response?.data
+      return Promise.reject(errorData || err)
     }
   )
 }

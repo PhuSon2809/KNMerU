@@ -13,7 +13,9 @@ export const getAccessToken = () =>
 export const removeAccessToken = () => Cookie.remove(StorageKeys.ACCESS_TOKEN)
 
 export const isSuccessRes = (statusCode: number) => statusCode === 200
+export const isPromoted = (streak: number) =>
+  streak === 5 || streak === 10 || streak === 15 || streak === 20
 
-export const getErrorMessage = (errorCode: string): string => {
-  return ERROR_MESSAGES[errorCode] || 'Lỗi không xác định'
+export const getErrorMessage = (errorCode: any): string => {
+  return ERROR_MESSAGES[errorCode.errorMessageCode || errorCode] || 'Lỗi không xác định'
 }

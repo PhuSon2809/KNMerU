@@ -1,10 +1,10 @@
-import { Dispatch, FC, memo, ReactNode, SetStateAction } from 'react'
+import { FC, memo, ReactNode } from 'react'
 import { Popover, PopoverContent, PopoverTrigger } from '~/components/shared/Popover'
 
 interface PopoverActivitiesProps {
   children: ReactNode
   popoverOpen: boolean
-  setPopoverOpen: Dispatch<SetStateAction<boolean>>
+  setPopoverOpen: (open: boolean) => void
   onOpenEventDialog: (title: string) => void
 }
 
@@ -28,7 +28,7 @@ const PopoverActivities: FC<PopoverActivitiesProps> = memo(
                 className='flex items-center gap-[10px] rounded-xl p-2 hover:bg-gray-2 hover:text-pink-main'
               >
                 <span className='mgc_fire_fill' />
-                <p className='text-dongle-24 mt-1'>{activ.label}</p>
+                <p className='mt-1 text-dongle-24'>{activ.label}</p>
               </div>
             ))}
           </div>

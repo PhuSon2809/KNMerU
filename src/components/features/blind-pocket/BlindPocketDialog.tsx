@@ -18,6 +18,7 @@ const BlindPocketDialog: FC<BlindPocketDialogProps> = memo(({ open, setOpen }) =
   const dispatch = useAppDispatch()
 
   const { userInfo } = useAppSelector((s) => s.auth)
+  const { userGifts } = useAppSelector((s) => s.gift)
   const { characters } = useAppSelector((s) => s.character)
 
   const [isViewPocket, setIsViewPocket] = useState<boolean>(false)
@@ -69,11 +70,9 @@ const BlindPocketDialog: FC<BlindPocketDialogProps> = memo(({ open, setOpen }) =
               )}
               <div className={classNames('flex flex-1 flex-col gap-3 transition-500')}>
                 <div className='grid h-full flex-1 grid-cols-3 gap-3'>
-                  <GiftItem gift={gift} className='col-span-1' />
-                  <GiftItem gift={gift} className='col-span-1' />
-                  <GiftItem gift={gift} className='col-span-1' />
-                  <GiftItem gift={gift} className='col-span-1' />
-                  <GiftItem gift={gift} className='col-span-1' />
+                  {userGifts.map((gift) => (
+                    <GiftItem key={gift.id} gift={gift} className='col-span-1' />
+                  ))}
                 </div>
                 <div className='rounded-2xl bg-orange-main p-4 text-gray-1 text-dongle-24'>
                   Những món quà này sẽ được gửi đến các bé

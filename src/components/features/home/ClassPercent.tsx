@@ -7,12 +7,12 @@ import { useAppSelector } from '~/store/configStore'
 
 const ClassPercent = memo(() => {
   const { userInfo } = useAppSelector((s) => s.auth)
+  const { generalInfo } = useAppSelector((s) => s.rootData)
 
   const [open, setOpen] = useState<boolean>(false)
 
-  const percent = 2 * 25
-
   const classes = useMemo(() => Array.from({ length: 5 }).map((_, i) => i + 1), [])
+  const streak = useMemo(() => Array.from({ length: 25 }).map((_, i) => i + 1), [])
 
   return (
     <>
@@ -28,14 +28,23 @@ const ClassPercent = memo(() => {
           ))}
         </div>
         <div className='h-9 rounded-1 border border-gray-2 bg-gray-1 p-1 shadow-pink'>
-          <div className='size-full rounded-1 bg-gray-2'>
-            <div
-              style={{ width: `${percent}%` }}
-              className={classNames(
-                percent === 100 ? 'rounded-1' : 'rounded-bl-1 rounded-tl-1',
-                'h-full bg-blue-main'
-              )}
-            />
+          <div className='flex size-full rounded-1 bg-gray-2'>
+            {streak.map((str, idx) => {
+              return (
+                <div
+                  key={str}
+                  className={classNames(
+                    idx === 0 && 'rounded-bl-1 rounded-tl-1',
+                    idx === streak.length - 1 && 'rounded-br-1 rounded-tr-1',
+                    idx !== streak.length - 1 && 'border-r border-white',
+                    generalInfo && (generalInfo?.streak === str || str < generalInfo?.streak)
+                      ? 'bg-blue-main'
+                      : 'bg-transparent',
+                    'size-full'
+                  )}
+                />
+              )
+            })}
           </div>
         </div>
         <div className='flex-between'>
@@ -52,7 +61,6 @@ const ClassPercent = memo(() => {
           ))}
         </div>
       </div>
-
       <BlindPocketDialog open={open} setOpen={setOpen} />
     </>
   )

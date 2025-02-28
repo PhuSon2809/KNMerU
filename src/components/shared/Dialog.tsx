@@ -30,6 +30,7 @@ interface DialogContentProps
   noOverlayBackground?: boolean
   noBlur?: boolean
   hideClose?: boolean
+  disabledClose?: boolean
 }
 
 const DialogContent = React.forwardRef<
@@ -43,6 +44,7 @@ const DialogContent = React.forwardRef<
       noOverlayBackground = false,
       noBlur = false,
       hideClose = false,
+      disabledClose = false,
       ...props
     },
     ref
@@ -64,7 +66,10 @@ const DialogContent = React.forwardRef<
       >
         {children}
         {!hideClose && (
-          <DialogPrimitive.Close className='absolute right-6 top-7 size-[38px] rounded-full bg-blue-main text-gray-1 opacity-90 transition-opacity flex-center hover:opacity-100 focus:outline-none disabled:pointer-events-none'>
+          <DialogPrimitive.Close
+            disabled={disabledClose}
+            className='absolute right-6 top-7 size-[38px] rounded-full bg-blue-main text-gray-1 opacity-90 transition-opacity flex-center hover:opacity-100 focus:outline-none disabled:pointer-events-none'
+          >
             <span className='mgc_fullscreen_exit_2_fill' />
             <span className='sr-only'>Close</span>
           </DialogPrimitive.Close>

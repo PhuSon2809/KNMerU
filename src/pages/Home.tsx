@@ -1,5 +1,6 @@
 import classNames from 'classnames'
 import { memo, useCallback, useEffect, useState } from 'react'
+import { EnumQuestionType } from '~/@types/question'
 import { icons } from '~/assets'
 import AcitivitiesDialog from '~/components/features/activities/AcitivitiesDialog'
 import ClassPercent from '~/components/features/home/ClassPercent'
@@ -9,26 +10,50 @@ import QuestionDialog from '~/components/features/question/QuestionDialog'
 import ButtonBase from '~/components/shared/ButtonBase'
 import Header from '~/layouts/components/Header'
 import { informations, socials } from '~/mocks/data'
-import { checkIn } from '~/store/auth/auth.slice'
 import { useAppDispatch, useAppSelector } from '~/store/configStore'
 import { getUserGifts } from '~/store/gift/gift.slice'
+import { getQuestion } from '~/store/question/question.slice'
+import { isPromoted } from '~/utils'
+
+export type OpenState = {
+  event: boolean
+  popover: boolean
+  question: boolean
+}
 
 const Home = memo(() => {
   const dispatch = useAppDispatch()
 
-  const { isLoading, isAttendanced } = useAppSelector((s) => s.auth)
+  const { isLoading } = useAppSelector((s) => s.auth)
+  const { generalInfo } = useAppSelector((s) => s.rootData)
 
-  const [popoverOpen, setPopoverOpen] = useState<boolean>(false)
-  const [eventOpen, setEventOpen] = useState<boolean>(false)
   const [titleDialog, setTitleDialog] = useState<string>('')
+  const [questionType, setQuestionType] = useState<EnumQuestionType>(EnumQuestionType.daily)
+  const [open, setOpen] = useState<OpenState>({
+    event: false,
+    popover: false,
+    question: false
+  })
 
-  const handleAttendance = useCallback(() => {
-    dispatch(checkIn())
-  }, [])
+  const setOpenState = useCallback(
+    (key: keyof OpenState) => (open: boolean) => {
+      setOpen((prev) => ({ ...prev, [key]: open }))
+    },
+    []
+  )
+
+  const handleOpenDialog = useCallback(
+    (type: EnumQuestionType) => () => {
+      setQuestionType(type)
+      setOpenState('question')(true)
+      dispatch(getQuestion(type))
+    },
+    []
+  )
 
   const handleOpenEventDialog = useCallback((title: string) => {
     setTitleDialog(title)
-    setEventOpen(true)
+    setOpenState('event')(true)
   }, [])
 
   useEffect(() => {
@@ -45,17 +70,33 @@ const Home = memo(() => {
             <ButtonBase
               size='lg'
               isLoading={isLoading}
-              variant={isAttendanced ? 'green' : 'pink'}
-              className={isAttendanced ? 'min-w-[280px]' : 'min-w-[212px]'}
+              variant={generalInfo?.isCheckedIn ? 'green' : 'pink'}
+              className={generalInfo?.isCheckedIn ? 'min-w-[280px]' : 'min-w-[212px]'}
               LeftIcon={() => <span className='mgc_bling_fill' />}
-              onClick={handleAttendance}
+              onClick={
+                generalInfo?.isCheckedIn
+                  ? () => {}
+                  : handleOpenDialog(
+                      isPromoted(generalInfo?.streak as number)
+                        ? EnumQuestionType.promoted
+                        : EnumQuestionType.daily
+                    )
+              }
             >
-              {isAttendanced ? 'Điểm danh thành công' : 'Điểm danh'}
+              {generalInfo?.isCheckedIn ? 'Điểm danh thành công' : 'Điểm danh'}
             </ButtonBase>
-            <QuestionDialog />
+            <ButtonBase
+              variant='orange'
+              size='lg'
+              className='min-w-[212px]'
+              LeftIcon={() => <span className='mgc_pen_fill' />}
+              onClick={handleOpenDialog(EnumQuestionType.skipped)}
+            >
+              Học vượt cấp
+            </ButtonBase>
             <PopoverActivities
-              popoverOpen={popoverOpen}
-              setPopoverOpen={setPopoverOpen}
+              popoverOpen={open.popover}
+              setPopoverOpen={(open) => setOpenState('popover')(open)}
               onOpenEventDialog={handleOpenEventDialog}
             >
               <ButtonBase
@@ -64,12 +105,11 @@ const Home = memo(() => {
                 RightIcon={() => (
                   <span
                     className={classNames(
-                      'mgc_square_arrow_down_fill origin-center transition-transform duration-300 ease-in-out',
-                      popoverOpen ? 'rotate-180' : 'rotate-0'
+                      'mgc_square_arrow_down_fill origin-center transition-all duration-300 ease-in-out',
+                      open.popover ? 'rotate-180' : 'rotate-0'
                     )}
                   />
                 )}
-                onClick={() => {}}
               >
                 Tham gia hoạt động
               </ButtonBase>
@@ -103,7 +143,16 @@ const Home = memo(() => {
         </div>
       </div>
 
-      <AcitivitiesDialog titleDialog={titleDialog} open={eventOpen} setOpen={setEventOpen} />
+      <QuestionDialog
+        questionType={questionType}
+        open={open.question}
+        setOpen={(open) => setOpenState('question')(open)}
+      />
+      <AcitivitiesDialog
+        titleDialog={titleDialog}
+        open={open.event}
+        setOpen={(open) => setOpenState('event')(open)}
+      />
     </>
   )
 })

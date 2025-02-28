@@ -29,4 +29,20 @@ declare global {
     errorMessageCode: string | null
     data: T
   }
+
+  interface GeneralInfor {
+    id: string
+    streak: number
+    isSelectedCharacter: boolean
+    characterId: number | null
+    characterName: string | null
+    classLevel: number
+    isCheckedIn: boolean
+    hasPromotedQuestion: boolean
+    isOpenedFirstGift: boolean
+    isOpenedSecondGift: boolean
+    isSkippedClass: boolean
+    retryDailyQuestion: number
+    isDailyQuestionAnsweredCorrect: boolean
+  }
 }

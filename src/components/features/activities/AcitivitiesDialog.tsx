@@ -1,15 +1,15 @@
-import { Dispatch, FC, memo, SetStateAction, useEffect, useState } from 'react'
-import BgTexture from '~/components/shared/BgTexture'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { FC, memo, useEffect, useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
+import { z } from 'zod'
+import BgTexture from '~/components/shared/BgTexture'
 import ButtonBase from '~/components/shared/ButtonBase'
 import CharactersAvatar from '~/components/shared/CharactersAvatar'
 import { Dialog, DialogContent, DialogTitle } from '~/components/shared/Dialog'
-import UploadFile from '~/components/shared/UploadFile'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { FormProvider, useForm } from 'react-hook-form'
-import { z } from 'zod'
-import TextareaBase from '~/components/shared/TextareaBase'
 import { FormControl, FormField, FormItem, FormMessage } from '~/components/shared/Form'
+import TextareaBase from '~/components/shared/TextareaBase'
+import UploadFile from '~/components/shared/UploadFile'
 
 export const commentFormSchema = z.object({
   comment: z.string().min(1, 'Vui lòng nhập bình luận')
@@ -18,7 +18,7 @@ export const commentFormSchema = z.object({
 interface AcitivitiesDialogProps {
   titleDialog: string
   open: boolean
-  setOpen: Dispatch<SetStateAction<boolean>>
+  setOpen: (open: boolean) => void
 }
 
 const AcitivitiesDialog: FC<AcitivitiesDialogProps> = memo(({ titleDialog, open, setOpen }) => {
@@ -97,7 +97,7 @@ const AcitivitiesDialog: FC<AcitivitiesDialogProps> = memo(({ titleDialog, open,
                   />
                 </div>
               </div>
-              <div className='text-dongle-24 rounded-2xl bg-orange-main p-4 text-gray-1'>
+              <div className='rounded-2xl bg-orange-main p-4 text-gray-1 text-dongle-24'>
                 Sau khi xét duyệt xong bạn sẽ được cộng điểm
               </div>
             </div>

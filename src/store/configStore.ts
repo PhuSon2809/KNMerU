@@ -1,18 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { combineReducers, configureStore, Reducer } from '@reduxjs/toolkit'
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { persistReducer, persistStore } from 'redux-persist'
 import { PersistPartial } from 'redux-persist/es/persistReducer'
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 import storage from 'redux-persist/lib/storage'
 import { CACHE_EXPIRY_TIME } from '~/constants/common'
-import characterReducer, { CharacterState } from './character/character.slice'
 import authReducer, { AuthState } from './auth/auth.slice'
-import questionReducer, { QuestionState } from './question/question.slice'
+import characterReducer, { CharacterState } from './character/character.slice'
 import giftReducer, { GiftState } from './gift/gift.slice'
+import questionReducer, { QuestionState } from './question/question.slice'
+import rootDataReducer, { RootDataState } from './root/root.slice'
 
 // Định nghĩa state gốc
 export interface RootState {
+  rootData: RootDataState
   auth: AuthState
   character: CharacterState
   question: QuestionState
@@ -24,6 +26,7 @@ export type PersistedRootState = RootState & PersistPartial & any
 
 // Kết hợp reducers
 const rootReducer: Reducer<PersistedRootState> = combineReducers({
+  rootData: rootDataReducer,
   auth: authReducer,
   character: characterReducer,
   question: questionReducer,
@@ -33,7 +36,7 @@ const rootReducer: Reducer<PersistedRootState> = combineReducers({
 // Cấu hình Redux Persist
 const persistConfig = {
   key: 'knmu',
-  whitelist: ['auth', 'character', 'question', 'gift'],
+  whitelist: ['root', 'auth', 'character', 'question', 'gift'],
   storage,
   stateReconciler: autoMergeLevel2
 }
@@ -103,5 +106,5 @@ export type AppDispatch = typeof store.dispatch
 export const useAppDispatch: () => AppDispatch = useDispatch
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
-export { store, persistor }
+export { persistor, store }
 export default store
