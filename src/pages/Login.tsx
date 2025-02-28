@@ -11,7 +11,7 @@ import InputBase from '~/components/shared/InputBase'
 import Logo from '~/components/shared/Logo'
 import { path } from '~/constants/path'
 import { socials } from '~/mocks/data'
-import { useGoogleLogin } from '@react-oauth/google';
+import { GoogleLogin } from '@react-oauth/google';
 import FacebookLogin from '@greatsumini/react-facebook-login';
 import { loginSocial } from '~/store/auth/auth.slice';
 import { AppDispatch } from '~/store/configStore';
@@ -48,29 +48,33 @@ const Login = memo(() => {
     }
   }
 
-  const googleLogin = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      if (!tokenResponse.access_token) {
-        toast.error('Google login failed');
-        return;
-      }
-      console.log(tokenResponse, "token")
+  const googleLoginButton = (
+    <GoogleLogin
+      onSuccess={async (response) => {
+        if (!response.credential) {
+          toast.error('Đăng nhập Google thất bại');
+          return;
+        }
+        console.log(response, "token");
+        const loginData = {
+          idToken: response.credential,
+          provider: 2
+        };
 
-      dispatch(loginSocial({ idToken: tokenResponse.access_token, provider: 2 })) // Google = 2
-        .unwrap()
-        .then(() => {
-          toast.success('Đăng nhập thành công!');
-          navigate(path.home);
-        })
-        .catch(() => {
-          toast.error('Đăng nhập thất bại');
-        });
-    },
-    onError: () => toast.error('Google login failed'),
-    scope: 'openid email profile',
-    flow: 'implicit',
-
-  });
+        dispatch(loginSocial(loginData))
+          .unwrap()
+          .then(() => {
+            toast.success('Đăng nhập thành công!');
+            navigate(path.home);
+          })
+          .catch(() => {
+            toast.error('Đăng nhập thất bại');
+          });
+      }}
+      onError={() => toast.error('Đăng nhập Google thất bại')}
+      useOneTap
+    />
+  );
 
   // const googleLogin = useGoogleLogin({
   //   onSuccess: async (tokenResponse) => {
@@ -102,8 +106,6 @@ const Login = memo(() => {
   //   scope: 'openid email profile', // Các quyền truy cập cần thiết
   //   flow: 'implicit', // Dùng implicit flow để nhận id_token
   // });
-
-
 
   const handleFacebookLoginSuccess = async (response: any) => {
     if (!response.accessToken) {
@@ -202,9 +204,11 @@ const Login = memo(() => {
 
           <div className="flex items-center gap-[25px]">
             {/* Google Login Button */}
-            <ButtonBase size="md" variant="gray" className="w-full" onClick={() => googleLogin()}>
+            <ButtonBase size="md" variant="gray" className="w-full" >
+              {googleLoginButton}
               <span className="mgc_google_fill" />
             </ButtonBase>
+
 
             {/* Facebook Login Button */}
             <FacebookLogin
