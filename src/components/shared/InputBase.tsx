@@ -49,7 +49,7 @@ const InputBase = React.forwardRef<HTMLInputElement, InputBaseProps>((props, ref
         <input
           ref={ref}
           className={classNames(
-            'h-full w-full appearance-none bg-transparent px-3 font-dongle text-2xl leading-tight focus:outline-none',
+            'h-full w-full sm:w-[80%] md:w-[90%] lg:w-full appearance-none bg-transparent px-3 font-dongle text-2xl leading-tight focus:outline-none',
             className
           )}
           {...inputProps}

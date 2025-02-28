@@ -1,16 +1,35 @@
-import { memo, useState } from 'react'
+import { memo, useCallback, useEffect, useState } from 'react'
+import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import CharactersChooseItem from '~/components/features/choose-characters/CharactersChooseItem'
 import ButtonBase from '~/components/shared/ButtonBase'
 import TitleCharacters from '~/components/shared/TitleCharacters'
 import { path } from '~/constants/path'
 import useHorizontalScroll from '~/hooks/useHorizontalScroll'
+import { setIsSuccess } from '~/store/auth/auth.slice'
+import { getCharacters, setCharacterSelected } from '~/store/character/character.slice'
+import { useAppDispatch, useAppSelector } from '~/store/configStore'
 
 const ChooseCharacters = memo(() => {
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+
+  const { characters } = useAppSelector((s) => s.character)
+
   const { containerRef, handleMouseDown, handleTouchStart } = useHorizontalScroll()
 
-  const [idSelected, setIdSelected] = useState<number>(-1)
+  const [idSelected, setIdSelected] = useState<number>(0)
+
+  useEffect(() => {
+    dispatch(getCharacters())
+  }, [])
+
+  const handleSelectCharacter = useCallback(() => {
+    if (idSelected === 0) return toast.error('Bạn hãy chọn nhân vật trước khi xác nhận nhé.')
+    const characterSelected = characters.find((c) => c.id === idSelected)
+    if (characterSelected) dispatch(setCharacterSelected(characterSelected))
+    navigate(path.nameCharacters)
+  }, [idSelected])
 
   return (
     <div className='relative flex size-full flex-1 flex-col items-stretch overflow-hidden pb-[200px] pt-[50px]'>
@@ -23,21 +42,29 @@ const ChooseCharacters = memo(() => {
           style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }}
           className='flex items-center gap-6 overflow-y-hidden overflow-x-scroll px-[50px] pb-10 pt-20'
         >
-          {Array.from({ length: 8 }).map((_, idx) => (
+          {characters.map((character, idx) => (
             <CharactersChooseItem
               key={idx}
-              isSelected={idSelected === idx}
-              onClick={() => setIdSelected(idx)}
+              character={character}
+              isSelected={idSelected === character.id}
+              onClick={() => setIdSelected(character.id)}
             />
           ))}
         </div>
         <div className='w-full gap-[25px] flex-center'>
-          <ButtonBase variant='green' size='icon' onClick={() => navigate(-1)}>
+          <ButtonBase
+            variant='green'
+            size='icon'
+            onClick={() => {
+              dispatch(setIsSuccess(false))
+              navigate(-1)
+            }}
+          >
             <span className='mgc_arrow_left_fill' />
           </ButtonBase>
           <ButtonBase
             variant='pink'
-            onClick={() => navigate(path.nameCharacters)}
+            onClick={handleSelectCharacter}
             LeftIcon={() => <span className='mgc_magic_3_fill' />}
           >
             Xác nhận

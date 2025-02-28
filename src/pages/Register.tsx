@@ -11,6 +11,10 @@ import InputBase from '~/components/shared/InputBase'
 import toast from 'react-hot-toast'
 import { path } from '~/constants/path'
 import classNames from 'classnames'
+import { useAppDispatch, useAppSelector } from '~/store/configStore'
+import { RegisterInput } from '~/@types'
+import { register, setIsSuccess } from '~/store/auth/auth.slice'
+import { isSuccessRes } from '~/utils'
 
 export const registerFormSchema = z
   .object({
@@ -30,9 +34,10 @@ export const registerFormSchema = z
 
 const Register = memo(() => {
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
 
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [isSuccess, setIsSuccess] = useState<boolean>(false)
+  const { isLoading, isSuccess } = useAppSelector((s) => s.auth)
+
   const [showPassword, setShowPassword] = useState<boolean>(false)
 
   const form = useForm<z.infer<typeof registerFormSchema>>({
@@ -43,31 +48,34 @@ const Register = memo(() => {
   const onSubmitForm = async (values: z.infer<typeof registerFormSchema>) => {
     if (isLoading) return
     try {
-      setIsLoading(true)
-      console.log('register from ===> ', values)
-      setTimeout(() => setIsSuccess(true), 5000)
+      const params: RegisterInput = {
+        firstName: values.name,
+        lastName: '',
+        email: values.email,
+        phoneNumber: values.phone,
+        password: values.password
+      }
+      const payload = await dispatch(register(params)).unwrap()
+      if (isSuccessRes(payload.status)) console.log('register success res ===> ', payload.status)
     } catch (error) {
       console.log('error', error)
       toast.error('Đăng ký thất bại! Thử lại nhé.')
-    } finally {
-      setTimeout(() => setIsLoading(false), 5001)
-      // setIsLoading(false)
     }
   }
 
   return (
-    <div className={classNames('relative size-full flex-1 pb-40 pt-20 flex-center')}>
+    <div className='relative size-full flex-1 pb-40 pt-20 flex-center'>
       {isSuccess ? (
         <div className='flex flex-col items-center justify-center gap-11'>
-          <Logo className='w-[325px]' />
+          <Logo className='w-[225px] sm:w-[325px]' />
           <div className='flex flex-col items-center gap-3'>
-            <img src={icons.star} alt='star' className='w-[80px]' />
-            <p className='text-[60px]/[90px] text-pink-main'>
-              Chúc mừng bạn đã <br /> đăng ký <span className='text-green-dark'>thành công</span>
+            <img src={icons.star} alt='star' className='w-[70px] sm:w-[80px]' />
+            <p className='text-center text-[40px]/[60px] sm:text-[60px]/[90px] text-pink-main'>
+              Chúc mừng bạn đã đăng ký <span className='text-green-dark'>thành công</span>
             </p>
           </div>
           <div className='w-full gap-[25px] flex-center'>
-            <ButtonBase variant='green' size='icon' onClick={() => setIsSuccess(false)}>
+            <ButtonBase variant='green' size='icon' onClick={() => dispatch(setIsSuccess(false))}>
               <span className='mgc_arrow_left_fill' />
             </ButtonBase>
             <ButtonBase
@@ -80,12 +88,12 @@ const Register = memo(() => {
           </div>
         </div>
       ) : (
-        <div className='z-10 flex h-full min-w-[569px] flex-col gap-11'>
+        <div className='z-10 flex h-full min-w-[300px] sm:min-w-[400px] md:min-w-[450px] lg:min-w-[569px] flex-col gap-11'>
           <div className='flex items-center justify-between'>
             <ButtonBase variant='green' size='icon' onClick={() => navigate(-1)}>
               <span className='mgc_arrow_left_fill' />
             </ButtonBase>
-            <Logo className='h-[110px] w-auto' />
+            <Logo className='h-[70px] sm:h-[90px] md:h-[110px] w-auto' />
             <div></div>
           </div>
 
@@ -238,21 +246,6 @@ const Register = memo(() => {
             </div>
           </div>
         </div>
-      )}
-      {!isSuccess && (
-        <>
-          <img src={icons.leaf} alt='leaf' className='absolute left-0 top-40 w-[70px] -rotate-45' />
-          <img
-            src={icons.crown}
-            alt='crown'
-            className='absolute right-0 top-11 w-[90px] rotate-[19deg]'
-          />
-          <img
-            src={icons.blink_1}
-            alt='blink-1'
-            className='xl 2xl: absolute bottom-5 right-0 w-[105px]'
-          />
-        </>
       )}
     </div>
   )

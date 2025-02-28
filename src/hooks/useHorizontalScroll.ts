@@ -2,9 +2,9 @@ import { useCallback, useRef } from 'react'
 
 const useHorizontalScroll = () => {
   const containerRef = useRef<HTMLDivElement | null>(null)
+  const isDragging = useRef(false) // Cờ trạng thái để theo dõi kéo
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    // Nếu click vào ảnh, chặn sự kiện mặc định
     if ((e.target as HTMLElement).tagName === 'IMG') {
       e.preventDefault()
     }
@@ -17,8 +17,11 @@ const useHorizontalScroll = () => {
       x: e.clientX
     }
 
+    isDragging.current = false // Reset trạng thái kéo
+
     const handleMouseMove = (e: MouseEvent) => {
       const dx = e.clientX - startPos.x
+      if (Math.abs(dx) > 5) isDragging.current = true // Đánh dấu là kéo nếu khoảng cách đủ lớn
       ele.scrollLeft = startPos.left - dx
       updateCursor(ele)
     }
@@ -28,20 +31,24 @@ const useHorizontalScroll = () => {
       resetCursor(ele)
     }
 
-    const handleMouseLeave = () => {
-      removeListeners()
-      resetCursor(ele)
+    const handleClick = (e: MouseEvent) => {
+      if (isDragging.current) {
+        e.stopPropagation() // Ngăn chặn sự kiện click
+        isDragging.current = false // Reset lại
+      }
     }
 
     const removeListeners = () => {
       document.removeEventListener('mousemove', handleMouseMove)
       document.removeEventListener('mouseup', handleMouseUp)
-      ele.removeEventListener('mouseleave', handleMouseLeave)
+      ele.removeEventListener('mouseleave', handleMouseUp)
+      ele.removeEventListener('click', handleClick)
     }
 
     document.addEventListener('mousemove', handleMouseMove)
     document.addEventListener('mouseup', handleMouseUp)
-    ele.addEventListener('mouseleave', handleMouseLeave)
+    ele.addEventListener('mouseleave', handleMouseUp)
+    ele.addEventListener('click', handleClick, true) // Lắng nghe sự kiện click ở capture phase để chặn sớm
   }, [])
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
@@ -54,14 +61,20 @@ const useHorizontalScroll = () => {
       x: touch.clientX
     }
 
+    isDragging.current = false // Reset trạng thái kéo
+
     const handleTouchMove = (e: TouchEvent) => {
       const touch = e.touches[0]
       const dx = touch.clientX - startPos.x
+      if (Math.abs(dx) > 5) isDragging.current = true // Đánh dấu là kéo nếu khoảng cách đủ lớn
       ele.scrollLeft = startPos.left - dx
       updateCursor(ele)
     }
 
-    const handleTouchEnd = () => {
+    const handleTouchEnd = (e: TouchEvent) => {
+      if (isDragging.current) {
+        e.stopPropagation() // Ngăn chặn click nếu có kéo
+      }
       document.removeEventListener('touchmove', handleTouchMove)
       document.removeEventListener('touchend', handleTouchEnd)
       resetCursor(ele)

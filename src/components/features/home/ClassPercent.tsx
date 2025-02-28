@@ -3,8 +3,11 @@ import { memo, useMemo, useState } from 'react'
 import { images } from '~/assets'
 import BlindPocketItem from '~/components/shared/BlindPocketItem'
 import BlindPocketDialog from '../blind-pocket/BlindPocketDialog'
+import { useAppSelector } from '~/store/configStore'
 
 const ClassPercent = memo(() => {
+  const { userInfo } = useAppSelector((s) => s.auth)
+
   const [open, setOpen] = useState<boolean>(false)
 
   const percent = 2 * 25
@@ -15,7 +18,11 @@ const ClassPercent = memo(() => {
     <>
       <div className='flex w-full flex-col gap-8 rounded-1 border-[3px] border-dashed border-blue-main bg-gray-1 p-6'>
         <div className='flex-between'>
-          <img src={images.characters} alt='characters' className='h-[130px] w-auto' />
+          <img
+            src={userInfo?.characterImageUrl || images.characters}
+            alt={userInfo?.characterName || 'characters'}
+            className='h-[130px] w-auto'
+          />
           {Array.from({ length: 2 }).map((_, idx) => (
             <BlindPocketItem key={idx} onClick={() => setOpen(true)} />
           ))}

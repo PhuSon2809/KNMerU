@@ -1,9 +1,19 @@
-import { Suspense } from 'react'
+import { Suspense, useEffect } from 'react'
+import { Toaster } from 'react-hot-toast'
 import { RouterProvider } from 'react-router-dom'
 import { routers } from './routers/routes'
-import { Toaster } from 'react-hot-toast'
+import { getCharacters } from './store/character/character.slice'
+import { useAppDispatch, useAppSelector } from './store/configStore'
 
 function App() {
+  const dispatch = useAppDispatch()
+
+  const { characters } = useAppSelector((s) => s.character)
+
+  useEffect(() => {
+    if (characters.length === 0) dispatch(getCharacters())
+  }, [characters])
+
   return (
     <>
       <Suspense

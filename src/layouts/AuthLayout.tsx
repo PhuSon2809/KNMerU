@@ -22,9 +22,9 @@ const AuthLayout = memo(() => {
   }, [location.pathname])
 
   return (
-    <main className='relative flex min-h-[1024px] w-full'>
+    <main className='relative flex min-h-screen w-full'>
       <div className='relative w-full flex-1'>
-        <div className='min-h-[1024px] w-full' style={{ height: `${contentHeight}px` }}>
+        <div className='w-full min-h-[1024px] sm:min-h-[800px] lg:min-h-[1024px]' style={{ height: `${contentHeight}px` }}>
           <img
             src={images.KV_photo}
             alt='kv-photo'
@@ -38,13 +38,14 @@ const AuthLayout = memo(() => {
         ref={contentRef}
         className={classNames(
           location.pathname === path.register ? 'min-h-[1091px]' : 'min-h-[1024px]',
-          'flex size-full min-h-[1024px] flex-1 items-center bg-yellow-main pr-20'
+          'flex size-full min-h-[1024px] sm:min-h-[900px] lg:min-h-[1024px] flex-1 items-center bg-yellow-main pr-20'
         )}
       >
         <Outlet />
       </div>
       <BgTexture />
     </main>
+
   )
 })
 

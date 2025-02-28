@@ -4,47 +4,64 @@ import AuthLayout from '~/layouts/AuthLayout'
 import BaseLayout from '~/layouts/BaseLayout'
 import ChooseCharacters from '~/pages/ChooseCharacters'
 import Home from '~/pages/Home'
-import Login from '~/pages/Login'
 import NameCharacters from '~/pages/NameCharacters'
 import Register from '~/pages/Register'
 import Welcome from '~/pages/Welcome'
+import PrivateRouter from './PrivateRouter'
+import PublicRouter from './PublicRouter'
+import Login from '~/pages/Login'
 
 export const routers = createHashRouter([
   {
-    element: <AuthLayout />,
+    element: <PublicRouter />,
     children: [
       {
-        index: true,
-        element: <Welcome />
+        element: <AuthLayout />,
+        children: [
+          {
+            index: true,
+            element: <Welcome />
+          },
+          {
+            path: path.welcome,
+            element: <Welcome />
+          },
+          {
+            path: path.login,
+            element: <Login />
+          },
+          {
+            path: path.register,
+            element: <Register />
+          }
+        ]
       },
       {
-        path: path.welcome,
-        element: <Welcome />
-      },
-      {
-        path: path.login,
-        element: <Login />
-      },
-      {
-        path: path.register,
-        element: <Register />
+        element: <BaseLayout />,
+        children: [
+          {
+            path: path.chooseCharacters,
+            element: <ChooseCharacters />
+          },
+          {
+            path: path.nameCharacters,
+            element: <NameCharacters />
+          }
+        ]
       }
     ]
   },
   {
-    element: <BaseLayout />,
+    element: <PrivateRouter />,
     children: [
       {
-        path: path.home,
-        element: <Home />
-      },
-      {
-        path: path.chooseCharacters,
-        element: <ChooseCharacters />
-      },
-      {
-        path: path.nameCharacters,
-        element: <NameCharacters />
+        element: <BaseLayout />,
+        children: [
+          {
+            path: path.home,
+            element: <Home />
+          }
+        ]
       }
     ]
   },

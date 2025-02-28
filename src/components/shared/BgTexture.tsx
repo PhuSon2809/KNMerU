@@ -12,10 +12,11 @@ const BgTexture: FC<BgTextureProps> = memo(({ className }) => {
       src={images.bg_texture}
       alt='bg-texture'
       className={classNames(
-        'pointer-events-none absolute inset-0 isolate z-50 size-full opacity-55',
+        'pointer-events-none absolute inset-0 isolate z-50 size-full opacity-55 object-cover',
         className
       )}
     />
+
   )
 })
 

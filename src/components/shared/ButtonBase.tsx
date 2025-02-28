@@ -38,7 +38,7 @@ const buttonVariants = cva(
 
 export interface ButtonBaseProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'>,
-    VariantProps<typeof buttonVariants> {
+  VariantProps<typeof buttonVariants> {
   LeftIcon?: React.ComponentType<{ className: string }>
   RightIcon?: React.ComponentType<{ className: string }>
   isLoading?: boolean
