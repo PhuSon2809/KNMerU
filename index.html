@@ -9,5 +9,17 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      const iframe = document.getElementById('.social iframe #container')
+      console.log('iframe', iframe)
+      if (iframe) {
+        iframe.onload = () => {
+          const css = 'body { background: transparent !important; border: none !important; }'
+          const style = iframe.contentDocument.createElement('style')
+          style.innerHTML = css
+          iframe.contentDocument.head.appendChild(style)
+        }
+      }
+    </script>
   </body>
 </html>

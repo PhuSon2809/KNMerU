@@ -93,3 +93,15 @@ body {
 .hide-scrollbar::-webkit-scrollbar {
   display: none; /* Chrome, Safari */
 }
+
+.social iframe html body {
+  background: transparent !important;
+  border: none !important;
+}
+
+div[aria-label='Sign in with Google'] {
+  background-color: #4caf50 !important; /* Thay đổi màu nền */
+  color: white !important; /* Thay đổi màu chữ */
+  border-radius: 10px !important; /* Bo góc */
+  padding: 10px 20px !important;
+}

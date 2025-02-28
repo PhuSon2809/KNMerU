@@ -32,7 +32,7 @@ const NameCharacters = memo(() => {
     defaultValues: { name: '' },
     mode: 'onBlur'
   })
-  console.log('error', form.formState.errors)
+
   const name = form.watch('name')
 
   const isLengthValid = useMemo(() => name.length >= 3 && name.length <= 20, [name])

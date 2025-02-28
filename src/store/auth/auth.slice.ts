@@ -135,10 +135,14 @@ export const login = createAsyncThunk<ApiResponse<LoginRes>, LoginInput>(
 
 export const loginSocial = createAsyncThunk(
   'auth/loginSocial',
-  async (params: LoginSocialInput, { rejectWithValue }) => {
+  async (params: LoginSocialInput, { dispatch, rejectWithValue }) => {
     try {
       const res = await axiosClient.post('/Authenticate/LoginSocial', params)
       console.log('loginSocial res ===> ', res)
+      if (isSuccessRes(res.status)) {
+        setAccessToken(res.data.token)
+        dispatch(setAuthenticated(true))
+      }
       return res
     } catch (error) {
       console.log('loginSocial error ===>  ' + error)

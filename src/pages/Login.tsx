@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { CredentialResponse, GoogleLogin } from '@react-oauth/google'
 import { memo, useCallback, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
@@ -11,7 +12,7 @@ import InputBase from '~/components/shared/InputBase'
 import Logo from '~/components/shared/Logo'
 import { path } from '~/constants/path'
 import { socials } from '~/mocks/data'
-import { getUserInfor, login } from '~/store/auth/auth.slice'
+import { getUserInfor, login, loginSocial } from '~/store/auth/auth.slice'
 import { useAppDispatch, useAppSelector } from '~/store/configStore'
 import { getErrorMessage, isSuccessRes } from '~/utils'
 
@@ -38,6 +39,30 @@ const Login = memo(() => {
     try {
       const payload = await dispatch(login(values)).unwrap()
       if (!isSuccessRes(payload.status)) return toast.error('Đăng nhập thất bại! Thử lại nhé.')
+      const payloadUserInfor = await dispatch(getUserInfor()).unwrap()
+      if (isSuccessRes(payloadUserInfor.status) && payloadUserInfor.data.characterId !== null) {
+        navigate(path.home)
+      } else {
+        navigate(path.chooseCharacters)
+      }
+    } catch (error) {
+      console.log('error', error)
+      toast.error(getErrorMessage(error) || 'Đăng nhâp thất bại! Thử lại nhé.')
+    }
+  }, [])
+
+  const onLoginGoogle = useCallback(async (response: CredentialResponse) => {
+    if (!response.credential) return toast.error('Đăng nhập Google thất bại! Thử lại nhé.')
+    if (isLoading) return
+    try {
+      const payload = await dispatch(
+        loginSocial({
+          idToken: response.credential,
+          provider: 2
+        })
+      ).unwrap()
+      if (!isSuccessRes(payload.status))
+        return toast.error('Đăng nhập Google thất bại! Thử lại nhé.')
       const payloadUserInfor = await dispatch(getUserInfor()).unwrap()
       if (isSuccessRes(payloadUserInfor.status) && payloadUserInfor.data.characterId !== null) {
         navigate(path.home)
@@ -130,7 +155,17 @@ const Login = memo(() => {
           </div>
           <div className='flex items-center gap-[25px]'>
             {socials.map((social) => (
-              <ButtonBase key={social.id} size='md' variant='gray' className='w-full'>
+              <ButtonBase key={social.id} size='md' variant='gray' className='social w-full'>
+                {social.id === 1 && (
+                  <GoogleLogin
+                    containerProps={{
+                      style: { border: 'none !important', background: 'transparent !important' }
+                    }}
+                    onSuccess={(response) => onLoginGoogle(response)}
+                    onError={() => toast.error('Đăng nhập Google thất bại')}
+                    useOneTap
+                  />
+                )}
                 <span className={social.icon} />
               </ButtonBase>
             ))}
