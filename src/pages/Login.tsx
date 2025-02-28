@@ -13,7 +13,7 @@ import { path } from '~/constants/path'
 import { socials } from '~/mocks/data'
 import { getUserInfor, login } from '~/store/auth/auth.slice'
 import { useAppDispatch, useAppSelector } from '~/store/configStore'
-import { isSuccessRes } from '~/utils'
+import { getErrorMessage, isSuccessRes } from '~/utils'
 
 export const loginFormSchema = z.object({
   email: z.string().min(1, 'Vui lòng nhập email').email('Email không đúng định dạng'),
@@ -46,7 +46,7 @@ const Login = memo(() => {
       }
     } catch (error) {
       console.log('error', error)
-      toast.error('Đăng nhâp thất bại! Thử lại nhé.')
+      toast.error(getErrorMessage(error) || 'Đăng nhâp thất bại! Thử lại nhé.')
     }
   }, [])
 

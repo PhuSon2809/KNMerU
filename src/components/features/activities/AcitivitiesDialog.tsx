@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogTitle } from '~/components/shared/Dialog'
 import { FormControl, FormField, FormItem, FormMessage } from '~/components/shared/Form'
 import TextareaBase from '~/components/shared/TextareaBase'
 import UploadFile from '~/components/shared/UploadFile'
+import { getErrorMessage } from '~/utils'
 
 export const commentFormSchema = z.object({
   comment: z.string().min(1, 'Vui lòng nhập bình luận')
@@ -40,7 +41,7 @@ const AcitivitiesDialog: FC<AcitivitiesDialogProps> = memo(({ titleDialog, open,
       console.log('comment from ===> ', values)
     } catch (error) {
       console.log('error', error)
-      toast.error('Gửi bình luận thất bại! Thử lại nhé.')
+      toast.error(getErrorMessage(error) || 'Gửi bình luận thất bại! Thử lại nhé.')
     } finally {
       setIsLoading(false)
     }

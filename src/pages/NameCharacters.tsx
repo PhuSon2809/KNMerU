@@ -14,7 +14,7 @@ import { path } from '~/constants/path'
 import { getUserInfor, login } from '~/store/auth/auth.slice'
 import { selectCharacter, setCharacterSelected } from '~/store/character/character.slice'
 import { useAppDispatch, useAppSelector } from '~/store/configStore'
-import { getAccessToken, isSuccessRes } from '~/utils'
+import { getAccessToken, getErrorMessage, isSuccessRes } from '~/utils'
 
 export const nameFormSchema = z.object({
   name: z.string()
@@ -60,7 +60,7 @@ const NameCharacters = memo(() => {
           navigate(path.home)
       } catch (error) {
         console.log('error', error)
-        toast.error('Đặt tên thất bại! Thử lại nhé.')
+        toast.error(getErrorMessage(error) || 'Đặt tên thất bại! Thử lại nhé.')
       }
     },
     [characterSelected, isAuthenticated, userInfo, userLogin]

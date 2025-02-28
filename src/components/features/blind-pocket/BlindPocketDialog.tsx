@@ -8,6 +8,8 @@ import classNames from 'classnames'
 import { useAppDispatch, useAppSelector } from '~/store/configStore'
 import { getRandomGift } from '~/store/gift/gift.slice'
 import { Gift } from '~/@types'
+import toast from 'react-hot-toast'
+import { getErrorMessage } from '~/utils'
 
 interface BlindPocketDialogProps {
   open: boolean
@@ -51,6 +53,7 @@ const BlindPocketDialog: FC<BlindPocketDialogProps> = memo(({ open, setOpen }) =
       }
     } catch (error) {
       console.log('Failed to', error)
+      toast.error(getErrorMessage(error))
     }
   }, [isUnboxed])
 

@@ -14,7 +14,7 @@ import classNames from 'classnames'
 import { useAppDispatch, useAppSelector } from '~/store/configStore'
 import { RegisterInput } from '~/@types'
 import { register, setIsSuccess } from '~/store/auth/auth.slice'
-import { isSuccessRes } from '~/utils'
+import { getErrorMessage, isSuccessRes } from '~/utils'
 
 export const registerFormSchema = z
   .object({
@@ -59,7 +59,7 @@ const Register = memo(() => {
       if (isSuccessRes(payload.status)) console.log('register success res ===> ', payload.status)
     } catch (error) {
       console.log('error', error)
-      toast.error('Đăng ký thất bại! Thử lại nhé.')
+      toast.error(getErrorMessage(error) || 'Đăng ký thất bại! Thử lại nhé.')
     }
   }
 
