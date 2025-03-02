@@ -13,14 +13,16 @@ interface ErrorResponse {
 const axiosClient = axios.create({
   baseURL: API_URL,
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*'
   }
 })
 
 const axiosFormData = axios.create({
   baseURL: API_URL,
   headers: {
-    'Content-Type': 'multipart/form-data'
+    'Content-Type': 'multipart/form-data',
+    'Access-Control-Allow-Origin': '*'
   }
 })
 
