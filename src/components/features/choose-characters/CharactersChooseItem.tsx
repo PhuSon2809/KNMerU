@@ -3,30 +3,50 @@ import { FC, memo, useState } from 'react'
 import { Character } from '~/@types'
 import { images } from '~/assets'
 import ButtonBase from '~/components/shared/ButtonBase'
+import useResponsive from '~/hooks/useResponsive'
 
 interface CharactersChooseItemProps {
   className?: string
   isSelected?: boolean
   isShowDetail?: boolean
+  isInDialog?: boolean
+  disable?: boolean
   isInline?: boolean
   onClick?: () => void
   character: Character
+  numberOfGift?: number
 }
 
 const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
-  ({ className, isSelected, isShowDetail = false, isInline = false, onClick, character }) => {
+  ({
+    className,
+    isSelected,
+    isShowDetail = false,
+    isInDialog = false,
+    disable = false,
+    isInline = false,
+    numberOfGift,
+    onClick,
+    character
+  }) => {
     const [showDetail, setShowDetail] = useState<boolean>(isShowDetail)
+
+    const xsDown = useResponsive('down', 'xs')
 
     return (
       <div
-        onClick={() => setShowDetail((prev) => !prev)}
+        onClick={() => {
+          if (!disable) setShowDetail((prev) => !prev)
+        }}
         className={classNames(
           isInline
-            ? 'relative h-[81px] justify-center overflow-hidden rounded-xl p-0'
-            : 'rounded-1 py-[12.5px] pl-3 pr-6',
-          isShowDetail && 'w-full',
-          showDetail ? 'w-[587px] shrink-0 bg-pink-main' : 'w-fit',
-          'flex items-stretch transition-500'
+            ? 'relative h-[81px] !w-full justify-center overflow-hidden rounded-xl p-0'
+            : 'rounded-1 py-[12.5px] pl-3 pr-3 md:pr-5 lg:pr-6',
+          isShowDetail && '!w-full',
+          showDetail
+            ? `w-full max-w-[340px] shrink-0 bg-pink-main md:w-[587px] md:max-w-full`
+            : 'w-fit',
+          'flex flex-col items-stretch transition-500 md:flex-row'
         )}
       >
         <div
@@ -35,7 +55,7 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
               ? 'rounded-1 rounded-tl-[80px] rounded-tr-[80px] bg-pink-main'
               : 'rounded-1 border-2 border-dashed border-orange-main',
             showDetail ? 'bg-orange-main' : 'hover:border-none hover:bg-orange-main',
-            'group relative h-[278px] w-[266px] shrink-0 bg-gray-1 transition-300',
+            `group relative h-[278px] ${isInDialog ? (xsDown ? 'w-[214px]' : 'w-[266px]') : 'w-[238px]'} shrink-0 bg-gray-1 transition-300 md:h-[210px] md:w-[200px] lg:h-[278px] lg:w-[266px]`,
             isInline ? 'mb-20 border-none bg-transparent' : '',
             className
           )}
@@ -46,8 +66,8 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
             draggable={false}
             className={classNames(
               isInline
-                ? 'bottom-auto top-[-40px] w-[112px] transition-500'
-                : 'w-[243px] transition-300',
+                ? 'bottom-auto top-[100px] w-[112px] transition-500 md:top-[-40px]'
+                : 'w-[243px] transition-300 md:w-[180px] lg:w-[243px]',
               isSelected && 'rotate-[-6.84deg]',
               !showDetail && 'group-hover:rotate-[-6.84deg] group-hover:scale-[85%]',
               'bottom-[20px] border-none absolute-center-x'
@@ -84,9 +104,9 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
         <div
           className={classNames(
             isInline ? 'hidden' : 'flex',
-            isShowDetail && 'w-[320px]',
+            isShowDetail && 'w-full md:w-[320px]',
             showDetail ? 'flex' : 'hidden',
-            'min-h-full w-[285px] flex-1 shrink-0 flex-col items-start gap-1 pl-6 text-white transition-500'
+            'w-full flex-1 shrink-0 flex-col items-start gap-1 text-white transition-500 md:min-h-full md:w-[285px] md:pl-5 lg:pl-6'
           )}
         >
           <div className='flex items-center gap-3'>
@@ -94,13 +114,20 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
             <span className='text-dongle-24'>12 tuổi</span>
           </div>
           <div className='flex-1'>
-            <h4 className='text-[32px]/[48px]'>Thông tin cá nhân</h4>
-            <p className='text-dongle-24'>{character.description}</p>
+            <h4
+              className={classNames(
+                isInDialog ? 'text-[24px]/[32px]' : 'text-[28px]/[36px]',
+                'md:text-[24px]/[32px] lg:text-[32px]/[48px]'
+              )}
+            >
+              Thông tin cá nhân
+            </h4>
+            <p className='break-all text-dongle-24'>{character.description}</p>
           </div>
-          {!isShowDetail && (
+          {!isShowDetail && !isSelected && (
             <ButtonBase
               variant='green'
-              className='ml-auto'
+              className='ml-auto mt-5 md:mt-0'
               onClick={(e) => {
                 e?.preventDefault()
                 e?.stopPropagation()
@@ -114,8 +141,8 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
         </div>
         {isInline && (
           <div className='absolute bottom-[-1px] z-10 h-[22px] w-full rounded-1 bg-yellow-light flex-center'>
-            <p className='font-dongle text-[16px]/[16px] uppercase text-gray-6'>
-              [{character.name || 'TÊN NHÂN VẬT'}] - Đang có 2 món quà
+            <p className='mt-0.5 font-dongle text-[16px]/[16px] uppercase text-gray-6'>
+              [{character.name || 'TÊN NHÂN VẬT'}] - Đang có {numberOfGift} món quà
             </p>
           </div>
         )}

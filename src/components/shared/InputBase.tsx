@@ -33,13 +33,17 @@ const InputBase = React.forwardRef<HTMLInputElement, InputBaseProps>((props, ref
   return (
     <div className={containerClassName}>
       {label && (
-        <p className={classNames('mb-2 text-[20px]/[30px] text-gray-4', labelClassName)}>{label}</p>
+        <p
+          className={classNames('mb-2 text-base text-gray-4 md:text-[20px]/[30px]', labelClassName)}
+        >
+          {label}
+        </p>
       )}
 
       <div
         onClick={focus}
         className={classNames(
-          'relative flex h-[50px] items-center gap-2 rounded px-3 py-2',
+          'relative flex h-[50px] items-center gap-2 rounded px-2 py-2 md:px-3',
           LeftIcon || RightIcon ? '' : '',
           containerInputClassName
         )}
@@ -49,14 +53,18 @@ const InputBase = React.forwardRef<HTMLInputElement, InputBaseProps>((props, ref
         <input
           ref={ref}
           className={classNames(
-            'h-full w-full appearance-none bg-transparent px-3 font-dongle text-2xl leading-tight focus:outline-none',
+            'h-full w-full appearance-none bg-transparent px-1 font-dongle text-2xl leading-tight focus:outline-none md:px-3',
             className
           )}
           {...inputProps}
         />
 
         {RightIcon && <RightIcon className={classNames('h-6 w-6', iconClassName)} />}
-        <img src={images.bg_input} alt='bg-input' className='absolute inset-0 -z-[1] h-full' />
+        <img
+          src={images.bg_input}
+          alt='bg-input'
+          className='absolute inset-0 -z-[1] h-full w-full'
+        />
       </div>
     </div>
   )

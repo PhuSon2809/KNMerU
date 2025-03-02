@@ -36,7 +36,7 @@ const rootReducer: Reducer<PersistedRootState> = combineReducers({
 // Cấu hình Redux Persist
 const persistConfig = {
   key: 'knmu',
-  whitelist: ['rootData', 'auth', 'character', 'question', 'gift'],
+  whitelist: ['rootData', 'auth', 'character', 'gift'],
   storage,
   stateReconciler: autoMergeLevel2
 }

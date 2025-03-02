@@ -22,9 +22,12 @@ const AuthLayout = memo(() => {
   }, [location.pathname])
 
   return (
-    <main className='relative flex min-h-[1024px] w-full'>
-      <div className='relative w-full flex-1'>
-        <div className='min-h-[1024px] w-full' style={{ height: `${contentHeight}px` }}>
+    <main className='relative flex min-h-[900px] w-full overflow-hidden md:min-h-[1024px]'>
+      <div className='relative hidden w-full flex-1 shrink-0 lg:flex'>
+        <div
+          className='min-h-[900px] w-full md:min-h-[1024px]'
+          style={{ height: `${contentHeight}px` }}
+        >
           <img
             src={images.KV_photo}
             alt='kv-photo'
@@ -32,13 +35,15 @@ const AuthLayout = memo(() => {
           />
         </div>
         <div className='absolute inset-0 size-full bg-yellow-dark opacity-40' />
-        <div className='absolute right-0 top-0 h-full w-20 rounded-bl-[32px] rounded-tl-[32px] bg-yellow-main' />
+        <div className='absolute right-0 top-0 h-full w-16 rounded-bl-[32px] rounded-tl-[32px] bg-yellow-main xl:w-20' />
       </div>
       <div
         ref={contentRef}
         className={classNames(
-          location.pathname === path.register ? 'min-h-[1091px]' : 'min-h-[1024px]',
-          'flex size-full min-h-[1024px] flex-1 items-center bg-yellow-main pr-20'
+          location.pathname === path.register
+            ? 'min-h-[1091px]'
+            : 'min-h-[900px] md:min-h-[1024px]',
+          'flex size-full min-h-[900px] flex-1 items-center bg-yellow-main px-5 md:min-h-[1024px] md:pl-20 md:pr-20 lg:pl-0 lg:pr-16 xl:pr-20'
         )}
       >
         <Outlet />

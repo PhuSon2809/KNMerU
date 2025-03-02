@@ -59,7 +59,7 @@ const DialogContent = React.forwardRef<
       <DialogPrimitive.Content
         ref={ref}
         className={classNames(
-          'fixed left-[50%] top-[50%] z-50 flex h-[610px] w-[674px] shrink-0 translate-x-[-50%] translate-y-[-50%] flex-col gap-[10px] rounded-1 border border-gray-2 bg-white shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]',
+          'fixed left-[50%] top-[50%] z-50 flex h-fit max-h-[90%] w-[90%] shrink-0 translate-x-[-50%] translate-y-[-50%] flex-col gap-[10px] rounded-1 border border-gray-2 bg-white shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] md:h-[500px] md:w-[500px] lg:h-[550px] lg:w-[674px] xl:h-[610px]',
           className
         )}
         onInteractOutside={(event) => disabledClose && event.preventDefault()}
@@ -69,7 +69,7 @@ const DialogContent = React.forwardRef<
         {!hideClose && (
           <DialogPrimitive.Close
             disabled={disabledClose}
-            className='absolute right-6 top-7 size-[38px] rounded-full bg-blue-main text-gray-1 opacity-90 transition-opacity flex-center hover:opacity-100 focus:outline-none disabled:pointer-events-none'
+            className='absolute right-5 top-6 size-[38px] rounded-full bg-blue-main text-gray-1 opacity-90 transition-opacity flex-center hover:opacity-100 focus:outline-none disabled:pointer-events-none md:right-6 md:top-7'
           >
             <span className='mgc_fullscreen_exit_2_fill' />
             <span className='sr-only'>Close</span>
@@ -106,7 +106,7 @@ const DialogTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Title
     ref={ref}
-    className={classNames('text-[32px]/[48px] text-blue-main', className)}
+    className={classNames('text-[28px]/[40px] text-blue-main lg:text-[32px]/[48px]', className)}
     {...props}
   />
 ))

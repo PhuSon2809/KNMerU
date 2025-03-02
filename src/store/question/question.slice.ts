@@ -21,7 +21,11 @@ const initialState: QuestionState = {
 export const questionSlice = createSlice({
   name: 'question',
   initialState,
-  reducers: {},
+  reducers: {
+    setQuestions: (state, action) => {
+      state.questions = action.payload
+    }
+  },
   extraReducers(builder) {
     builder
       .addCase(getQuestion.pending, (state) => {
@@ -55,7 +59,7 @@ export const questionSlice = createSlice({
   }
 })
 
-// export const {} = questionsSlice.actions
+export const { setQuestions } = questionSlice.actions
 const questionReducer = questionSlice.reducer
 export default questionReducer
 

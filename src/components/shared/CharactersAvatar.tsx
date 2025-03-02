@@ -1,11 +1,21 @@
-import { memo } from 'react'
+import classNames from 'classnames'
+import { FC, memo } from 'react'
 import { images } from '~/assets'
 import { useAppSelector } from '~/store/configStore'
 
-const CharactersAvatar = memo(() => {
+interface CharactersAvatarProps {
+  className?: string
+}
+
+const CharactersAvatar: FC<CharactersAvatarProps> = memo(({ className }) => {
   const { userInfo } = useAppSelector((s) => s.auth)
   return (
-    <div className='relative flex h-20 w-[120px] items-end rounded-xl bg-pink-main'>
+    <div
+      className={classNames(
+        'relative flex h-20 w-[120px] items-end rounded-xl bg-pink-main',
+        className
+      )}
+    >
       <div className='absolute bottom-[22px] h-[105px] overflow-hidden'>
         <img
           src={userInfo?.characterImageUrl || images.characters}

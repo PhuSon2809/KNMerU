@@ -17,8 +17,8 @@ const ClassPercent = memo(() => {
 
   return (
     <>
-      <div className='flex w-full flex-col gap-8 rounded-1 border-[3px] border-dashed border-blue-main bg-gray-1 p-6'>
-        <div className='flex-between'>
+      <div className='flex w-full flex-row gap-8 rounded-1 border-[3px] border-dashed border-blue-main bg-gray-1 p-5 md:flex-col lg:p-6'>
+        <div className='flex flex-col items-center justify-between md:flex-row'>
           <img
             src={userInfo?.characterImageUrl || images.characters}
             alt={userInfo?.characterName || 'characters'}
@@ -41,33 +41,34 @@ const ClassPercent = memo(() => {
             />
           ))}
         </div>
-        <div className='h-9 rounded-1 border border-gray-2 bg-gray-1 p-1 shadow-pink'>
-          <div className='flex size-full rounded-1 bg-gray-2'>
+        <div className='h-fit rounded-1 border border-gray-2 bg-gray-1 p-1 shadow-pink md:h-9'>
+          <div className='flex size-full flex-col rounded-1 bg-gray-2 md:flex-row'>
             {streak.map((str, idx) => {
               return (
                 <div
                   key={str}
                   className={classNames(
-                    idx === 0 && 'rounded-bl-1 rounded-tl-1',
-                    idx === streak.length - 1 && 'rounded-br-1 rounded-tr-1',
-                    idx !== streak.length - 1 && 'border-r border-white',
+                    idx === 0 && 'md:rounded-lt-1 rounded-t-1 md:rounded-bl-1 md:rounded-tr-none',
+                    idx === streak.length - 1 &&
+                      'rounded-b-1 md:rounded-bl-none md:rounded-br-1 md:rounded-tr-1',
+                    idx !== streak.length - 1 && 'border-b border-white md:border-b-0 md:border-r',
                     generalInfo && (generalInfo?.streak === str || str < generalInfo?.streak)
                       ? 'bg-blue-main'
                       : 'bg-transparent',
-                    'size-full'
+                    'h-8 w-5 md:size-full'
                   )}
                 />
               )
             })}
           </div>
         </div>
-        <div className='flex-between'>
+        <div className='flex flex-col items-center justify-between md:flex-row'>
           {classes.map((item) => (
             <p
               key={item}
               className={classNames(
                 item === 3 || item === 5 ? 'text-pink-main' : 'text-blue-main',
-                'text-[20px]/[30px]'
+                'text-nowrap text-[20px]/[30px]'
               )}
             >
               Lớp {item}

@@ -67,19 +67,19 @@ const NameCharacters = memo(() => {
   )
 
   return (
-    <div className='relative flex size-full flex-1 flex-col items-stretch overflow-hidden pb-[200px] pt-[50px]'>
+    <div className='relative flex size-full flex-1 flex-col items-stretch overflow-hidden px-5 pb-[200px] pt-[50px]'>
       <div className='z-[10] flex w-full flex-col gap-20'>
         <TitleCharacters title='Đặt tên nhân vật' />
-        <div className='flex w-full items-start justify-center gap-10 pt-10'>
+        <div className='flex w-full flex-col items-center justify-center gap-10 pt-10 md:flex-row md:items-start'>
           {characterSelected && <CharactersChooseItem isSelected character={characterSelected} />}
           <FormProvider {...form}>
             <div className='flex flex-col items-start gap-3'>
-              <div className='flex items-center gap-3'>
+              <div className='flex w-full items-center gap-3 lg:w-fit'>
                 <FormField
                   control={form.control}
                   name='name'
                   render={({ field, fieldState }) => (
-                    <FormItem>
+                    <FormItem className='w-full md:w-fit'>
                       <FormControl>
                         <InputBase
                           {...field}
@@ -87,7 +87,7 @@ const NameCharacters = memo(() => {
                           placeholder='Nguyễn Văn A'
                           value={field.value || ''}
                           error={fieldState.error?.message}
-                          containerClassName='w-[318px]'
+                          containerClassName='w-full md:w-[318px]'
                         />
                       </FormControl>
                     </FormItem>
@@ -103,7 +103,7 @@ const NameCharacters = memo(() => {
                 />
               </div>
 
-              <div className='rounded-1 bg-blue-main px-2 pb-[2px] pt-1 font-dongle text-gray-1'>
+              <div className='rounded-1 bg-blue-main px-3 pb-[2px] pt-1 font-dongle leading-4 text-gray-1 md:px-2'>
                 Tên nhân vật sẽ không thể thay đổi, bạn lưu ý khi đặt tên cho bé nha*
               </div>
 
@@ -121,8 +121,9 @@ const NameCharacters = memo(() => {
             </div>
           </FormProvider>
         </div>
-        <div className='w-full gap-[25px] flex-center'>
+        <div className='w-full gap-3 flex-center md:gap-5 lg:gap-[25px]'>
           <ButtonBase
+            disabled={isLoading}
             variant='green'
             size='icon'
             onClick={() => {
@@ -134,6 +135,7 @@ const NameCharacters = memo(() => {
           </ButtonBase>
           <ButtonBase
             variant='pink'
+            isLoading={isLoading}
             onClick={() => form.handleSubmit(onSubmitForm)()}
             LeftIcon={() => <span className='mgc_palette_2_fill' />}
           >

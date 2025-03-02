@@ -6,7 +6,7 @@ import BgTexture from '~/components/shared/BgTexture'
 import ButtonBase from '~/components/shared/ButtonBase'
 import { Dialog, DialogContent, DialogTitle } from '~/components/shared/Dialog'
 import { useAppDispatch, useAppSelector } from '~/store/configStore'
-import { answerQuestion } from '~/store/question/question.slice'
+import { answerQuestion, setQuestions } from '~/store/question/question.slice'
 import { getGeneralInfor } from '~/store/root/root.slice'
 import { getErrorMessage, isSuccessRes } from '~/utils'
 import QuestionItem from './QuestionItem'
@@ -23,7 +23,10 @@ const QuestionDialog: FC<QuestionDialogProps> = memo(({ open, setOpen, questionT
 
   const { questions } = useAppSelector((s) => s.question)
 
-  const defaultAnswer = Array.from({ length: questions.length }, () => 0)
+  const defaultAnswer = useMemo(
+    () => Array.from({ length: questions.length }, () => 0),
+    [questions]
+  )
 
   const [testResult, setTestResult] = useState<TestResult | null>(null)
   const [status, setStatus] = useState({ isDone: false, isLoading: false })
@@ -81,6 +84,7 @@ const QuestionDialog: FC<QuestionDialogProps> = memo(({ open, setOpen, questionT
       setStatus({ isDone: false, isLoading: false })
       setAnswersSelect(defaultAnswer)
       dispatch(getGeneralInfor())
+      dispatch(setQuestions([]))
     }
   }, [open])
 
@@ -90,8 +94,8 @@ const QuestionDialog: FC<QuestionDialogProps> = memo(({ open, setOpen, questionT
         <VisuallyHidden>
           <DialogTitle>Hidden Title</DialogTitle>
         </VisuallyHidden>
-        <div className='relative flex h-full flex-col gap-6 overflow-hidden p-6'>
-          <div className='flex items-start justify-between'>
+        <div className='relative flex h-full flex-col gap-6 overflow-hidden p-5 md:p-6'>
+          <div className='flex flex-col-reverse items-start justify-between gap-3 md:flex-row md:gap-0'>
             <div className='flex flex-col gap-1'>
               <h4 className='text-[32px]/[48px] text-blue-main'>
                 {questionType === EnumQuestionType.daily
@@ -155,7 +159,7 @@ const QuestionDialog: FC<QuestionDialogProps> = memo(({ open, setOpen, questionT
           <p
             className={classNames(
               status.isDone ? 'opacity-20' : 'opacity-0',
-              'absolute right-48 top-0 font-purenotes text-[116px] text-red-main transition-300'
+              'absolute right-[64px] top-1 font-purenotes text-[50px] text-red-main transition-300 md:right-28 md:top-14 md:text-[80px] lg:right-48 lg:top-0 lg:text-[116px]'
             )}
           >
             {parseFloat(score.toFixed(1))}đ

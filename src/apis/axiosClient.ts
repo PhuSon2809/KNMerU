@@ -1,7 +1,8 @@
 import axios, { AxiosResponse } from 'axios'
+import { AppConfig } from '~/config/app.config'
 import { getAccessToken } from '~/utils'
 
-const API_URL = import.meta.env.VITE_API_URL
+const API_URL = AppConfig.api
 
 interface ErrorResponse {
   status: number

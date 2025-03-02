@@ -1,8 +1,15 @@
-import { useCallback, useRef } from 'react'
+import { useCallback, useRef, useEffect } from 'react'
 
 const useHorizontalScroll = () => {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const isDragging = useRef(false) // Cờ trạng thái để theo dõi kéo
+
+  useEffect(() => {
+    const ele = containerRef.current
+    if (ele) {
+      ele.style.scrollSnapType = 'x mandatory'
+    }
+  }, [])
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     if ((e.target as HTMLElement).tagName === 'IMG') {

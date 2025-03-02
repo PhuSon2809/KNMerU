@@ -1,10 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google'
+import { jwtDecode } from 'jwt-decode'
 import { memo, useCallback, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { z } from 'zod'
+import { UserGGInfor } from '~/@types'
 import { icons } from '~/assets'
 import ButtonBase from '~/components/shared/ButtonBase'
 import { FormControl, FormField, FormItem, FormMessage } from '~/components/shared/Form'
@@ -28,6 +30,7 @@ const Login = memo(() => {
   const { isLoading } = useAppSelector((s) => s.auth)
 
   const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [ggInor, setGGInfor] = useState<UserGGInfor | null>(null)
 
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
@@ -55,6 +58,12 @@ const Login = memo(() => {
     if (!response.credential) return toast.error('Đăng nhập Google thất bại! Thử lại nhé.')
     if (isLoading) return
     try {
+      const decodedToken: any = jwtDecode(response.credential)
+      setGGInfor({
+        email: decodedToken.email,
+        imageUrl: decodedToken.picture,
+        name: decodedToken.name
+      })
       const payload = await dispatch(
         loginSocial({
           idToken: response.credential,
@@ -77,16 +86,16 @@ const Login = memo(() => {
 
   return (
     <div className='relative size-full flex-1 pb-40 pt-20 flex-center'>
-      <div className='z-10 flex min-w-[569px] flex-col gap-11'>
-        <div className='flex items-center justify-between'>
+      <div className='z-10 flex min-w-full flex-col gap-11 xl:min-w-[569px]'>
+        <div className='flex flex-col items-start justify-between gap-5 md:flex-row md:items-center md:gap-0'>
           <ButtonBase variant='green' size='icon' onClick={() => navigate(path.welcome)}>
             <span className='mgc_arrow_left_fill' />
           </ButtonBase>
-          <Logo className='h-[110px] w-auto' />
-          <div></div>
+          <Logo className='mx-auto h-[110px] w-auto' />
+          <div className='hidden md:flex'></div>
         </div>
 
-        <div className='space-y-5 rounded-1 border-[3px] border-dashed border-pink-main bg-white/90 p-6 backdrop-blur-[20px]'>
+        <div className='space-y-5 rounded-1 border-[3px] border-dashed border-pink-main bg-white/90 p-5 backdrop-blur-[20px] md:p-6'>
           <FormProvider {...form}>
             <div className='space-y-[18px]'>
               <FormField
@@ -153,36 +162,57 @@ const Login = memo(() => {
             <p className='font-dongle text-2xl text-orange-main'>Hoặc</p>
             <div className='h-[1px] w-full bg-orange-main' />
           </div>
-          <div className='flex items-center gap-[25px]'>
-            {socials.map((social) => (
-              <ButtonBase key={social.id} size='md' variant='gray' className='social w-full'>
-                {social.id === 1 && (
+          <div className='flex w-full items-center justify-center gap-[25px]'>
+            {socials.slice(0, 1).map((social) => (
+              <ButtonBase
+                key={social.id}
+                size='md'
+                variant='gray'
+                className='social relative w-full max-w-[235px]'
+              >
+                <div className='absolute top-1/2 z-10 -translate-y-1/2 scale-110 opacity-0'>
                   <GoogleLogin
-                    containerProps={{
-                      style: { border: 'none !important', background: 'transparent !important' }
-                    }}
                     onSuccess={(response) => onLoginGoogle(response)}
                     onError={() => toast.error('Đăng nhập Google thất bại')}
                     useOneTap
                   />
+                </div>
+                {ggInor ? (
+                  <div className='flex items-center gap-2'>
+                    <img
+                      src={ggInor.imageUrl}
+                      referrerPolicy='no-referrer'
+                      alt={ggInor.name}
+                      className='size-8 shrink-0 rounded-full'
+                    />
+                    <div className='text-left font-dongle text-[20px]/[20px]'>
+                      <p className='line-clamp-1'>Đăng nhập với {ggInor.name}</p>
+                      <p className='line-clamp-1 text-gray-3'>{ggInor.email}</p>
+                    </div>
+                  </div>
+                ) : (
+                  <span className={social.icon} />
                 )}
-                <span className={social.icon} />
               </ButtonBase>
             ))}
           </div>
         </div>
       </div>
 
-      <img src={icons.leaf} alt='leaf' className='absolute inset-0 w-[88px] -rotate-45' />
+      <img
+        src={icons.leaf}
+        alt='leaf'
+        className='absolute -left-10 top-0 w-[88px] -rotate-45 lg:inset-0'
+      />
       <img
         src={icons.crown}
         alt='crown'
-        className='absolute -top-5 right-0 w-[90px] rotate-[19deg]'
+        className='absolute -right-10 top-16 w-[90px] rotate-[19deg] md:-top-5 lg:right-0'
       />
       <img
         src={icons.blink_1}
         alt='blink-1'
-        className='xl 2xl: absolute bottom-[0] right-5 w-[105px]'
+        className='absolute bottom-5 right-16 w-[105px] lg:bottom-0 lg:right-5'
       />
     </div>
   )

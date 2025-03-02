@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import classNames from 'classnames'
 import { FC, memo, useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
@@ -10,6 +11,7 @@ import { Dialog, DialogContent, DialogTitle } from '~/components/shared/Dialog'
 import { FormControl, FormField, FormItem, FormMessage } from '~/components/shared/Form'
 import TextareaBase from '~/components/shared/TextareaBase'
 import UploadFile from '~/components/shared/UploadFile'
+import useResponsive from '~/hooks/useResponsive'
 import { getErrorMessage } from '~/utils'
 
 export const commentFormSchema = z.object({
@@ -26,6 +28,8 @@ const AcitivitiesDialog: FC<AcitivitiesDialogProps> = memo(({ titleDialog, open,
   const [isSent, setIsSent] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [selectedFiles, setSelectedFiles] = useState<SelectedFile[]>([])
+
+  const xsDown = useResponsive('down', 'xs')
 
   const form = useForm<z.infer<typeof commentFormSchema>>({
     resolver: zodResolver(commentFormSchema),
@@ -59,8 +63,13 @@ const AcitivitiesDialog: FC<AcitivitiesDialogProps> = memo(({ titleDialog, open,
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent noOverlayBackground noBlur>
-        <div className='relative flex h-full flex-col gap-6 overflow-hidden p-6'>
-          <div className='flex items-start justify-between pr-[50px]'>
+        <div className='relative flex h-full flex-col gap-6 overflow-hidden p-5 md:p-6'>
+          <div
+            className={classNames(
+              isSent && xsDown && 'mt-12',
+              'flex flex-col-reverse items-start justify-between gap-5 pr-[0px] md:flex-row md:gap-0 md:pr-[50px]'
+            )}
+          >
             <DialogTitle>{titleDialog}</DialogTitle>
             {!isSent && (
               <ButtonBase
@@ -73,14 +82,16 @@ const AcitivitiesDialog: FC<AcitivitiesDialogProps> = memo(({ titleDialog, open,
           </div>
 
           {isSent ? (
-            <div className='flex h-full flex-1 flex-col justify-between'>
-              <div className='rounded-1 bg-green-main/30 p-[22px]'>
-                <p className='text-[32px]/[48px] text-gray-7'>Bạn đã gửi thành công</p>
-                <div className='flex w-full items-end gap-3'>
+            <div className='flex h-full flex-1 flex-col justify-between overflow-auto'>
+              <div className='mb-5 rounded-1 bg-green-main/30 p-[22px] pt-4'>
+                <p className='mb-3 text-[24px]/[32px] text-gray-7 md:text-[28px]/[40px] lg:text-[32px]/[48px]'>
+                  Bạn đã gửi thành công
+                </p>
+                <div className='flex w-full flex-col items-start gap-3 md:flex-row md:items-end'>
                   {selectedFiles.map((file, index) => (
                     <div
                       key={index}
-                      className='size-[157px] shrink-0 overflow-hidden rounded-1 border border-solid border-gray-1'
+                      className='size-36 shrink-0 overflow-hidden rounded-1 border border-solid border-gray-1 lg:size-[157px]'
                     >
                       <img
                         src={file.url}
@@ -104,10 +115,10 @@ const AcitivitiesDialog: FC<AcitivitiesDialogProps> = memo(({ titleDialog, open,
             </div>
           ) : (
             <FormProvider {...form}>
-              <div className='flex w-full flex-1 flex-col gap-6'>
-                <div className='mt-5 flex w-full gap-6'>
+              <div className='hide-scrollbar flex w-full flex-1 flex-col gap-6 overflow-auto'>
+                <div className='mt-5 flex w-full flex-col items-center gap-6 md:flex-row'>
                   <CharactersAvatar />
-                  <p className='mt-4 text-[32px]/[48px] text-blue-main'>
+                  <p className='text-center text-[28px]/[40px] text-blue-main md:text-left lg:mt-4 lg:text-[32px]/[48px]'>
                     {titleDialog === 'Mua merchandise'
                       ? 'Bạn đã mua gì nhỉ?'
                       : 'Bạn đã tham gia sự kiện gì nhỉ'}

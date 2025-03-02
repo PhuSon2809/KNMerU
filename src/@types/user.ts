@@ -11,6 +11,12 @@ export interface UserInfor {
   characterImageUrl: string | null
 }
 
+export interface UserGGInfor {
+  name: string
+  email: string
+  imageUrl: string
+}
+
 export interface RegisterInput {
   firstName: string
   lastName: string

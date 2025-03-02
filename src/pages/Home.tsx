@@ -4,8 +4,10 @@ import { EnumQuestionType } from '~/@types/question'
 import { icons } from '~/assets'
 import AcitivitiesDialog from '~/components/features/activities/AcitivitiesDialog'
 import ClassPercent from '~/components/features/home/ClassPercent'
+import DrawerMenu from '~/components/features/home/DrawerMenu'
 import InformationItem from '~/components/features/home/InformationItem'
 import PopoverActivities from '~/components/features/home/PopoverActivities'
+import ProfileDialog, { TitleDialog } from '~/components/features/profile/ProfileDialog'
 import QuestionDialog from '~/components/features/question/QuestionDialog'
 import ButtonBase from '~/components/shared/ButtonBase'
 import Header from '~/layouts/components/Header'
@@ -19,6 +21,8 @@ export type OpenState = {
   event: boolean
   popover: boolean
   question: boolean
+  drawer: boolean
+  profile: boolean
 }
 
 const Home = memo(() => {
@@ -29,11 +33,16 @@ const Home = memo(() => {
 
   const [titleDialog, setTitleDialog] = useState<string>('')
   const [questionType, setQuestionType] = useState<EnumQuestionType>(EnumQuestionType.daily)
+  const [titleProfile, setTitleProfile] = useState<TitleDialog>(TitleDialog.infor)
   const [open, setOpen] = useState<OpenState>({
     event: false,
     popover: false,
-    question: false
+    question: false,
+    drawer: false,
+    profile: false
   })
+
+  console.log('open', open)
 
   const setOpenState = useCallback(
     (key: keyof OpenState) => (open: boolean) => {
@@ -42,8 +51,14 @@ const Home = memo(() => {
     []
   )
 
-  const handleOpenDialog = useCallback(
+  const handleOpenDialogProfile = useCallback((title: TitleDialog) => {
+    setTitleProfile(title)
+    setOpenState('profile')(true)
+  }, [])
+
+  const handleOpenDialogQuestion = useCallback(
     (type: EnumQuestionType) => () => {
+      console.log('type', type)
       setQuestionType(type)
       setOpenState('question')(true)
       dispatch(getQuestion(type))
@@ -63,20 +78,26 @@ const Home = memo(() => {
   return (
     <>
       <div className='flex size-full flex-1 flex-col items-stretch'>
-        <div className='relative flex w-full flex-col gap-9 rounded-bl-3xl rounded-br-3xl bg-green-main/[.56] px-[50px] py-14'>
-          <Header />
+        <div className='relative flex w-full flex-col gap-5 rounded-bl-3xl rounded-br-3xl bg-green-main/[.56] px-5 py-14 pt-5 md:pt-5 lg:gap-9 lg:px-10 lg:pt-10 xl:px-[50px] xl:py-14'>
+          <Header
+            onOpenDrawer={() => setOpenState('drawer')(true)}
+            handleOpenDialog={handleOpenDialogProfile}
+          />
           <ClassPercent />
           <div className='-bottom-9 z-10 flex items-center gap-3 absolute-center-x'>
             <ButtonBase
               size='lg'
               isLoading={isLoading}
               variant={generalInfo?.isCheckedIn ? 'green' : 'pink'}
-              className={generalInfo?.isCheckedIn ? 'min-w-[280px]' : 'min-w-[212px]'}
+              className={classNames(
+                generalInfo?.isCheckedIn ? 'min-w-[280px]' : 'min-w-[212px]',
+                'hidden md:flex'
+              )}
               LeftIcon={() => <span className='mgc_bling_fill' />}
               onClick={
                 generalInfo?.isCheckedIn
                   ? () => {}
-                  : handleOpenDialog(
+                  : handleOpenDialogQuestion(
                       isPromoted(generalInfo?.streak as number)
                         ? EnumQuestionType.promoted
                         : EnumQuestionType.daily
@@ -90,9 +111,9 @@ const Home = memo(() => {
                 <ButtonBase
                   variant='orange'
                   size='lg'
-                  className='min-w-[212px]'
+                  className='hidden min-w-[212px] lg:flex'
                   LeftIcon={() => <span className='mgc_pen_fill' />}
-                  onClick={handleOpenDialog(EnumQuestionType.skipped)}
+                  onClick={handleOpenDialogQuestion(EnumQuestionType.skipped)}
                 >
                   Học vượt cấp
                 </ButtonBase>
@@ -120,15 +141,17 @@ const Home = memo(() => {
           </div>
         </div>
 
-        <div className='relative flex min-h-[435px] flex-1 items-end justify-between overflow-hidden pb-[60px] pl-[50px]'>
-          <div className='flex items-center gap-[15px]'>
+        <div className='relative flex min-h-[435px] flex-1 flex-col items-end justify-between gap-[15px] overflow-hidden px-5 pb-[60px] pt-20 md:items-center md:px-24 lg:items-end lg:px-10 xl:flex-row xl:gap-0 xl:pl-[50px] xl:pr-0'>
+          <div className='flex w-full flex-col items-center gap-[15px] lg:h-[225px] lg:w-fit lg:flex-row lg:items-stretch xl:h-fit xl:items-center'>
             {informations.map((infor) => (
               <InformationItem key={infor.id} information={infor} />
             ))}
           </div>
-          <div className='min-w-[171px] rounded-bl-1 rounded-tl-1 border border-gray-2 bg-gray-1 p-[14px] pr-[50px]'>
-            <p className='text-[20px]/[30px] text-gray-7'>Contact us</p>
-            <div className='flex items-center gap-5'>
+          <div className='w-full min-w-[171px] rounded-1 border border-gray-2 bg-gray-1 p-[14px] xl:w-fit xl:rounded-br-none xl:rounded-tr-none xl:pr-[50px]'>
+            <p className='mb-3 text-center text-[20px]/[30px] text-gray-7 xl:mb-0 xl:text-left'>
+              Contact us
+            </p>
+            <div className='flex w-full items-center justify-center gap-5 xl:w-fit xl:justify-start'>
               {socials.map((social) => (
                 <ButtonBase
                   key={social.id}
@@ -141,8 +164,8 @@ const Home = memo(() => {
               ))}
             </div>
           </div>
-          <img src={icons.flower} alt='icon-flower' className='absolute -left-40 bottom-5' />
-          <img src={icons.coffee} alt='icon-coffee' className='absolute -right-16 top-5' />
+          <img src={icons.flower} alt='icon-flower' className='absolute -left-40 bottom-5 z-[-1]' />
+          <img src={icons.coffee} alt='icon-coffee' className='absolute -right-16 top-5 z-[-1]' />
         </div>
       </div>
 
@@ -155,6 +178,18 @@ const Home = memo(() => {
         titleDialog={titleDialog}
         open={open.event}
         setOpen={(open) => setOpenState('event')(open)}
+      />
+      <ProfileDialog
+        open={open.profile}
+        setOpen={(open) => setOpenState('profile')(open)}
+        titleDialog={titleProfile}
+        setTitleDialog={setTitleProfile}
+      />
+      <DrawerMenu
+        open={open.drawer}
+        setOpen={(open) => setOpenState('drawer')(open)}
+        handleOpenDialog={handleOpenDialogProfile}
+        handleOpenQuestion={handleOpenDialogQuestion}
       />
     </>
   )

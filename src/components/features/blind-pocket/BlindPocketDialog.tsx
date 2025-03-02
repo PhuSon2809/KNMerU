@@ -80,7 +80,7 @@ const BlindPocketDialog: FC<BlindPocketDialogProps> = memo(({ open, setOpen, idx
             </>
           ) : (
             <>
-              <DialogTitle>Chúc mừng bạn đã hoàn thành mốc</DialogTitle>
+              <DialogTitle className='pr-[50px]'>Chúc mừng bạn đã hoàn thành mốc</DialogTitle>
               <div
                 className={classNames(
                   isUnboxed && 'justify-center',

@@ -35,15 +35,18 @@ const Welcome = memo(() => {
 
   return (
     <div className='flex-1 flex-col flex-center'>
-      <h2 className='text-5xl leading-[72px] text-pink-main'>Chào mừng bạn đến với</h2>
+      <h2 className='text-center text-4xl leading-[50px] text-pink-main md:text-5xl md:leading-[72px]'>
+        Chào mừng bạn đến với
+      </h2>
       <Logo className='text-white-main h-auto w-[83%]' />
-      <div className='mt-11 flex items-center gap-[25px]'>
+      <div className='mt-11 flex flex-col items-center gap-3 md:flex-row md:gap-[25px]'>
         {buttons.map((button) => (
           <ButtonBase
             key={button.id}
             onClick={button.onClick}
             variant={button.variant as any}
             LeftIcon={() => <span className={button.icon} />}
+            className='min-w-[200px] md:min-w-fit'
           >
             {button.label}
           </ButtonBase>

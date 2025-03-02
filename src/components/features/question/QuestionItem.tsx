@@ -24,7 +24,7 @@ const QuestionItem: FC<QuestionItemProps> = memo((props) => {
             </span>
             <p className='mt-[5px] text-gray-7 text-dongle-24'>{question.content}</p>
           </div>
-          <div className='grid grid-cols-4'>
+          <div className='grid grid-cols-1 gap-2 md:grid-cols-2'>
             {question.choices.map((choice) => {
               return (
                 <div

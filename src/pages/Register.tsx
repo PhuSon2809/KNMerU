@@ -39,6 +39,7 @@ const Register = memo(() => {
   const { isLoading, isSuccess } = useAppSelector((s) => s.auth)
 
   const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [showPasswordCheck, setShowPasswordCheck] = useState<boolean>(false)
 
   const form = useForm<z.infer<typeof registerFormSchema>>({
     resolver: zodResolver(registerFormSchema),
@@ -67,14 +68,14 @@ const Register = memo(() => {
     <div className={classNames('relative size-full flex-1 pb-40 pt-20 flex-center')}>
       {isSuccess ? (
         <div className='flex flex-col items-center justify-center gap-11'>
-          <Logo className='w-[325px]' />
+          <Logo className='w-[250px] md:w-[325px]' />
           <div className='flex flex-col items-center gap-3'>
             <img src={icons.star} alt='star' className='w-[80px]' />
-            <p className='text-center text-[60px]/[90px] text-pink-main'>
+            <p className='text-center text-[40px]/[60px] text-pink-main md:text-[60px]/[90px]'>
               Chúc mừng bạn đã đăng ký <span className='text-green-dark'>thành công</span>
             </p>
           </div>
-          <div className='w-full gap-[25px] flex-center'>
+          <div className='w-full gap-3 flex-center md:gap-[25px]'>
             <ButtonBase variant='green' size='icon' onClick={() => dispatch(setIsSuccess(false))}>
               <span className='mgc_arrow_left_fill' />
             </ButtonBase>
@@ -88,16 +89,16 @@ const Register = memo(() => {
           </div>
         </div>
       ) : (
-        <div className='z-10 flex h-full min-w-[569px] flex-col gap-11'>
-          <div className='flex items-center justify-between'>
-            <ButtonBase variant='green' size='icon' onClick={() => navigate(-1)}>
+        <div className='z-10 flex h-full min-w-full flex-col gap-11 xl:min-w-[569px]'>
+          <div className='flex flex-col items-start justify-between gap-5 md:flex-row md:items-center md:gap-0'>
+            <ButtonBase variant='green' size='icon' onClick={() => navigate(path.welcome)}>
               <span className='mgc_arrow_left_fill' />
             </ButtonBase>
-            <Logo className='h-[110px] w-auto' />
-            <div></div>
+            <Logo className='mx-auto h-[110px] w-auto' />
+            <div className='hidden md:flex'></div>
           </div>
 
-          <div className='space-y-5 rounded-1 border-[3px] border-dashed border-pink-main bg-white/90 p-6 backdrop-blur-[20px]'>
+          <div className='space-y-5 rounded-1 border-[3px] border-dashed border-pink-main bg-white/90 p-5 backdrop-blur-[20px] md:p-6'>
             <FormProvider {...form}>
               <div className='space-y-[18px]'>
                 <FormField
@@ -161,12 +162,12 @@ const Register = memo(() => {
                     </FormItem>
                   )}
                 />
-                <div className='flex items-center gap-[18px]'>
+                <div className='flex w-full flex-col items-center gap-[18px] md:flex-row'>
                   <FormField
                     control={form.control}
                     name='password'
                     render={({ field, fieldState }) => (
-                      <FormItem>
+                      <FormItem className='w-full'>
                         <FormControl>
                           <InputBase
                             {...field}
@@ -194,7 +195,7 @@ const Register = memo(() => {
                     control={form.control}
                     name='checkPassword'
                     render={({ field, fieldState }) => (
-                      <FormItem>
+                      <FormItem className='w-full'>
                         <FormControl>
                           <InputBase
                             {...field}
@@ -204,9 +205,11 @@ const Register = memo(() => {
                             error={fieldState.error?.message}
                             type={showPassword ? 'text' : 'password'}
                             RightIcon={() => (
-                              <button onClick={() => setShowPassword((prev) => !prev)}>
+                              <button onClick={() => setShowPasswordCheck((prev) => !prev)}>
                                 <span
-                                  className={showPassword ? 'mgc_eye_fill' : 'mgc_eye_close_fill'}
+                                  className={
+                                    showPasswordCheck ? 'mgc_eye_fill' : 'mgc_eye_close_fill'
+                                  }
                                 />
                               </button>
                             )}
@@ -231,34 +234,25 @@ const Register = memo(() => {
                 </ButtonBase>
               </div>
             </FormProvider>
-            <div className='flex items-center gap-3'>
-              <div className='h-[1px] w-full bg-orange-main' />
-              <p className='font-dongle text-2xl text-orange-main'>Hoặc</p>
-              <div className='h-[1px] w-full bg-orange-main' />
-            </div>
-            <div className='flex items-center gap-[25px]'>
-              <ButtonBase size='md' variant='gray' className='w-full'>
-                <span className='mgc_facebook_fill' />
-              </ButtonBase>
-              <ButtonBase size='md' variant='gray' className='w-full'>
-                <span className='mgc_mail_fill' />
-              </ButtonBase>
-            </div>
           </div>
         </div>
       )}
       {!isSuccess && (
         <>
-          <img src={icons.leaf} alt='leaf' className='absolute left-0 top-40 w-[70px] -rotate-45' />
+          <img
+            src={icons.leaf}
+            alt='leaf'
+            className='absolute left-5 top-60 w-[70px] -rotate-45 md:left-0 md:top-40 lg:-left-5 xl:left-0'
+          />
           <img
             src={icons.crown}
             alt='crown'
-            className='absolute right-0 top-11 w-[90px] rotate-[19deg]'
+            className='absolute -right-10 top-11 w-[90px] rotate-[19deg] lg:-right-10 xl:right-0'
           />
           <img
             src={icons.blink_1}
             alt='blink-1'
-            className='xl 2xl: absolute bottom-5 right-0 w-[105px]'
+            className='xl 2xl: absolute bottom-5 right-10 w-[105px] lg:-right-5 xl:right-0'
           />
         </>
       )}

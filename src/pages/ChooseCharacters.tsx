@@ -33,14 +33,14 @@ const ChooseCharacters = memo(() => {
 
   return (
     <div className='relative flex size-full flex-1 flex-col items-stretch overflow-hidden pb-[200px] pt-[50px]'>
-      <div className='z-[10] flex w-full flex-col gap-10'>
+      <div className='z-[10] flex w-full flex-col md:gap-10'>
         <TitleCharacters title='Lựa chọn nhân vật' />
         <div
           ref={containerRef}
           onMouseDown={handleMouseDown}
           onTouchStart={handleTouchStart}
           style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }}
-          className='flex items-center gap-6 overflow-y-hidden overflow-x-scroll px-[50px] pb-10 pt-20'
+          className='flex items-stretch gap-5 overflow-y-hidden overflow-x-scroll px-5 pb-10 pt-20 transition-500 md:items-center lg:gap-6 lg:px-[50px] xl:justify-center'
         >
           {characters.map((character, idx) => (
             <CharactersChooseItem
@@ -51,7 +51,7 @@ const ChooseCharacters = memo(() => {
             />
           ))}
         </div>
-        <div className='w-full gap-[25px] flex-center'>
+        <div className='w-full gap-3 flex-center md:gap-5 lg:gap-[25px]'>
           <ButtonBase
             variant='green'
             size='icon'
