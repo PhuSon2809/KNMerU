@@ -6,6 +6,7 @@ import ButtonBase from '~/components/shared/ButtonBase'
 import TitleCharacters from '~/components/shared/TitleCharacters'
 import { path } from '~/constants/path'
 import useHorizontalScroll from '~/hooks/useHorizontalScroll'
+import { charactersContent } from '~/mocks/data'
 import { setIsSuccess } from '~/store/auth/auth.slice'
 import { getCharacters, setCharacterSelected } from '~/store/character/character.slice'
 import { useAppDispatch, useAppSelector } from '~/store/configStore'
@@ -40,16 +41,20 @@ const ChooseCharacters = memo(() => {
           onMouseDown={handleMouseDown}
           onTouchStart={handleTouchStart}
           style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }}
-          className='flex items-stretch gap-5 overflow-y-hidden overflow-x-scroll px-5 pb-10 pt-20 transition-500 md:items-center lg:gap-6 lg:px-[50px] xl:justify-center'
+          className='flex items-stretch gap-5 overflow-y-hidden overflow-x-scroll px-5 pb-10 pt-20 transition-500 lg:gap-6 lg:px-[50px]'
         >
-          {characters.map((character, idx) => (
-            <CharactersChooseItem
-              key={idx}
-              character={character}
-              isSelected={idSelected === character.id}
-              onClick={() => setIdSelected(character.id)}
-            />
-          ))}
+          {characters.map((character, idx) => {
+            const inforMatch = charactersContent[idx]
+            return (
+              <CharactersChooseItem
+                key={idx}
+                character={character}
+                characterContent={inforMatch}
+                isSelected={idSelected === character.id}
+                onClick={() => setIdSelected(character.id)}
+              />
+            )
+          })}
         </div>
         <div className='w-full gap-3 flex-center md:gap-5 lg:gap-[25px]'>
           <ButtonBase

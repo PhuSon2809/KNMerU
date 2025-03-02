@@ -9,6 +9,8 @@ import GiftItem from '~/components/shared/GiftItem'
 import InputBase from '~/components/shared/InputBase'
 import { useAppSelector } from '~/store/configStore'
 import CharactersChooseItem from '../choose-characters/CharactersChooseItem'
+import { charactersContent } from '~/mocks/data'
+import { CharacterContent } from '~/@types'
 
 export enum TitleDialog {
   infor = 'Xem thông tin cá nhân',
@@ -33,6 +35,11 @@ const ProfileDialog: FC<ProfileDialogProps> = memo(
           if (userInfo) return c.id === userInfo?.characterId
         }),
       []
+    )
+
+    const characterContent = useMemo(
+      () => charactersContent.find((c) => c.name === character?.name),
+      [charactersContent]
     )
 
     return (
@@ -76,6 +83,7 @@ const ProfileDialog: FC<ProfileDialogProps> = memo(
                   isInDialog
                   className='z-10'
                   character={character}
+                  characterContent={characterContent as CharacterContent}
                   isInline={titleDialog === TitleDialog.infor}
                   numberOfGift={userGifts.length}
                 />
@@ -85,13 +93,13 @@ const ProfileDialog: FC<ProfileDialogProps> = memo(
                   <div className='flex w-full flex-col items-center gap-5 md:flex-row md:gap-6'>
                     <InputBase
                       label='Tên của bạn'
-                      value='Nguyễn Văn A'
+                      value={userInfo?.fullName}
                       disabled
                       containerClassName='w-full'
                     />
                     <InputBase
                       label='Email'
-                      value='VanA111@gmail.com'
+                      value={userInfo?.email}
                       disabled
                       containerClassName='w-full'
                     />
@@ -99,7 +107,7 @@ const ProfileDialog: FC<ProfileDialogProps> = memo(
                   <div className='flex w-full flex-col items-center gap-5 md:flex-row md:gap-6'>
                     <InputBase
                       label='Số điện thoại'
-                      value='0192381923'
+                      value={userInfo?.phoneNumber || '**********'}
                       disabled
                       containerClassName='w-full'
                     />

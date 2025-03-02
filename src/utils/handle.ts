@@ -19,3 +19,42 @@ export const isPromoted = (streak: number) =>
 export const getErrorMessage = (errorCode: any): string => {
   return ERROR_MESSAGES[errorCode.errorMessageCode || errorCode]
 }
+
+/**
+ * Kiểm tra các lớp đã bị bỏ qua.
+ * Chỉ xét 2 trường hợp:
+ * 1. FirstGrade → SecondGrade
+ * 2. SecondGrade → ThirdGrade
+ */
+export const getSkippedLevels = (progress: ClassLevelProgress): number[] => {
+  let skippedLevels: number[] = []
+
+  const maxLevelPerGrade = 5
+  const baseLevels = [1, 6, 11, 16, 21] // Cấp độ bắt đầu của từng Grade
+
+  // Kiểm tra nếu có bỏ qua từ FirstGrade → SecondGrade
+  if (progress.SecondGrade > 0) {
+    const currentLevel = baseLevels[0] + progress.FirstGrade - 1 // Cấp độ đang học
+    const expectedEnd = baseLevels[0] + maxLevelPerGrade - 1 // Cấp độ tối đa
+
+    if (currentLevel < expectedEnd) {
+      for (let i = currentLevel + 1; i <= expectedEnd; i++) {
+        skippedLevels.push(i)
+      }
+    }
+  }
+
+  // Kiểm tra nếu có bỏ qua từ SecondGrade → ThirdGrade
+  if (progress.ThirdGrade > 0) {
+    const currentLevel = baseLevels[1] + progress.SecondGrade - 1
+    const expectedEnd = baseLevels[1] + maxLevelPerGrade - 1
+
+    if (currentLevel < expectedEnd) {
+      for (let i = currentLevel + 1; i <= expectedEnd; i++) {
+        skippedLevels.push(i)
+      }
+    }
+  }
+
+  return skippedLevels
+}

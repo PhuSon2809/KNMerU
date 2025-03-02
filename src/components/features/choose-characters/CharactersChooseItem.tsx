@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import { FC, memo, useState } from 'react'
-import { Character } from '~/@types'
+import { Character, CharacterContent } from '~/@types'
 import { images } from '~/assets'
 import ButtonBase from '~/components/shared/ButtonBase'
 import useResponsive from '~/hooks/useResponsive'
@@ -15,6 +15,7 @@ interface CharactersChooseItemProps {
   onClick?: () => void
   character: Character
   numberOfGift?: number
+  characterContent: CharacterContent
 }
 
 const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
@@ -27,7 +28,8 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
     isInline = false,
     numberOfGift,
     onClick,
-    character
+    character,
+    characterContent
   }) => {
     const [showDetail, setShowDetail] = useState<boolean>(isShowDetail)
 
@@ -55,7 +57,7 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
               ? 'rounded-1 rounded-tl-[80px] rounded-tr-[80px] bg-pink-main'
               : 'rounded-1 border-2 border-dashed border-orange-main',
             showDetail ? 'bg-orange-main' : 'hover:border-none hover:bg-orange-main',
-            `group relative h-[278px] ${isInDialog ? (xsDown ? 'w-[214px]' : 'w-[266px]') : 'w-[238px]'} shrink-0 bg-gray-1 transition-300 md:h-[210px] md:w-[200px] lg:h-[278px] lg:w-[266px]`,
+            `group relative h-[278px] ${isInDialog ? (xsDown ? 'w-[214px]' : 'w-full') : 'w-full'} shrink-0 bg-gray-1 transition-300 md:h-[210px] md:w-[200px] lg:h-[278px] lg:w-[266px]`,
             isInline ? 'mb-20 border-none bg-transparent' : '',
             className
           )}
@@ -110,19 +112,25 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
           )}
         >
           <div className='flex items-center gap-3'>
-            <h4 className='text-[32px]/[48px]'>{character.name || 'Tên nhân vật'}</h4>
-            <span className='text-dongle-24'>12 tuổi</span>
+            <h4 className='text-[28px]/[48px]'>{character.name || 'Tên nhân vật'}</h4>
+            {/* <span className='text-dongle-24'>Giới tính: {characterContent.gender}</span> */}
           </div>
           <div className='flex-1'>
             <h4
               className={classNames(
                 isInDialog ? 'text-[24px]/[32px]' : 'text-[28px]/[36px]',
                 'md:text-[24px]/[32px] lg:text-[32px]/[48px]'
+                // 'text-[20px]/[28px]'
               )}
             >
               Thông tin cá nhân
             </h4>
-            <p className='break-all text-dongle-24'>{character.description}</p>
+            <ul className='list-disc pl-5'>
+              <li className='text-dongle-24'>Giới tính: {characterContent.gender}</li>
+              <li className='text-dongle-24'>Ngoại hình: {characterContent.appearance}</li>
+              <li className='text-dongle-24'>Tính cách: {characterContent.character}</li>
+            </ul>
+            {/* <p className='break-all text-dongle-24'>{character.description}</p> */}
           </div>
           {!isShowDetail && !isSelected && (
             <ButtonBase

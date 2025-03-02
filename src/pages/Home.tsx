@@ -31,6 +31,8 @@ const Home = memo(() => {
   const { isLoading } = useAppSelector((s) => s.auth)
   const { generalInfo } = useAppSelector((s) => s.rootData)
 
+  console.log('generalInfo', generalInfo)
+
   const [titleDialog, setTitleDialog] = useState<string>('')
   const [questionType, setQuestionType] = useState<EnumQuestionType>(EnumQuestionType.daily)
   const [titleProfile, setTitleProfile] = useState<TitleDialog>(TitleDialog.infor)
@@ -41,8 +43,6 @@ const Home = memo(() => {
     drawer: false,
     profile: false
   })
-
-  console.log('open', open)
 
   const setOpenState = useCallback(
     (key: keyof OpenState) => (open: boolean) => {
@@ -58,7 +58,6 @@ const Home = memo(() => {
 
   const handleOpenDialogQuestion = useCallback(
     (type: EnumQuestionType) => () => {
-      console.log('type', type)
       setQuestionType(type)
       setOpenState('question')(true)
       dispatch(getQuestion(type))

@@ -30,13 +30,22 @@ declare global {
     data: T
   }
 
+  interface ClassLevelProgress {
+    FirstGrade: number
+    SecondGrade: number
+    ThirdGrade: number
+    FourthGrade: number
+    FifthGrade: number
+  }
+
   interface GeneralInfor {
     id: string
     streak: number
     isSelectedCharacter: boolean
-    characterId: number | null
-    characterName: string | null
+    characterId: number
+    characterName: string
     classLevel: number
+    classLevelProgress: ClassLevelProgress
     isCheckedIn: boolean
     hasPromotedQuestion: boolean
     isOpenedFirstGift: boolean

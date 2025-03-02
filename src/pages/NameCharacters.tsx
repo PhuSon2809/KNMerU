@@ -11,6 +11,7 @@ import { FormControl, FormField, FormItem } from '~/components/shared/Form'
 import InputBase from '~/components/shared/InputBase'
 import TitleCharacters from '~/components/shared/TitleCharacters'
 import { path } from '~/constants/path'
+import { charactersContent } from '~/mocks/data'
 import { getUserInfor, login } from '~/store/auth/auth.slice'
 import { selectCharacter, setCharacterSelected } from '~/store/character/character.slice'
 import { useAppDispatch, useAppSelector } from '~/store/configStore'
@@ -38,6 +39,11 @@ const NameCharacters = memo(() => {
   const isLengthValid = useMemo(() => name.length >= 3 && name.length <= 20, [name])
   const isAlphaNumeric = useMemo(() => /^[\p{L}0-9\s]+$/u.test(name), [name])
   const isNoSpecialChars = useMemo(() => /^[\p{L}0-9\s]+$/u.test(name), [name])
+
+  const characterContent = useMemo(
+    () => charactersContent.find((c) => c.name === characterSelected?.name),
+    [charactersContent]
+  )
 
   const getValidationStatus = useCallback(
     (condition: boolean) => (condition ? 'text-green-main' : 'text-orange-main'),
@@ -71,7 +77,13 @@ const NameCharacters = memo(() => {
       <div className='z-[10] flex w-full flex-col gap-20'>
         <TitleCharacters title='Đặt tên nhân vật' />
         <div className='flex w-full flex-col items-center justify-center gap-10 pt-10 md:flex-row md:items-start'>
-          {characterSelected && <CharactersChooseItem isSelected character={characterSelected} />}
+          {characterSelected && characterContent && (
+            <CharactersChooseItem
+              isSelected
+              character={characterSelected}
+              characterContent={characterContent}
+            />
+          )}
           <FormProvider {...form}>
             <div className='flex flex-col items-start gap-3'>
               <div className='flex w-full items-center gap-3 lg:w-fit'>
