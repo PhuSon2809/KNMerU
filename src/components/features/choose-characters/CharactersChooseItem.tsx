@@ -142,7 +142,7 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
               <li className='text-dongle-24'>Ngoại hình: {characterContent.appearance}</li>
               <li className='text-dongle-24'>Tính cách: {characterContent.character}</li>
             </ul> */}
-            <p className='break-all text-dongle-24'>{character.description}</p>
+            <p className='text-dongle-24'>{character.description}</p>
           </div>
           {!isShowDetail && !isSelected && (
             <ButtonBase
