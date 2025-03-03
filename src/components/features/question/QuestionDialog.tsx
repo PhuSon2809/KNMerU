@@ -71,12 +71,16 @@ const QuestionDialog: FC<QuestionDialogProps> = memo(
         const res = await dispatch(answerQuestion(answerData)).unwrap()
         if (isSuccessRes(res.status)) {
           setTestResult(res.data)
-          if (questionType === EnumQuestionType.promoted)
-            setTimeout(() => onOpenSuccessLevel?.(), 1000)
-          if (questionType === EnumQuestionType.daily)
-            toast.success('Chúc mừng bạn đã hoàn thành câu hỏi.')
-          if (questionType === EnumQuestionType.skipped)
-            toast.success('Chúc mừng bạn đã vượt cấp thành công.')
+          if (res.data.isPassed) {
+            if (questionType === EnumQuestionType.promoted)
+              setTimeout(() => onOpenSuccessLevel?.(), 1000)
+            if (questionType === EnumQuestionType.daily)
+              toast.success('Chúc mừng bạn đã hoàn thành câu hỏi.')
+            if (questionType === EnumQuestionType.skipped)
+              toast.success('Chúc mừng bạn đã vượt cấp thành công.')
+          } else {
+            toast.error('Đáp án chưa chính xác bạn làm lại nhé!')
+          }
         }
       } catch (error) {
         console.log('error', error)

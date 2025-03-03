@@ -34,4 +34,5 @@ export interface TestResult {
   answers: AnswerCheck[]
   totalCorrectQuestion: number
   totalQuestion: number
+  isPassed: boolean
 }
