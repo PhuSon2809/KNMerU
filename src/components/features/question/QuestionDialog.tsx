@@ -73,6 +73,10 @@ const QuestionDialog: FC<QuestionDialogProps> = memo(
           setTestResult(res.data)
           if (questionType === EnumQuestionType.promoted)
             setTimeout(() => onOpenSuccessLevel?.(), 1000)
+          if (questionType === EnumQuestionType.daily)
+            toast.success('Chúc mừng bạn đã hoàn thành câu hỏi.')
+          if (questionType === EnumQuestionType.skipped)
+            toast.success('Chúc mừng bạn đã vượt cấp thành công.')
         }
       } catch (error) {
         console.log('error', error)

@@ -179,6 +179,10 @@ const Home = memo(() => {
         questionType={questionType}
         open={open.question}
         setOpen={(open) => setOpenState('question')(open)}
+        onOpenSuccessLevel={() => {
+          setOpenState('question')(false)
+          setOpenState('certificate')(true)
+        }}
       />
       <AcitivitiesDialog
         titleDialog={titleDialog}
