@@ -43,7 +43,7 @@ const Home = memo(() => {
     question: false,
     drawer: false,
     profile: false,
-    certificate: true
+    certificate: false
   })
 
   const setOpenState = useCallback(
