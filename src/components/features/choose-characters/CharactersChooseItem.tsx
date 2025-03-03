@@ -1,11 +1,13 @@
 import classNames from 'classnames'
-import { FC, memo, useState } from 'react'
+import { Dispatch, FC, memo, SetStateAction, useState } from 'react'
 import { Character } from '~/@types'
 import { images } from '~/assets'
 import ButtonBase from '~/components/shared/ButtonBase'
 import useResponsive from '~/hooks/useResponsive'
+import { ShowDetail } from '~/pages/ChooseCharacters'
 
 interface CharactersChooseItemProps {
+  idx?: number
   className?: string
   isSelected?: boolean
   isShowDetail?: boolean
@@ -13,12 +15,14 @@ interface CharactersChooseItemProps {
   disable?: boolean
   isInline?: boolean
   onClick?: () => void
+  setShowDetailCheck?: Dispatch<SetStateAction<ShowDetail>>
   character: Character
   numberOfGift?: number
 }
 
 const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
   ({
+    idx,
     className,
     isSelected,
     isShowDetail = false,
@@ -27,6 +31,7 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
     isInline = false,
     numberOfGift,
     onClick,
+    setShowDetailCheck,
     character
   }) => {
     const [showDetail, setShowDetail] = useState<boolean>(isShowDetail)
@@ -36,7 +41,10 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
     return (
       <div
         onClick={() => {
-          if (!disable) setShowDetail((prev) => !prev)
+          if (!disable) {
+            setShowDetail((prev) => !prev)
+            if (idx) setShowDetailCheck?.((prev) => ({ ...prev, [idx + 1]: !prev[idx + 1] }))
+          }
         }}
         className={classNames(
           isInline
@@ -44,8 +52,8 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
             : 'rounded-1 py-[12.5px] pl-3 pr-3 md:pr-5 lg:pr-6',
           isShowDetail && '!w-full',
           showDetail
-            ? `w-full max-w-[340px] shrink-0 bg-pink-main md:w-[587px] md:max-w-full`
-            : 'w-fit',
+            ? `w-full min-w-[266px] max-w-[340px] shrink-0 bg-pink-main md:w-[587px] md:max-w-full`
+            : 'w-full min-w-[266px] md:w-fit',
           'flex flex-col items-stretch transition-500 md:flex-row'
         )}
       >
@@ -65,8 +73,14 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
             alt='characters'
             draggable={false}
             className={classNames(
+              character.name === 'Bé họ Kim' &&
+                (isInDialog
+                  ? !isInline
+                    ? '!bottom-[5px] !w-[165px] md:!w-[130px] lg:!w-[165px]'
+                    : '!bottom-[5px] !w-[65px] md:!top-[-15px] md:!w-[130px] lg:!w-[65px]'
+                  : '!bottom-[5px] !w-[175px] md:!w-[140px] lg:!w-[175px]'),
               isInline
-                ? 'bottom-auto top-[100px] w-[112px] transition-500 md:top-[-40px]'
+                ? `bottom-auto top-[100px] w-[112px] transition-500 md:top-[-40px]`
                 : 'w-[243px] transition-300 md:w-[180px] lg:w-[243px]',
               isSelected && 'rotate-[-6.84deg]',
               !showDetail && 'group-hover:rotate-[-6.84deg] group-hover:scale-[85%]',
@@ -139,6 +153,7 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
                 e?.stopPropagation()
                 setShowDetail(false)
                 onClick?.()
+                if (idx) setShowDetailCheck?.((prev) => ({ ...prev, [idx + 1]: false }))
               }}
             >
               Chọn nhân vật

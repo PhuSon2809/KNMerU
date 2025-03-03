@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { memo, useCallback, useEffect, useState } from 'react'
+import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import CharactersChooseItem from '~/components/features/choose-characters/CharactersChooseItem'
@@ -11,6 +11,13 @@ import { setIsSuccess } from '~/store/auth/auth.slice'
 import { getCharacters, setCharacterSelected } from '~/store/character/character.slice'
 import { useAppDispatch, useAppSelector } from '~/store/configStore'
 
+export type ShowDetail = {
+  1: boolean
+  2: boolean
+  3: boolean
+  4: boolean
+}
+
 const ChooseCharacters = memo(() => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -20,6 +27,17 @@ const ChooseCharacters = memo(() => {
   const { containerRef, handleMouseDown, handleTouchStart } = useHorizontalScroll()
 
   const [idSelected, setIdSelected] = useState<number>(0)
+  const [showDetail, setShowDetail] = useState<ShowDetail>({
+    1: false,
+    2: false,
+    3: false,
+    4: false
+  })
+
+  const hasTrueValue = useMemo(
+    () => Object.values(showDetail).some((value) => value === true),
+    [showDetail]
+  )
 
   useEffect(() => {
     dispatch(getCharacters())
@@ -42,17 +60,19 @@ const ChooseCharacters = memo(() => {
           onTouchStart={handleTouchStart}
           style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }}
           className={classNames(
-            idSelected === 0 && 'xl:justify-center',
+            !hasTrueValue && 'xl:justify-center',
             'flex items-stretch gap-5 overflow-y-hidden overflow-x-scroll px-5 pb-10 pt-20 transition-500 lg:gap-6 lg:px-[50px]'
           )}
         >
-          {characters.slice(-4).map((character) => {
+          {characters.slice(-4).map((character, idx) => {
             return (
               <CharactersChooseItem
+                idx={idx}
                 key={character.id}
                 character={character}
                 isSelected={idSelected === character.id}
                 onClick={() => setIdSelected(character.id)}
+                setShowDetailCheck={setShowDetail}
               />
             )
           })}

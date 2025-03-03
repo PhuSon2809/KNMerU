@@ -203,7 +203,7 @@ const Register = memo(() => {
                             placeholder='************'
                             value={field.value || ''}
                             error={fieldState.error?.message}
-                            type={showPassword ? 'text' : 'password'}
+                            type={showPasswordCheck ? 'text' : 'password'}
                             RightIcon={() => (
                               <button onClick={() => setShowPasswordCheck((prev) => !prev)}>
                                 <span

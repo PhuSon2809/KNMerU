@@ -1,8 +1,10 @@
 import classNames from 'classnames'
 import { memo, useCallback, useEffect, useState } from 'react'
+import toast from 'react-hot-toast'
 import { EnumQuestionType } from '~/@types/question'
 import { icons } from '~/assets'
 import AcitivitiesDialog from '~/components/features/activities/AcitivitiesDialog'
+import CertificateDialog from '~/components/features/certificate/CertificateDialog'
 import ClassPercent from '~/components/features/home/ClassPercent'
 import DrawerMenu from '~/components/features/home/DrawerMenu'
 import InformationItem from '~/components/features/home/InformationItem'
@@ -15,7 +17,7 @@ import { informations, socials } from '~/mocks/data'
 import { useAppDispatch, useAppSelector } from '~/store/configStore'
 import { getUserGifts } from '~/store/gift/gift.slice'
 import { getQuestion } from '~/store/question/question.slice'
-import { isPromoted } from '~/utils'
+import { getErrorMessage, isPromoted } from '~/utils'
 
 export type OpenState = {
   event: boolean
@@ -23,6 +25,7 @@ export type OpenState = {
   question: boolean
   drawer: boolean
   profile: boolean
+  certificate: boolean
 }
 
 const Home = memo(() => {
@@ -30,8 +33,6 @@ const Home = memo(() => {
 
   const { isLoading } = useAppSelector((s) => s.auth)
   const { generalInfo } = useAppSelector((s) => s.rootData)
-
-  console.log('generalInfo', generalInfo)
 
   const [titleDialog, setTitleDialog] = useState<string>('')
   const [questionType, setQuestionType] = useState<EnumQuestionType>(EnumQuestionType.daily)
@@ -41,7 +42,8 @@ const Home = memo(() => {
     popover: false,
     question: false,
     drawer: false,
-    profile: false
+    profile: false,
+    certificate: true
   })
 
   const setOpenState = useCallback(
@@ -57,10 +59,15 @@ const Home = memo(() => {
   }, [])
 
   const handleOpenDialogQuestion = useCallback(
-    (type: EnumQuestionType) => () => {
-      setQuestionType(type)
-      setOpenState('question')(true)
-      dispatch(getQuestion(type))
+    (type: EnumQuestionType) => async () => {
+      try {
+        setQuestionType(type)
+        setOpenState('question')(true)
+        await dispatch(getQuestion(type)).unwrap()
+      } catch (error) {
+        console.log('error', error)
+        toast.error(getErrorMessage(error))
+      }
     },
     []
   )
@@ -189,6 +196,10 @@ const Home = memo(() => {
         setOpen={(open) => setOpenState('drawer')(open)}
         handleOpenDialog={handleOpenDialogProfile}
         handleOpenQuestion={handleOpenDialogQuestion}
+      />
+      <CertificateDialog
+        open={open.certificate}
+        setOpen={(open) => setOpenState('certificate')(open)}
       />
     </>
   )

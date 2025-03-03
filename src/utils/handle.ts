@@ -17,7 +17,11 @@ export const isPromoted = (streak: number) =>
   streak === 5 || streak === 10 || streak === 15 || streak === 20
 
 export const getErrorMessage = (errorCode: any): string => {
-  return ERROR_MESSAGES[errorCode.errorMessageCode || errorCode]
+  console.log(
+    'ERROR_MESSAGES[errorCode.errorMessageCode]',
+    ERROR_MESSAGES[errorCode.errorMessageCode]
+  )
+  return ERROR_MESSAGES[errorCode.errorMessageCode]
 }
 
 /**

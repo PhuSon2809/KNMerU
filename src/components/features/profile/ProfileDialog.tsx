@@ -96,7 +96,7 @@ const ProfileDialog: FC<ProfileDialogProps> = memo(
                       containerClassName='w-full'
                     />
                   </div>
-                  <div className='flex w-full flex-col items-center gap-5 md:flex-row md:gap-6'>
+                  {/* <div className='flex w-full flex-col items-center gap-5 md:flex-row md:gap-6'>
                     <InputBase
                       label='Số điện thoại'
                       value={userInfo?.phoneNumber || '**********'}
@@ -109,7 +109,7 @@ const ProfileDialog: FC<ProfileDialogProps> = memo(
                       disabled
                       containerClassName='w-full'
                     />
-                  </div>
+                  </div> */}
                 </>
               )}
               {titleDialog === TitleDialog.infor && (
@@ -129,7 +129,7 @@ const ProfileDialog: FC<ProfileDialogProps> = memo(
                       </div>
                     )}
                   </div>
-                  <div className='rounded-2xl bg-orange-main p-4 pb-3 text-gray-1 text-dongle-24'>
+                  <div className='w-full rounded-2xl bg-orange-main p-4 pb-3 text-gray-1 text-dongle-24'>
                     Những món quà này sẽ được gửi đến các bé
                   </div>
                 </>
