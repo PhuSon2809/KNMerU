@@ -4,6 +4,7 @@ import Logo from '~/components/shared/Logo'
 import { useAppSelector } from '~/store/configStore'
 
 const CertificateLarge = memo(() => {
+  const { userInfo } = useAppSelector((s) => s.auth)
   const { generalInfo } = useAppSelector((s) => s.rootData)
 
   return (
@@ -22,7 +23,7 @@ const CertificateLarge = memo(() => {
         <div className='flex flex-col items-center md:flex-row'>
           <p className='text-[20px]/[48px] uppercase text-blue-main'>Khen tặng bạn </p>
           <span className='relative ml-1 text-[32px]/[48px] text-orange-main'>
-            Nguyễn Văn A{' '}
+            {userInfo?.fullName}{' '}
             <img
               src={icons.blink_3}
               alt='blink_3'
