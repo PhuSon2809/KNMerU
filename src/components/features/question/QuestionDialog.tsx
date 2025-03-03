@@ -25,15 +25,19 @@ const QuestionDialog: FC<QuestionDialogProps> = memo(
 
     const { questions } = useAppSelector((s) => s.question)
 
+    console.log('questions', questions)
+
     const defaultAnswer = useMemo(
       () => Array.from({ length: questions.length }, () => 0),
       [questions]
     )
 
+    console.log('defaultAnswer', defaultAnswer)
+
     const [testResult, setTestResult] = useState<TestResult | null>(null)
     const [status, setStatus] = useState({ isDone: false, isLoading: false })
     const [answersSelect, setAnswersSelect] = useState<number[]>(defaultAnswer)
-
+    console.log('answersSelect', answersSelect)
     const isRetry = useMemo(
       () =>
         testResult
@@ -89,6 +93,12 @@ const QuestionDialog: FC<QuestionDialogProps> = memo(
         setStatus({ isDone: true, isLoading: false })
       }
     }, [questions, answersSelect, questionType])
+
+    useEffect(() => {
+      if (open) {
+        setAnswersSelect(defaultAnswer)
+      }
+    }, [open, defaultAnswer])
 
     useEffect(() => {
       if (!open) {

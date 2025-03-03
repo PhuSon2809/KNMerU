@@ -96,7 +96,9 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
               'h-[50px] items-center justify-center px-6 py-[10px] uppercase absolute-center-x transition-300'
             )}
           >
-            <p className='text-nowrap text-[20px]/[30px]'>{character.name || 'Tên nhân Vật'}</p>
+            <p className='text-nowrap text-[16px]/[18px] md:text-[20px]/[30px]'>
+              {character.name || 'Tên nhân Vật'}
+            </p>
           </div>
 
           {(!showDetail || isSelected) && (
