@@ -46,9 +46,9 @@ const NameCharacters = memo(() => {
 
   const onSubmitForm = useCallback(
     async (values: z.infer<typeof nameFormSchema>) => {
-      if (!(isLengthValid && isAlphaNumeric && isNoSpecialChars))
+      if (!isLengthValid || !isAlphaNumeric || !isNoSpecialChars)
         return toast.error('Bạn hãy đặt tên theo yêu cầu nhé!')
-      if (isLoading || !characterSelected) return
+      if (isLoading || !characterSelected) return toast.error('Bạn chưa chọn nhân vật!')
       try {
         const accessToken = getAccessToken()
         if (!(isAuthenticated && accessToken)) {
@@ -58,8 +58,10 @@ const NameCharacters = memo(() => {
           selectCharacter({ characterId: characterSelected?.id, characterName: values.name })
         ).unwrap()
         const payloadUserInfor = await dispatch(getUserInfor()).unwrap()
-        if (isSuccessRes(payload.status) && isSuccessRes(payloadUserInfor.status))
+        if (isSuccessRes(payload.status) && isSuccessRes(payloadUserInfor.status)) {
           navigate(path.home)
+          dispatch(setCharacterSelected(null))
+        }
       } catch (error) {
         console.log('error', error)
         toast.error(getErrorMessage(error) || 'Đặt tên thất bại! Thử lại nhé.')
