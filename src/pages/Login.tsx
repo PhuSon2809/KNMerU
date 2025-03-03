@@ -91,7 +91,7 @@ const Login = memo(() => {
           <ButtonBase variant='green' size='icon' onClick={() => navigate(path.welcome)}>
             <span className='mgc_arrow_left_fill' />
           </ButtonBase>
-          <Logo className='mx-auto h-[110px] w-auto' />
+          <Logo className='mx-auto h-auto w-full md:h-[110px] md:w-auto' />
           <div className='hidden md:flex'></div>
         </div>
 

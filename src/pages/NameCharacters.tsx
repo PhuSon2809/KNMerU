@@ -46,6 +46,8 @@ const NameCharacters = memo(() => {
 
   const onSubmitForm = useCallback(
     async (values: z.infer<typeof nameFormSchema>) => {
+      if (!(isLengthValid && isAlphaNumeric && isNoSpecialChars))
+        return toast.error('Bạn hãy đặt tên theo yêu cầu nhé!')
       if (isLoading || !characterSelected) return
       try {
         const accessToken = getAccessToken()
