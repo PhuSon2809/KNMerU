@@ -33,7 +33,7 @@ const CertificateLarge = memo(() => {
         </div>
         <p className='font-dongle text-[24px]/[24px] text-orange-main'>
           Đã đạt thành tích xuất sắc chăm bé {generalInfo?.characterName} lên lớp{' '}
-          {generalInfo?.classLevel}
+          {Number(generalInfo?.classLevel)}
         </p>
         <p className='font-dongle text-[24px]/[24px] text-orange-main'>
           (Hoàn thành {25}% tiến độ)
