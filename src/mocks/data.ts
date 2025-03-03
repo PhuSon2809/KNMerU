@@ -17,8 +17,7 @@ export const informations: Information[] = [
     title: 'Quy tắc',
     desc: [
       'Đăng ký: Chọn nhân vật, đặt tên.',
-      'Vượt lớp: Hoàn thành nhiệm vụ trong 7 ngày/lớp, tổng hành trình 30 ngày.',
-      'Vượt nhanh: Tham gia hoạt động, đăng ảnh + bình luận để xét duyệt.'
+      'Vượt lớp: Hoàn thành nhiệm vụ trong 5 ngày/lớp, tổng hành trình 30 ngày.'
     ],
     variant: 'pink'
   },

@@ -9,8 +9,6 @@ import GiftItem from '~/components/shared/GiftItem'
 import InputBase from '~/components/shared/InputBase'
 import { useAppSelector } from '~/store/configStore'
 import CharactersChooseItem from '../choose-characters/CharactersChooseItem'
-import { charactersContent } from '~/mocks/data'
-import { CharacterContent } from '~/@types'
 
 export enum TitleDialog {
   infor = 'Xem thông tin cá nhân',
@@ -35,11 +33,6 @@ const ProfileDialog: FC<ProfileDialogProps> = memo(
           if (userInfo) return c.id === userInfo?.characterId
         }),
       []
-    )
-
-    const characterContent = useMemo(
-      () => charactersContent.find((c) => c.name === character?.name),
-      [charactersContent]
     )
 
     return (
@@ -83,7 +76,6 @@ const ProfileDialog: FC<ProfileDialogProps> = memo(
                   isInDialog
                   className='z-10'
                   character={character}
-                  characterContent={characterContent as CharacterContent}
                   isInline={titleDialog === TitleDialog.infor}
                   numberOfGift={userGifts.length}
                 />

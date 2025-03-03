@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import { FC, memo, useState } from 'react'
-import { Character, CharacterContent } from '~/@types'
+import { Character } from '~/@types'
 import { images } from '~/assets'
 import ButtonBase from '~/components/shared/ButtonBase'
 import useResponsive from '~/hooks/useResponsive'
@@ -15,7 +15,6 @@ interface CharactersChooseItemProps {
   onClick?: () => void
   character: Character
   numberOfGift?: number
-  characterContent: CharacterContent
 }
 
 const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
@@ -28,8 +27,7 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
     isInline = false,
     numberOfGift,
     onClick,
-    character,
-    characterContent
+    character
   }) => {
     const [showDetail, setShowDetail] = useState<boolean>(isShowDetail)
 
@@ -125,12 +123,12 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
             >
               Thông tin cá nhân
             </h4>
-            <ul className='list-disc pl-5'>
+            {/* <ul className='list-disc pl-5'>
               <li className='text-dongle-24'>Giới tính: {characterContent.gender}</li>
               <li className='text-dongle-24'>Ngoại hình: {characterContent.appearance}</li>
               <li className='text-dongle-24'>Tính cách: {characterContent.character}</li>
-            </ul>
-            {/* <p className='break-all text-dongle-24'>{character.description}</p> */}
+            </ul> */}
+            <p className='break-all text-dongle-24'>{character.description}</p>
           </div>
           {!isShowDetail && !isSelected && (
             <ButtonBase

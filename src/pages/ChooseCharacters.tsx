@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import { memo, useCallback, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
@@ -6,7 +7,6 @@ import ButtonBase from '~/components/shared/ButtonBase'
 import TitleCharacters from '~/components/shared/TitleCharacters'
 import { path } from '~/constants/path'
 import useHorizontalScroll from '~/hooks/useHorizontalScroll'
-import { charactersContent } from '~/mocks/data'
 import { setIsSuccess } from '~/store/auth/auth.slice'
 import { getCharacters, setCharacterSelected } from '~/store/character/character.slice'
 import { useAppDispatch, useAppSelector } from '~/store/configStore'
@@ -27,7 +27,7 @@ const ChooseCharacters = memo(() => {
 
   const handleSelectCharacter = useCallback(() => {
     if (idSelected === 0) return toast.error('Bạn hãy chọn nhân vật trước khi xác nhận nhé.')
-    const characterSelected = characters.find((c) => c.id === idSelected)
+    const characterSelected = characters.slice(-4).find((c) => c.id === idSelected)
     if (characterSelected) dispatch(setCharacterSelected(characterSelected))
     navigate(path.nameCharacters)
   }, [idSelected])
@@ -41,15 +41,16 @@ const ChooseCharacters = memo(() => {
           onMouseDown={handleMouseDown}
           onTouchStart={handleTouchStart}
           style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }}
-          className='flex items-stretch gap-5 overflow-y-hidden overflow-x-scroll px-5 pb-10 pt-20 transition-500 lg:gap-6 lg:px-[50px]'
+          className={classNames(
+            idSelected === 0 && 'xl:justify-center',
+            'flex items-stretch gap-5 overflow-y-hidden overflow-x-scroll px-5 pb-10 pt-20 transition-500 lg:gap-6 lg:px-[50px]'
+          )}
         >
-          {characters.map((character, idx) => {
-            const inforMatch = charactersContent[idx]
+          {characters.slice(-4).map((character) => {
             return (
               <CharactersChooseItem
-                key={idx}
+                key={character.id}
                 character={character}
-                characterContent={inforMatch}
                 isSelected={idSelected === character.id}
                 onClick={() => setIdSelected(character.id)}
               />

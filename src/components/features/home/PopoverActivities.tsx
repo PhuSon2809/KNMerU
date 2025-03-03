@@ -11,9 +11,9 @@ interface PopoverActivitiesProps {
 const PopoverActivities: FC<PopoverActivitiesProps> = memo(
   ({ children, popoverOpen, setPopoverOpen, onOpenEventDialog }) => {
     const activities = [
-      { id: 1, label: 'Mua merchandise', onClick: onOpenEventDialog },
-      { id: 2, label: 'Tham gia events', onClick: onOpenEventDialog },
-      { id: 3, label: 'Quyên góp hỗ trợ', onClick: onOpenEventDialog }
+      // { id: 1, label: 'Mua merchandise', onClick: onOpenEventDialog },
+      { id: 2, label: 'Tham gia events', onClick: onOpenEventDialog }
+      // { id: 3, label: 'Quyên góp hỗ trợ', onClick: onOpenEventDialog }
     ]
 
     return (
