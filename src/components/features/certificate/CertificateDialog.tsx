@@ -1,5 +1,5 @@
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
-import React, { FC, memo } from 'react'
+import { FC, memo } from 'react'
 import BgTexture from '~/components/shared/BgTexture'
 import { Dialog, DialogContent, DialogTitle } from '~/components/shared/Dialog'
 import CertificateLarge from './CertificateLarge'
