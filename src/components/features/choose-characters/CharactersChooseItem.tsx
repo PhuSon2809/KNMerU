@@ -5,6 +5,7 @@ import { images } from '~/assets'
 import ButtonBase from '~/components/shared/ButtonBase'
 import useResponsive from '~/hooks/useResponsive'
 import { ShowDetail } from '~/pages/ChooseCharacters'
+import { useAppSelector } from '~/store/configStore'
 
 interface CharactersChooseItemProps {
   idx?: number
@@ -34,6 +35,8 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
     setShowDetailCheck,
     character
   }) => {
+    const { userInfo } = useAppSelector((s) => s.auth)
+
     const [showDetail, setShowDetail] = useState<boolean>(isShowDetail)
 
     const xsDown = useResponsive('down', 'xs')
@@ -165,7 +168,8 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
         {isInline && (
           <div className='absolute bottom-[-1px] z-10 h-[22px] w-full rounded-1 bg-yellow-light flex-center'>
             <p className='mt-0.5 font-dongle text-[16px]/[16px] uppercase text-gray-6'>
-              [{character.name || 'TÊN NHÂN VẬT'}] - Đang có {numberOfGift} món quà
+              [{userInfo?.characterOriginalName?.split(' ')[2]} {character.name || 'TÊN NHÂN VẬT'}]
+              - Đang có {numberOfGift} món quà
             </p>
           </div>
         )}
