@@ -16,7 +16,7 @@ const ClassPercent = memo(() => {
   const classes = useMemo(() => Array.from({ length: 5 }).map((_, i) => i + 1), [])
   const streak = useMemo(() => Array.from({ length: 25 }).map((_, i) => i + 1), [])
   const skippedLevels = useMemo(
-    () => (generalInfo ? getSkippedLevels(generalInfo?.classLevelProgress) : []),
+    () => (generalInfo ? getSkippedLevels(generalInfo?.classLevelProgress, generalInfo) : []),
     [generalInfo]
   )
 

@@ -30,14 +30,17 @@ export const getErrorMessage = (errorCode: any): string => {
  * 1. FirstGrade → SecondGrade
  * 2. SecondGrade → ThirdGrade
  */
-export const getSkippedLevels = (progress: ClassLevelProgress): number[] => {
+export const getSkippedLevels = (progress: ClassLevelProgress, infor: GeneralInfor): number[] => {
   let skippedLevels: number[] = []
 
   const maxLevelPerGrade = 5
   const baseLevels = [1, 6, 11, 16, 21] // Cấp độ bắt đầu của từng Grade
 
   // Kiểm tra nếu có bỏ qua từ FirstGrade → SecondGrade
-  if (progress.SecondGrade > 0) {
+  if (
+    progress.SecondGrade > 0 ||
+    (progress.SecondGrade === 0 && infor.classLevel === 2 && infor.isSkippedClass)
+  ) {
     const currentLevel = baseLevels[0] + progress.FirstGrade - 1 // Cấp độ đang học
     const expectedEnd = baseLevels[0] + maxLevelPerGrade - 1 // Cấp độ tối đa
 
@@ -49,7 +52,10 @@ export const getSkippedLevels = (progress: ClassLevelProgress): number[] => {
   }
 
   // Kiểm tra nếu có bỏ qua từ SecondGrade → ThirdGrade
-  if (progress.ThirdGrade > 0) {
+  if (
+    progress.ThirdGrade > 0 ||
+    (progress.ThirdGrade === 0 && infor.classLevel === 3 && infor.isSkippedClass)
+  ) {
     const currentLevel = baseLevels[1] + progress.SecondGrade - 1
     const expectedEnd = baseLevels[1] + maxLevelPerGrade - 1
 
