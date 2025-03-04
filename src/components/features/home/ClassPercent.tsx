@@ -68,6 +68,7 @@ const ClassPercent = memo(() => {
                     idx === streak.length - 1 &&
                       'rounded-b-1 md:rounded-bl-none md:rounded-br-1 md:rounded-tr-1',
                     idx !== streak.length - 1 && 'border-b border-white md:border-b-0 md:border-r',
+                    // generalInfo?.classLevel === 2
                     isSkipped
                       ? 'bg-orange-main' // Nếu lớp bị bỏ qua
                       : learnedLevels.has(str)

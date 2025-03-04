@@ -1,23 +1,20 @@
-import { memo, useCallback, useState } from 'react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import classNames from 'classnames'
+import { memo, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
+import { z } from 'zod'
+import { RegisterInput } from '~/@types'
 import { icons } from '~/assets'
 import ButtonBase from '~/components/shared/ButtonBase'
-import Logo from '~/components/shared/Logo'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
 import { FormControl, FormField, FormItem, FormMessage } from '~/components/shared/Form'
 import InputBase from '~/components/shared/InputBase'
-import toast from 'react-hot-toast'
+import Logo from '~/components/shared/Logo'
 import { path } from '~/constants/path'
-import classNames from 'classnames'
+import { register, setIsSuccess } from '~/store/auth/auth.slice'
 import { useAppDispatch, useAppSelector } from '~/store/configStore'
-import { RegisterInput, UserGGInfor } from '~/@types'
-import { getUserInfor, loginSocial, register, setIsSuccess } from '~/store/auth/auth.slice'
 import { getErrorMessage, isSuccessRes } from '~/utils'
-import { jwtDecode } from 'jwt-decode'
-import { CredentialResponse, GoogleLogin } from '@react-oauth/google'
-import { socials } from '~/mocks/data'
 
 export const registerFormSchema = z
   .object({
@@ -41,7 +38,7 @@ const Register = memo(() => {
 
   const { isLoading, isSuccess } = useAppSelector((s) => s.auth)
 
-  const [ggInor, setGGInfor] = useState<UserGGInfor | null>(null)
+  // const [ggInor, setGGInfor] = useState<UserGGInfor | null>(null)
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [showPasswordCheck, setShowPasswordCheck] = useState<boolean>(false)
 
@@ -68,34 +65,34 @@ const Register = memo(() => {
     }
   }
 
-  const onLoginGoogle = useCallback(async (response: CredentialResponse) => {
-    if (!response.credential) return toast.error('Đăng ký Google thất bại! Thử lại nhé.')
-    if (isLoading) return
-    try {
-      const decodedToken: any = jwtDecode(response.credential)
-      setGGInfor({
-        email: decodedToken.email,
-        imageUrl: decodedToken.picture,
-        name: decodedToken.name
-      })
-      const payload = await dispatch(
-        loginSocial({
-          idToken: response.credential,
-          provider: 2
-        })
-      ).unwrap()
-      if (!isSuccessRes(payload.status)) return toast.error('Đăng ký Google thất bại! Thử lại nhé.')
-      const payloadUserInfor = await dispatch(getUserInfor()).unwrap()
-      if (isSuccessRes(payloadUserInfor.status) && payloadUserInfor.data.characterId !== null) {
-        navigate(path.home)
-      } else {
-        navigate(path.chooseCharacters)
-      }
-    } catch (error) {
-      console.log('error', error)
-      toast.error(getErrorMessage(error) || 'Đăng ký thất bại! Thử lại nhé.')
-    }
-  }, [])
+  // const onLoginGoogle = useCallback(async (response: CredentialResponse) => {
+  //   if (!response.credential) return toast.error('Đăng ký Google thất bại! Thử lại nhé.')
+  //   if (isLoading) return
+  //   try {
+  //     const decodedToken: any = jwtDecode(response.credential)
+  //     setGGInfor({
+  //       email: decodedToken.email,
+  //       imageUrl: decodedToken.picture,
+  //       name: decodedToken.name
+  //     })
+  //     const payload = await dispatch(
+  //       loginSocial({
+  //         idToken: response.credential,
+  //         provider: 2
+  //       })
+  //     ).unwrap()
+  //     if (!isSuccessRes(payload.status)) return toast.error('Đăng ký Google thất bại! Thử lại nhé.')
+  //     const payloadUserInfor = await dispatch(getUserInfor()).unwrap()
+  //     if (isSuccessRes(payloadUserInfor.status) && payloadUserInfor.data.characterId !== null) {
+  //       navigate(path.home)
+  //     } else {
+  //       navigate(path.chooseCharacters)
+  //     }
+  //   } catch (error) {
+  //     console.log('error', error)
+  //     toast.error(getErrorMessage(error) || 'Đăng ký thất bại! Thử lại nhé.')
+  //   }
+  // }, [])
 
   return (
     <div className={classNames('relative size-full flex-1 pb-40 pt-20 flex-center')}>
@@ -267,7 +264,7 @@ const Register = memo(() => {
                 </ButtonBase>
               </div>
             </FormProvider>
-            <div className='flex items-center gap-3'>
+            {/* <div className='flex items-center gap-3'>
               <div className='h-[1px] w-full bg-orange-main' />
               <p className='font-dongle text-2xl text-orange-main'>Hoặc</p>
               <div className='h-[1px] w-full bg-orange-main' />
@@ -305,7 +302,7 @@ const Register = memo(() => {
                   )}
                 </ButtonBase>
               ))}
-            </div>
+            </div> */}
           </div>
         </div>
       )}

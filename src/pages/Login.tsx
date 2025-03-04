@@ -169,6 +169,7 @@ const Login = memo(() => {
                 size='md'
                 variant='gray'
                 className='social relative w-full max-w-[235px]'
+                onClick={() => console.log('login')}
               >
                 <div className='absolute top-1/2 z-10 -translate-y-1/2 scale-110 opacity-0'>
                   <GoogleLogin
