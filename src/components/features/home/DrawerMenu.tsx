@@ -1,6 +1,8 @@
+import classNames from 'classnames'
 import { FC, memo, useCallback, useMemo } from 'react'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
+import { EnumQuestionType } from '~/@types/question'
 import ButtonBase from '~/components/shared/ButtonBase'
 import {
   Drawer,
@@ -11,13 +13,10 @@ import {
 } from '~/components/shared/Drawer'
 import Logo from '~/components/shared/Logo'
 import { path } from '~/constants/path'
+import useResponsive from '~/hooks/useResponsive'
 import { logout } from '~/store/auth/auth.slice'
 import { useAppDispatch, useAppSelector } from '~/store/configStore'
 import { TitleDialog } from '../profile/ProfileDialog'
-import classNames from 'classnames'
-import useResponsive from '~/hooks/useResponsive'
-import { EnumQuestionType } from '~/@types/question'
-import { isPromoted } from '~/utils'
 
 interface DrawerMenuProps {
   open: boolean
@@ -53,14 +52,7 @@ const DrawerMenu: FC<DrawerMenuProps> = memo(
           : () => {
               setOpen(false)
               handleOpenQuestion(
-                (
-                  generalInfo?.isSkippedClass
-                    ? (generalInfo.classLevel === 1 && generalInfo.streak <= 5) ||
-                      (generalInfo.classLevel === 2 && generalInfo.streak <= 10) ||
-                      (generalInfo.classLevel === 3 && generalInfo.streak <= 15) ||
-                      (generalInfo.classLevel === 4 && generalInfo.streak <= 20)
-                    : isPromoted(generalInfo?.streak as number)
-                )
+                generalInfo?.hasPromotedQuestion
                   ? EnumQuestionType.promoted
                   : EnumQuestionType.daily
               )()

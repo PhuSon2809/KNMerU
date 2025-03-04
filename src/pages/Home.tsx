@@ -16,7 +16,7 @@ import { informations, socials } from '~/mocks/data'
 import { useAppDispatch, useAppSelector } from '~/store/configStore'
 import { getUserGifts } from '~/store/gift/gift.slice'
 import { getQuestion } from '~/store/question/question.slice'
-import { getErrorMessage, isPromoted } from '~/utils'
+import { getErrorMessage } from '~/utils'
 
 export type OpenState = {
   event: boolean
@@ -103,14 +103,7 @@ const Home = memo(() => {
                 generalInfo?.isCheckedIn
                   ? () => {}
                   : handleOpenDialogQuestion(
-                      (
-                        generalInfo?.isSkippedClass
-                          ? (generalInfo.classLevel === 1 && generalInfo.streak <= 5) ||
-                            (generalInfo.classLevel === 2 && generalInfo.streak <= 10) ||
-                            (generalInfo.classLevel === 3 && generalInfo.streak <= 15) ||
-                            (generalInfo.classLevel === 4 && generalInfo.streak <= 20)
-                          : isPromoted(generalInfo?.streak as number)
-                      )
+                      generalInfo?.hasPromotedQuestion
                         ? EnumQuestionType.promoted
                         : EnumQuestionType.daily
                     )

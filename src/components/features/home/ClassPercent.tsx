@@ -38,7 +38,10 @@ const ClassPercent = memo(() => {
                   : 'not-collected'
               }
               onClick={() => {
-                if (generalInfo?.classLevel === 3 && generalInfo.isOpenedFirstGift && idx === 0)
+                if (
+                  (generalInfo?.classLevel === 3 && generalInfo.isOpenedFirstGift && idx === 0) ||
+                  (generalInfo?.classLevel === 5 && generalInfo.isOpenedSecondGift && idx === 1)
+                )
                   return
                 setIdxPocket(idx)
                 setOpen(true)
