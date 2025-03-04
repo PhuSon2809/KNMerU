@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from '~/store/configStore'
 import { getRandomGift, getUserGifts } from '~/store/gift/gift.slice'
 import { getErrorMessage, isSuccessRes } from '~/utils'
 import CharactersChooseItem from '../choose-characters/CharactersChooseItem'
+import { getGeneralInfor } from '~/store/root/root.slice'
 
 interface BlindPocketDialogProps {
   open: boolean
@@ -38,12 +39,13 @@ const BlindPocketDialog: FC<BlindPocketDialogProps> = memo(({ open, setOpen, idx
   const handelOpenBlindPocket = useCallback(async () => {
     if (!generalInfo) return
     try {
-      const res = await dispatch(getRandomGift(generalInfo.classLevel)).unwrap()
-      console.log('getRandomGift res 2 ===>', res)
-      if (isSuccessRes(res.status)) {
-        if (isUnboxed) {
-          setIsViewPocket(true)
-        } else {
+      if (isUnboxed) {
+        setIsViewPocket(true)
+      } else {
+        const res = await dispatch(getRandomGift(generalInfo.classLevel)).unwrap()
+        console.log('getRandomGift res 2 ===>', res)
+        if (isSuccessRes(res.status)) {
+          await dispatch(getGeneralInfor())
           setIsUnboxed(true)
         }
       }
@@ -55,7 +57,7 @@ const BlindPocketDialog: FC<BlindPocketDialogProps> = memo(({ open, setOpen, idx
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent noOverlayBackground noBlur>
+      <DialogContent noOverlayBackground noBlur disabledClose={isLoading}>
         <div className='relative flex h-full flex-col gap-6 overflow-hidden p-6'>
           {isViewPocket ? (
             <>
@@ -97,6 +99,7 @@ const BlindPocketDialog: FC<BlindPocketDialogProps> = memo(({ open, setOpen, idx
                   <p className='text-xl'>Bạn chỉ có thể mở khi lên lớp {idxPocket === 0 ? 3 : 5}</p>
                 ) : (
                   <ButtonBase
+                    disabled={isLoading}
                     variant={isUnboxed ? 'green' : 'pink'}
                     className='w-fit'
                     onClick={isUnboxed ? () => dispatch(getUserGifts()) : handelOpenBlindPocket}
