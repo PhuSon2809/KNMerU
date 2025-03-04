@@ -4,7 +4,7 @@ import { images } from '~/assets'
 import BlindPocketItem from '~/components/shared/BlindPocketItem'
 import BlindPocketDialog from '../blind-pocket/BlindPocketDialog'
 import { useAppSelector } from '~/store/configStore'
-import { getSkippedLevels } from '~/utils'
+// import { getSkippedLevels } from '~/utils'
 
 const ClassPercent = memo(() => {
   const { userInfo } = useAppSelector((s) => s.auth)
@@ -15,12 +15,10 @@ const ClassPercent = memo(() => {
 
   const classes = useMemo(() => Array.from({ length: 5 }).map((_, i) => i + 1), [])
   const streak = useMemo(() => Array.from({ length: 25 }).map((_, i) => i + 1), [])
-  const skippedLevels = useMemo(
-    () => (generalInfo ? getSkippedLevels(generalInfo?.classLevelProgress) : []),
-    [generalInfo]
-  )
-
-  console.log('skippedLevels', skippedLevels)
+  // const skippedLevels = useMemo(
+  //   () => (generalInfo ? getSkippedLevels(generalInfo?.classLevelProgress) : []),
+  //   [generalInfo]
+  // )
 
   return (
     <>
@@ -51,17 +49,17 @@ const ClassPercent = memo(() => {
         <div className='h-fit rounded-1 border border-gray-2 bg-gray-1 p-1 shadow-pink md:h-9'>
           <div className='flex size-full flex-col rounded-1 bg-gray-2 md:flex-row'>
             {streak.map((str, idx) => {
-              const progress = generalInfo?.classLevelProgress || {}
-              const learnedLevels = new Set() // Tập hợp các lớp đã học
-              let currentLevel = 1 // Bắt đầu từ lớp 1
-              for (const grade in progress) {
-                const maxInGrade = progress[grade] // Giá trị tối đa của từng cấp
-                for (let i = currentLevel; i < currentLevel + maxInGrade; i++) {
-                  learnedLevels.add(i) // Thêm vào danh sách đã học
-                }
-                currentLevel += 5 // Tăng lên 5 lớp mỗi cấp
-              }
-              const isSkipped = skippedLevels.includes(str)
+              // const progress = generalInfo?.classLevelProgress || {}
+              // const learnedLevels = new Set() // Tập hợp các lớp đã học
+              // let currentLevel = 1 // Bắt đầu từ lớp 1
+              // for (const grade in progress) {
+              //   const maxInGrade = progress[grade] // Giá trị tối đa của từng cấp
+              //   for (let i = currentLevel; i < currentLevel + maxInGrade; i++) {
+              //     learnedLevels.add(i) // Thêm vào danh sách đã học
+              //   }
+              //   currentLevel += 5 // Tăng lên 5 lớp mỗi cấp
+              // }
+              // const isSkipped = skippedLevels.includes(str)
               return (
                 <div
                   key={str}
@@ -70,11 +68,14 @@ const ClassPercent = memo(() => {
                     idx === streak.length - 1 &&
                       'rounded-b-1 md:rounded-bl-none md:rounded-br-1 md:rounded-tr-1',
                     idx !== streak.length - 1 && 'border-b border-white md:border-b-0 md:border-r',
-                    isSkipped
-                      ? 'bg-orange-main' // Nếu lớp bị bỏ qua
-                      : learnedLevels.has(str)
-                        ? 'bg-blue-main' // Nếu lớp đã học
-                        : 'bg-transparent',
+                    // isSkipped
+                    //   ? 'bg-orange-main' // Nếu lớp bị bỏ qua
+                    //   : learnedLevels.has(str)
+                    //     ? 'bg-blue-main' // Nếu lớp đã học
+                    //     : 'bg-transparent',
+                    generalInfo && (generalInfo?.streak === str || str < generalInfo?.streak)
+                      ? 'bg-blue-main'
+                      : 'bg-transparent',
                     'h-8 w-5 md:size-full'
                   )}
                 />
