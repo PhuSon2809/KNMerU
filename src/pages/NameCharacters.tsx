@@ -67,7 +67,15 @@ const NameCharacters = memo(() => {
         toast.error(getErrorMessage(error) || 'Đặt tên thất bại! Thử lại nhé.')
       }
     },
-    [characterSelected, isAuthenticated, userInfo, userLogin]
+    [
+      characterSelected,
+      isAuthenticated,
+      userInfo,
+      userLogin,
+      isLengthValid,
+      isAlphaNumeric,
+      isNoSpecialChars
+    ]
   )
 
   return (
