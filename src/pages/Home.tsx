@@ -8,7 +8,6 @@ import CertificateDialog from '~/components/features/certificate/CertificateDial
 import ClassPercent from '~/components/features/home/ClassPercent'
 import DrawerMenu from '~/components/features/home/DrawerMenu'
 import InformationItem from '~/components/features/home/InformationItem'
-import PopoverActivities from '~/components/features/home/PopoverActivities'
 import ProfileDialog, { TitleDialog } from '~/components/features/profile/ProfileDialog'
 import QuestionDialog from '~/components/features/question/QuestionDialog'
 import ButtonBase from '~/components/shared/ButtonBase'
@@ -104,7 +103,14 @@ const Home = memo(() => {
                 generalInfo?.isCheckedIn
                   ? () => {}
                   : handleOpenDialogQuestion(
-                      isPromoted(generalInfo?.streak as number)
+                      (
+                        generalInfo?.isSkippedClass
+                          ? (generalInfo.classLevel === 1 && generalInfo.streak <= 5) ||
+                            (generalInfo.classLevel === 2 && generalInfo.streak <= 10) ||
+                            (generalInfo.classLevel === 3 && generalInfo.streak <= 15) ||
+                            (generalInfo.classLevel === 4 && generalInfo.streak <= 20)
+                          : isPromoted(generalInfo?.streak as number)
+                      )
                         ? EnumQuestionType.promoted
                         : EnumQuestionType.daily
                     )
@@ -124,26 +130,14 @@ const Home = memo(() => {
                   Học vượt cấp
                 </ButtonBase>
               )}
-            <PopoverActivities
-              popoverOpen={open.popover}
-              setPopoverOpen={(open) => setOpenState('popover')(open)}
-              onOpenEventDialog={handleOpenEventDialog}
+            <ButtonBase
+              size='lg'
+              className='min-w-[212px]'
+              LeftIcon={() => <span className='mgc_fire_fill' />}
+              onClick={() => handleOpenEventDialog('Sự kiện')}
             >
-              <ButtonBase
-                size='lg'
-                className='min-w-[212px]'
-                RightIcon={() => (
-                  <span
-                    className={classNames(
-                      'mgc_square_arrow_down_fill origin-center transition-all duration-300 ease-in-out',
-                      open.popover ? 'rotate-180' : 'rotate-0'
-                    )}
-                  />
-                )}
-              >
-                Tham gia hoạt động
-              </ButtonBase>
-            </PopoverActivities>
+              Tham gia sự kiện
+            </ButtonBase>
           </div>
         </div>
 

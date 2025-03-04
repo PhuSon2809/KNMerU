@@ -53,7 +53,14 @@ const DrawerMenu: FC<DrawerMenuProps> = memo(
           : () => {
               setOpen(false)
               handleOpenQuestion(
-                isPromoted(generalInfo?.streak as number)
+                (
+                  generalInfo?.isSkippedClass
+                    ? (generalInfo.classLevel === 1 && generalInfo.streak <= 5) ||
+                      (generalInfo.classLevel === 2 && generalInfo.streak <= 10) ||
+                      (generalInfo.classLevel === 3 && generalInfo.streak <= 15) ||
+                      (generalInfo.classLevel === 4 && generalInfo.streak <= 20)
+                    : isPromoted(generalInfo?.streak as number)
+                )
                   ? EnumQuestionType.promoted
                   : EnumQuestionType.daily
               )()
