@@ -188,7 +188,7 @@ const Login = memo(() => {
                     />
                     <div className='text-left font-dongle text-[20px]/[20px]'>
                       <p className='line-clamp-1'>Đăng nhập với {ggInor.name}</p>
-                      <p className='line-clamp-1 text-gray-3'>{ggInor.email}</p>
+                      <p className='line-clamp-1 truncate text-gray-3'>{ggInor.email}</p>
                     </div>
                   </div>
                 ) : (
