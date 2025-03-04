@@ -1,4 +1,4 @@
-import { memo, useState } from 'react'
+import { memo, useCallback, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { icons } from '~/assets'
@@ -12,9 +12,12 @@ import toast from 'react-hot-toast'
 import { path } from '~/constants/path'
 import classNames from 'classnames'
 import { useAppDispatch, useAppSelector } from '~/store/configStore'
-import { RegisterInput } from '~/@types'
-import { register, setIsSuccess } from '~/store/auth/auth.slice'
+import { RegisterInput, UserGGInfor } from '~/@types'
+import { getUserInfor, loginSocial, register, setIsSuccess } from '~/store/auth/auth.slice'
 import { getErrorMessage, isSuccessRes } from '~/utils'
+import { jwtDecode } from 'jwt-decode'
+import { CredentialResponse, GoogleLogin } from '@react-oauth/google'
+import { socials } from '~/mocks/data'
 
 export const registerFormSchema = z
   .object({
@@ -38,6 +41,7 @@ const Register = memo(() => {
 
   const { isLoading, isSuccess } = useAppSelector((s) => s.auth)
 
+  const [ggInor, setGGInfor] = useState<UserGGInfor | null>(null)
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [showPasswordCheck, setShowPasswordCheck] = useState<boolean>(false)
 
@@ -63,6 +67,35 @@ const Register = memo(() => {
       toast.error(getErrorMessage(error) || 'Đăng ký thất bại! Thử lại nhé.')
     }
   }
+
+  const onLoginGoogle = useCallback(async (response: CredentialResponse) => {
+    if (!response.credential) return toast.error('Đăng ký Google thất bại! Thử lại nhé.')
+    if (isLoading) return
+    try {
+      const decodedToken: any = jwtDecode(response.credential)
+      setGGInfor({
+        email: decodedToken.email,
+        imageUrl: decodedToken.picture,
+        name: decodedToken.name
+      })
+      const payload = await dispatch(
+        loginSocial({
+          idToken: response.credential,
+          provider: 2
+        })
+      ).unwrap()
+      if (!isSuccessRes(payload.status)) return toast.error('Đăng ký Google thất bại! Thử lại nhé.')
+      const payloadUserInfor = await dispatch(getUserInfor()).unwrap()
+      if (isSuccessRes(payloadUserInfor.status) && payloadUserInfor.data.characterId !== null) {
+        navigate(path.home)
+      } else {
+        navigate(path.chooseCharacters)
+      }
+    } catch (error) {
+      console.log('error', error)
+      toast.error(getErrorMessage(error) || 'Đăng ký thất bại! Thử lại nhé.')
+    }
+  }, [])
 
   return (
     <div className={classNames('relative size-full flex-1 pb-40 pt-20 flex-center')}>
@@ -234,6 +267,45 @@ const Register = memo(() => {
                 </ButtonBase>
               </div>
             </FormProvider>
+            <div className='flex items-center gap-3'>
+              <div className='h-[1px] w-full bg-orange-main' />
+              <p className='font-dongle text-2xl text-orange-main'>Hoặc</p>
+              <div className='h-[1px] w-full bg-orange-main' />
+            </div>
+            <div className='flex w-full items-center justify-center gap-[25px]'>
+              {socials.slice(0, 1).map((social) => (
+                <ButtonBase
+                  key={social.id}
+                  size='md'
+                  variant='gray'
+                  className='social relative w-full max-w-[235px]'
+                >
+                  <div className='absolute top-1/2 z-10 -translate-y-1/2 scale-110 opacity-0'>
+                    <GoogleLogin
+                      onSuccess={(response) => onLoginGoogle(response)}
+                      onError={() => toast.error('Đăng nhập Google thất bại')}
+                      useOneTap
+                    />
+                  </div>
+                  {ggInor ? (
+                    <div className='flex items-center gap-2'>
+                      <img
+                        src={ggInor.imageUrl}
+                        referrerPolicy='no-referrer'
+                        alt={ggInor.name}
+                        className='size-8 shrink-0 rounded-full'
+                      />
+                      <div className='text-left font-dongle text-[20px]/[20px]'>
+                        <p className='line-clamp-1'>Đăng nhập với {ggInor.name}</p>
+                        <p className='line-clamp-1 text-gray-3'>{ggInor.email}</p>
+                      </div>
+                    </div>
+                  ) : (
+                    <span className={social.icon} />
+                  )}
+                </ButtonBase>
+              ))}
+            </div>
           </div>
         </div>
       )}
