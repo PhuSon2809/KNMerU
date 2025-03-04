@@ -24,7 +24,7 @@ const CharactersAvatar: FC<CharactersAvatarProps> = memo(({ className }) => {
         />
       </div>
       <div className='z-10 mt-auto h-[22px] w-full rounded-1 bg-yellow-light flex-center'>
-        <p className='font-dongle text-[16px]/[16px] uppercase text-gray-6'>
+        <p className='line-clamp-1 font-dongle text-[16px]/[16px] uppercase text-gray-6'>
           {userInfo?.characterOriginalName?.split(' ')[2]}{' '}
           {userInfo?.characterName || 'TÊN NHÂN VẬT'}
         </p>
