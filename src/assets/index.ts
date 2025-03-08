@@ -20,6 +20,10 @@ import characters from './images/characters.png'
 import KV_photo from './images/KV-photo.png'
 import unbox from './images/unbox.png'
 import emptyBox from './lotties/empty-box.json'
+import BeKim from './lotties/MerUoc_BeKim.json'
+import BeLam from './lotties/MerUoc_BeLam.json'
+import BeSon from './lotties/MerUoc_BeSon.json'
+import BeThach from './lotties/MerUoc_BeThach.json'
 
 export { default as logo } from './logo.png'
 
@@ -50,4 +54,4 @@ export const images = {
   unbox
 }
 
-export const lotties = { emptyBox }
+export const lotties = { emptyBox, BeKim, BeSon, BeLam, BeThach }

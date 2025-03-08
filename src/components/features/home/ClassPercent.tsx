@@ -1,10 +1,10 @@
 import classNames from 'classnames'
+import Lottie from 'lottie-react'
 import { memo, useMemo, useState } from 'react'
-import { images } from '~/assets'
 import BlindPocketItem from '~/components/shared/BlindPocketItem'
-import BlindPocketDialog from '../blind-pocket/BlindPocketDialog'
 import { useAppSelector } from '~/store/configStore'
-import { getSkippedLevels } from '~/utils'
+import { getLottieFile, getSkippedLevels } from '~/utils'
+import BlindPocketDialog from '../blind-pocket/BlindPocketDialog'
 
 const ClassPercent = memo(() => {
   const { userInfo } = useAppSelector((s) => s.auth)
@@ -24,10 +24,14 @@ const ClassPercent = memo(() => {
     <>
       <div className='flex w-full flex-row justify-center gap-8 rounded-1 border-[3px] border-dashed border-blue-main bg-gray-1 p-5 md:flex-col lg:p-6'>
         <div className='flex flex-col items-center justify-between md:flex-row'>
-          <img
+          {/* <img
             src={userInfo?.characterImageUrl || images.characters}
             alt={userInfo?.characterName || 'characters'}
             className='h-[130px] w-auto'
+          /> */}
+          <Lottie
+            animationData={getLottieFile(userInfo?.characterOriginalName || '')}
+            className='h-[130px] w-auto -translate-x-5'
           />
           {Array.from({ length: 2 }).map((_, idx) => (
             <BlindPocketItem

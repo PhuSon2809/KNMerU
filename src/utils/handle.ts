@@ -1,4 +1,5 @@
 import Cookie from 'js-cookie'
+import { lotties } from '~/assets'
 import { ERROR_MESSAGES } from '~/constants/error'
 import { StorageKeys } from '~/constants/storage'
 
@@ -67,4 +68,14 @@ export const getSkippedLevels = (progress: ClassLevelProgress, infor: GeneralInf
   }
 
   return skippedLevels
+}
+
+export const getLottieFile = (name: string) => {
+  return name === 'Bé họ Lâm'
+    ? lotties.BeLam
+    : name === 'Bé họ Sơn'
+      ? lotties.BeSon
+      : name === 'Bé họ Thạch'
+        ? lotties.BeThach
+        : lotties.BeKim
 }

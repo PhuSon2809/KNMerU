@@ -1,11 +1,12 @@
 import classNames from 'classnames'
+import Lottie from 'lottie-react'
 import { Dispatch, FC, memo, SetStateAction, useState } from 'react'
 import { Character } from '~/@types'
-import { images } from '~/assets'
 import ButtonBase from '~/components/shared/ButtonBase'
 import useResponsive from '~/hooks/useResponsive'
 import { ShowDetail } from '~/pages/ChooseCharacters'
 import { useAppSelector } from '~/store/configStore'
+import { getLottieFile } from '~/utils'
 
 interface CharactersChooseItemProps {
   idx?: number
@@ -56,7 +57,7 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
           isShowDetail && '!w-full',
           showDetail
             ? `w-full min-w-[266px] max-w-[340px] shrink-0 bg-pink-main md:w-[587px] md:max-w-full`
-            : 'w-full min-w-[266px] md:w-fit',
+            : 'w-full min-w-[266px] md:w-fit md:min-w-fit',
           'flex flex-col items-stretch transition-500 md:flex-row'
         )}
       >
@@ -71,7 +72,7 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
             className
           )}
         >
-          <img
+          {/* <img
             src={character.imageUrl || images.characters}
             alt='characters'
             draggable={false}
@@ -88,6 +89,18 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
               isSelected && 'rotate-[-6.84deg]',
               !showDetail && 'group-hover:rotate-[-6.84deg] group-hover:scale-[85%]',
               'bottom-[20px] border-none absolute-center-x'
+            )}
+          /> */}
+          <Lottie
+            animationData={getLottieFile(character.name)}
+            className={classNames(
+              isInline
+                ? `bottom-auto top-[100px] w-[160px] transition-500 md:top-[-40px]`
+                : 'w-[320px] transition-300 md:w-[240px] lg:w-[360px]',
+              isSelected && 'rotate-[-6.84deg]',
+              !showDetail && 'group-hover:rotate-[-6.84deg] group-hover:scale-[85%]',
+              character.name === 'Bé họ Thạch' ? 'bottom-[0px]' : 'bottom-[20px]',
+              'border-none absolute-center-x'
             )}
           />
 

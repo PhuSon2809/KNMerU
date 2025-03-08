@@ -1,7 +1,8 @@
 import classNames from 'classnames'
+import Lottie from 'lottie-react'
 import { FC, memo } from 'react'
-import { images } from '~/assets'
 import { useAppSelector } from '~/store/configStore'
+import { getLottieFile } from '~/utils'
 
 interface CharactersAvatarProps {
   className?: string
@@ -17,10 +18,14 @@ const CharactersAvatar: FC<CharactersAvatarProps> = memo(({ className }) => {
       )}
     >
       <div className='absolute bottom-[22px] h-[105px] overflow-hidden'>
-        <img
+        {/* <img
           src={userInfo?.characterImageUrl || images.characters}
           alt='characters'
           className='h-auto w-[112px] object-cover'
+        /> */}
+        <Lottie
+          animationData={getLottieFile(userInfo?.characterOriginalName || '')}
+          className='h-auto w-[160px] -translate-x-5'
         />
       </div>
       <div className='z-10 mt-auto h-[22px] w-full rounded-1 bg-yellow-light flex-center'>
