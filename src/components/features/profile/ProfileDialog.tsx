@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import Lottie from 'lottie-react'
-import { Dispatch, FC, memo, SetStateAction, useMemo } from 'react'
+import { Dispatch, FC, memo, SetStateAction, useMemo, useState } from 'react'
 import { lotties } from '~/assets'
 import BgTexture from '~/components/shared/BgTexture'
 import ButtonBase from '~/components/shared/ButtonBase'
@@ -9,6 +9,8 @@ import GiftItem from '~/components/shared/GiftItem'
 import InputBase from '~/components/shared/InputBase'
 import { useAppSelector } from '~/store/configStore'
 import CharactersChooseItem from '../choose-characters/CharactersChooseItem'
+import ToggleTab from '~/components/shared/ToggleTab'
+import CertificateItem from '../certificate/CertificateItem'
 
 export enum TitleDialog {
   infor = 'Xem thông tin cá nhân',
@@ -26,6 +28,14 @@ const ProfileDialog: FC<ProfileDialogProps> = memo(
     const { userInfo } = useAppSelector((s) => s.auth)
     const { userGifts } = useAppSelector((s) => s.gift)
     const { characters } = useAppSelector((s) => s.character)
+    const { generalInfo } = useAppSelector((s) => s.rootData)
+
+    const [tabActive, setTabActive] = useState<number>(0)
+
+    const certificateData = useMemo(
+      () => Array.from({ length: (generalInfo?.classLevel as number) - 1 }).map((_, i) => i + 1),
+      [generalInfo]
+    )
 
     const character = useMemo(
       () =>
@@ -47,9 +57,20 @@ const ProfileDialog: FC<ProfileDialogProps> = memo(
             <div
               className={classNames(
                 titleDialog === TitleDialog.pocket && 'mb-5',
-                'flex justify-end pr-[50px]'
+                'flex items-center justify-between pr-[50px]'
               )}
             >
+              {titleDialog === TitleDialog.infor ? (
+                <ToggleTab
+                  tabActive={tabActive}
+                  allTab={['Túi quà', 'Giấy khen']}
+                  onChange={(i: number) => setTabActive(i)}
+                  className='h-7 w-40 rounded-full border border-blue-main'
+                  selectedClass={{ content: 'bg-blue-main' }}
+                />
+              ) : (
+                <div></div>
+              )}
               <ButtonBase
                 variant='pink'
                 onClick={() =>
@@ -78,6 +99,8 @@ const ProfileDialog: FC<ProfileDialogProps> = memo(
                   character={character}
                   isInline={titleDialog === TitleDialog.infor}
                   numberOfGift={userGifts.length}
+                  numberOfCertificate={certificateData.length}
+                  tabActive={tabActive}
                 />
               )}
               {titleDialog === TitleDialog.pocket && (
@@ -114,23 +137,37 @@ const ProfileDialog: FC<ProfileDialogProps> = memo(
               )}
               {titleDialog === TitleDialog.infor && (
                 <>
-                  <div className='hide-scrollbar grid h-full flex-1 grid-cols-1 gap-3 overflow-y-auto md:grid-cols-2 lg:grid-cols-3'>
-                    {userGifts.length > 0 ? (
-                      userGifts.map((gift) => (
-                        <GiftItem key={gift.id} gift={gift} className='col-span-1' />
-                      ))
-                    ) : (
-                      <div className='col-span-3 flex flex-col items-center justify-center'>
-                        <Lottie
-                          animationData={lotties.emptyBox}
-                          className='w-[150px] lg:w-[200px]'
-                        />
-                        <p className='px-5 text-center'>Bạn chưa có món quà nào trong túi</p>
-                      </div>
-                    )}
+                  <div className='hide-scrollbar h-full flex-1 overflow-y-auto'>
+                    <div className='grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3'>
+                      {(tabActive === 0 ? userGifts.length > 0 : certificateData.length > 0) ? (
+                        tabActive === 0 ? (
+                          userGifts.map((gift) => (
+                            <GiftItem key={gift.id} gift={gift} className='col-span-1' />
+                          ))
+                        ) : (
+                          certificateData.map((i) => (
+                            <CertificateItem key={i} percent={i * 20} className='col-span-1' />
+                          ))
+                        )
+                      ) : (
+                        <div className='col-span-3 flex flex-col items-center justify-center'>
+                          <Lottie
+                            animationData={lotties.emptyBox}
+                            className='w-[150px] lg:w-[200px]'
+                          />
+                          <p className='px-5 text-center'>
+                            {tabActive === 0
+                              ? 'Bạn chưa có món quà nào trong túi'
+                              : 'Bạn chưa nhận giấy khen nào'}
+                          </p>
+                        </div>
+                      )}
+                    </div>
                   </div>
                   <div className='w-full rounded-2xl bg-orange-main p-4 pb-3 text-gray-1 text-dongle-24'>
-                    Những món quà này sẽ được gửi đến các bé
+                    {tabActive === 0
+                      ? 'Những món quà này sẽ được gửi đến các bé'
+                      : 'Giấy khen bạn đã nhận được'}
                   </div>
                 </>
               )}

@@ -32,9 +32,9 @@ const ToggleTab = memo(
             <div key={item} onClick={handleChange(i)} className='z-10 size-full flex-center'>
               <p
                 className={classNames(
-                  'text-center',
+                  'mt-1 text-nowrap px-1 text-center font-dongle text-[20px] transition-300',
                   selectedClass?.text,
-                  tabActive === i && 'font-semibold'
+                  tabActive === i ? 'text-white' : 'text-blue-main'
                 )}
               >
                 {item}
@@ -45,7 +45,7 @@ const ToggleTab = memo(
         <div
           className={classNames(
             'rounded-[inherit] transition-transform duration-200 ease-in-out',
-            selectedClass?.wrap ?? 'absolute left-0 top-0 h-full p-1'
+            selectedClass?.wrap ?? 'absolute left-0 top-0 h-full p-0.5'
           )}
           style={{
             width: `${100 / allTab.length}%`,

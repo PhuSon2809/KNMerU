@@ -9,6 +9,7 @@ import { useAppSelector } from '~/store/configStore'
 import { getLottieFile } from '~/utils'
 
 interface CharactersChooseItemProps {
+  tabActive?: number
   idx?: number
   className?: string
   isSelected?: boolean
@@ -20,6 +21,7 @@ interface CharactersChooseItemProps {
   setShowDetailCheck?: Dispatch<SetStateAction<ShowDetail>>
   character: Character
   numberOfGift?: number
+  numberOfCertificate?: number
 }
 
 const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
@@ -32,9 +34,11 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
     disable = false,
     isInline = false,
     numberOfGift,
+    numberOfCertificate,
     onClick,
     setShowDetailCheck,
-    character
+    character,
+    tabActive = 0
   }) => {
     const { userInfo } = useAppSelector((s) => s.auth)
 
@@ -182,7 +186,8 @@ const CharactersChooseItem: FC<CharactersChooseItemProps> = memo(
           <div className='absolute bottom-[-1px] z-10 h-[22px] w-full rounded-1 bg-yellow-light flex-center'>
             <p className='mt-0.5 font-dongle text-[16px]/[16px] uppercase text-gray-6'>
               [{userInfo?.characterOriginalName?.split(' ')[2]} {character.name || 'TÊN NHÂN VẬT'}]
-              - Đang có {numberOfGift} món quà
+              - Đang có {tabActive === 0 ? numberOfGift : numberOfCertificate}{' '}
+              {tabActive === 0 ? 'món quà' : 'giấy khen'}
             </p>
           </div>
         )}
