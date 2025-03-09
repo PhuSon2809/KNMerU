@@ -12,10 +12,12 @@ import mushroom from './icons/mushroom.png'
 import rose from './icons/rose.png'
 import small_flower from './icons/small_flower.png'
 import star from './icons/star.png'
+import graduction from './icons/graduction.png'
 import plane from './icons/plane.png'
 import bg_input from './images/bg-input.png'
 import bg_textarea from './images/bg-textarea.png'
 import bg_texture from './images/bg-texture.png'
+import bg_certificate from './images/bg_certificate.png'
 import characters from './images/characters.png'
 import KV_photo from './images/KV-photo.png'
 import unbox from './images/unbox.png'
@@ -42,7 +44,8 @@ export const icons = {
   coffee,
   rose,
   star,
-  plane
+  plane,
+  graduction
 }
 
 export const images = {
@@ -51,7 +54,8 @@ export const images = {
   bg_input,
   bg_textarea,
   characters,
-  unbox
+  unbox,
+  bg_certificate
 }
 
 export const lotties = { emptyBox, BeKim, BeSon, BeLam, BeThach }

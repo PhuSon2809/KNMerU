@@ -60,6 +60,9 @@ export default {
       },
       boxShadow: {
         pink: '-4px 6px 0px 0px #FF92CB'
+      },
+      backgroundImage: {
+        certificate: "url('/src/assets/images/bg_certificate.png')"
       }
     }
   },

@@ -146,7 +146,12 @@ const ProfileDialog: FC<ProfileDialogProps> = memo(
                           ))
                         ) : (
                           certificateData.map((i) => (
-                            <CertificateItem key={i} percent={i * 20} className='col-span-1' />
+                            <CertificateItem
+                              key={i}
+                              percent={i * 25}
+                              className='col-span-1'
+                              type={i === 4 ? 'final' : 'normal'}
+                            />
                           ))
                         )
                       ) : (
