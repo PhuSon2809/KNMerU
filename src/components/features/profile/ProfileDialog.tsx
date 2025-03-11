@@ -142,7 +142,12 @@ const ProfileDialog: FC<ProfileDialogProps> = memo(
                       {(tabActive === 0 ? userGifts.length > 0 : certificateData.length > 0) ? (
                         tabActive === 0 ? (
                           userGifts.map((gift) => (
-                            <GiftItem key={gift.id} gift={gift} className='col-span-1' />
+                            <GiftItem
+                              key={gift.id}
+                              gift={gift}
+                              variant='gift'
+                              className='col-span-1'
+                            />
                           ))
                         ) : (
                           certificateData.map((i) => (
