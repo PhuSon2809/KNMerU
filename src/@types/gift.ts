@@ -1,6 +1,7 @@
 export interface Gift {
-  id: number
-  name: string
-  description: string
-  imageUrl: string
+  giftId: number
+  giftName: string
+  giftDescription: string
+  giftImageUrl: string
+  classLevel: number
 }

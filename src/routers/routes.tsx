@@ -10,6 +10,8 @@ import Welcome from '~/pages/Welcome'
 import PrivateRouter from './PrivateRouter'
 import PublicRouter from './PublicRouter'
 import Login from '~/pages/Login'
+import Event from '~/pages/Event'
+import SupportCard from '~/pages/SupportCard'
 
 export const routers = createHashRouter([
   {
@@ -60,6 +62,14 @@ export const routers = createHashRouter([
           {
             path: path.home,
             element: <Home />
+          },
+          {
+            path: path.event,
+            element: <Event />
+          },
+          {
+            path: path.supportCard,
+            element: <SupportCard />
           }
         ]
       }

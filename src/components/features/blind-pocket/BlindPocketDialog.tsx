@@ -72,7 +72,7 @@ const BlindPocketDialog: FC<BlindPocketDialogProps> = memo(({ open, setOpen, idx
               <div className={classNames('flex flex-1 flex-col gap-3 transition-500')}>
                 <div className='grid h-full flex-1 grid-cols-3 gap-3'>
                   {userGifts.map((gift) => (
-                    <GiftItem key={gift.id} gift={gift} className='col-span-1' />
+                    <GiftItem key={gift.giftId} gift={gift} className='col-span-1' />
                   ))}
                 </div>
                 <div className='rounded-2xl bg-orange-main p-4 text-gray-1 text-dongle-24'>

@@ -143,7 +143,7 @@ const ProfileDialog: FC<ProfileDialogProps> = memo(
                         tabActive === 0 ? (
                           userGifts.map((gift) => (
                             <GiftItem
-                              key={gift.id}
+                              key={gift.giftId}
                               gift={gift}
                               variant='gift'
                               className='col-span-1'

@@ -4,5 +4,7 @@ export const path = {
   register: '/register',
   home: '/home',
   chooseCharacters: '/choose-characters',
-  nameCharacters: '/name-characters'
+  nameCharacters: '/name-characters',
+  event: '/event',
+  supportCard: '/support-card'
 }
