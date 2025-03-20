@@ -21,6 +21,9 @@ import bg_certificate from './images/bg_certificate.png'
 import characters from './images/characters.png'
 import KV_photo from './images/KV-photo.png'
 import unbox from './images/unbox.png'
+import stamp from './images/stamp.png'
+import triangle from './images/triangle.png'
+import school from './images/school.png'
 import emptyBox from './lotties/empty-box.json'
 import BeKim from './lotties/MerUoc_BeKim.json'
 import BeLam from './lotties/MerUoc_BeLam.json'
@@ -56,7 +59,10 @@ export const images = {
   bg_textarea,
   characters,
   unbox,
-  bg_certificate
+  bg_certificate,
+  triangle,
+  school,
+  stamp
 }
 
 export const lotties = { emptyBox, BeKim, BeSon, BeLam, BeThach, flag }

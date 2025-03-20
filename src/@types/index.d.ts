@@ -1,7 +1,9 @@
-export * from './user'
+export * from './card'
+export * from './character'
 export * from './gift'
 export * from './question'
-export * from './character'
+export * from './route'
+export * from './user'
 
 declare global {
   type Color = 'pink' | 'orange' | 'blue' | 'green' | 'yellow'
@@ -53,5 +55,8 @@ declare global {
     isSkippedClass: boolean
     retryDailyQuestion: number
     isDailyQuestionAnsweredCorrect: boolean
+    referralCode: string | null
+    totalReferral: number
+    isAttendedEvent: boolean
   }
 }

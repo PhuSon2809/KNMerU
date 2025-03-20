@@ -11,6 +11,8 @@ import characterReducer, { CharacterState } from './character/character.slice'
 import giftReducer, { GiftState } from './gift/gift.slice'
 import questionReducer, { QuestionState } from './question/question.slice'
 import rootDataReducer, { RootDataState } from './root/root.slice'
+import cardReducer, { CardState } from './card/card.slice'
+import routeReducer, { RouteState } from './route/route.slice'
 
 // Định nghĩa state gốc
 export interface RootState {
@@ -19,6 +21,8 @@ export interface RootState {
   character: CharacterState
   question: QuestionState
   gift: GiftState
+  card: CardState
+  route: RouteState
 }
 
 // Kiểu state bao gồm Redux Persist
@@ -30,13 +34,15 @@ const rootReducer: Reducer<PersistedRootState> = combineReducers({
   auth: authReducer,
   character: characterReducer,
   question: questionReducer,
-  gift: giftReducer
+  gift: giftReducer,
+  card: cardReducer,
+  route: routeReducer
 })
 
 // Cấu hình Redux Persist
 const persistConfig = {
   key: 'knmu',
-  whitelist: ['rootData', 'auth', 'character', 'gift'],
+  whitelist: ['rootData', 'auth', 'character', 'gift', 'card', 'route'],
   storage,
   stateReconciler: autoMergeLevel2
 }

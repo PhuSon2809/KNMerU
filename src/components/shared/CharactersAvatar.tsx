@@ -17,7 +17,7 @@ const CharactersAvatar: FC<CharactersAvatarProps> = memo(({ className }) => {
         className
       )}
     >
-      <div className='absolute bottom-[22px] h-[105px] overflow-hidden'>
+      <div className='bottom-[22px] h-[105px] overflow-hidden absolute-center-x'>
         {/* <img
           src={userInfo?.characterImageUrl || images.characters}
           alt='characters'
@@ -25,7 +25,7 @@ const CharactersAvatar: FC<CharactersAvatarProps> = memo(({ className }) => {
         /> */}
         <Lottie
           animationData={getLottieFile(userInfo?.characterOriginalName || '')}
-          className='h-auto w-[160px] -translate-x-5'
+          className='h-auto w-[160px]'
         />
       </div>
       <div className='z-10 mt-auto h-[22px] w-full rounded-1 bg-yellow-light flex-center'>

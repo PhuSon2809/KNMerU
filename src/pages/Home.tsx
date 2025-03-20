@@ -1,9 +1,9 @@
 import classNames from 'classnames'
 import { memo, useCallback, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 import { EnumQuestionType } from '~/@types/question'
 import { icons } from '~/assets'
-import AcitivitiesDialog from '~/components/features/activities/AcitivitiesDialog'
 import CertificateDialog from '~/components/features/certificate/CertificateDialog'
 import ClassPercent from '~/components/features/home/ClassPercent'
 import DrawerMenu from '~/components/features/home/DrawerMenu'
@@ -11,8 +11,10 @@ import InformationItem from '~/components/features/home/InformationItem'
 import ProfileDialog, { TitleDialog } from '~/components/features/profile/ProfileDialog'
 import QuestionDialog from '~/components/features/question/QuestionDialog'
 import ButtonBase from '~/components/shared/ButtonBase'
+import { path } from '~/constants/path'
 import Header from '~/layouts/components/Header'
 import { informations, socials } from '~/mocks/data'
+import { getCards } from '~/store/card/card.slice'
 import { useAppDispatch, useAppSelector } from '~/store/configStore'
 import { getUserGifts } from '~/store/gift/gift.slice'
 import { getQuestion } from '~/store/question/question.slice'
@@ -29,11 +31,12 @@ export type OpenState = {
 
 const Home = memo(() => {
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
   const { isLoading } = useAppSelector((s) => s.auth)
+  const { userCards } = useAppSelector((s) => s.card)
   const { generalInfo } = useAppSelector((s) => s.rootData)
 
-  const [titleDialog, setTitleDialog] = useState<string>('')
   const [questionType, setQuestionType] = useState<EnumQuestionType>(EnumQuestionType.daily)
   const [titleProfile, setTitleProfile] = useState<TitleDialog>(TitleDialog.infor)
   const [open, setOpen] = useState<OpenState>({
@@ -71,13 +74,17 @@ const Home = memo(() => {
     []
   )
 
-  const handleOpenEventDialog = useCallback((title: string) => {
-    setTitleDialog(title)
-    setOpenState('event')(true)
-  }, [])
+  const handleOpenEventDialog = useCallback(() => {
+    if (userCards.length === 0) {
+      navigate(path.supportCard)
+    } else {
+      navigate(path.event)
+    }
+  }, [userCards])
 
   useEffect(() => {
     dispatch(getUserGifts())
+    dispatch(getCards())
   }, [])
 
   return (
@@ -127,7 +134,7 @@ const Home = memo(() => {
               size='lg'
               className='min-w-[212px]'
               LeftIcon={() => <span className='mgc_fire_fill' />}
-              onClick={() => handleOpenEventDialog('Sự kiện')}
+              onClick={handleOpenEventDialog}
             >
               Tham gia sự kiện
             </ButtonBase>
@@ -170,11 +177,6 @@ const Home = memo(() => {
           setOpenState('question')(false)
           setOpenState('certificate')(true)
         }}
-      />
-      <AcitivitiesDialog
-        titleDialog={titleDialog}
-        open={open.event}
-        setOpen={(open) => setOpenState('event')(open)}
       />
       <ProfileDialog
         open={open.profile}
