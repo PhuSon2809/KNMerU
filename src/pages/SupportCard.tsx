@@ -31,7 +31,7 @@ const SupportCard = memo(() => {
 
   return (
     <div className='relative flex w-full max-w-3xl flex-col items-stretch justify-center'>
-      <div className='-bottom-80 size-[729px] shrink-0 rounded-full bg-skin-main absolute-center-x' />
+      <div className='-bottom-[570px] z-[-1] size-[729px] shrink-0 rounded-full bg-skin-main opacity-30 absolute-center-x' />
 
       <div className='flex w-full flex-col justify-center'>
         <Logo className='h-auto w-[185px]' />

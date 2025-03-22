@@ -14,6 +14,7 @@ import small_flower from './icons/small_flower.png'
 import star from './icons/star.png'
 import graduction from './icons/graduction.png'
 import plane from './icons/plane.png'
+import cards from './icons/cards.png'
 import bg_input from './images/bg-input.png'
 import bg_textarea from './images/bg-textarea.png'
 import bg_texture from './images/bg-texture.png'
@@ -49,7 +50,8 @@ export const icons = {
   rose,
   star,
   plane,
-  graduction
+  graduction,
+  cards
 }
 
 export const images = {
