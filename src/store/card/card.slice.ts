@@ -24,6 +24,20 @@ export const cardSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
+      .addCase(getCards.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(getCards.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isError = false
+        state.isSuccess = true
+        state.cards = action.payload.data
+      })
+      .addCase(getCards.rejected, (state) => {
+        state.isLoading = false
+        state.isError = true
+        state.isSuccess = false
+      })
       .addCase(getUserCards.pending, (state) => {
         state.isLoading = true
       })
@@ -31,7 +45,7 @@ export const cardSlice = createSlice({
         state.isLoading = false
         state.isError = false
         state.isSuccess = true
-        state.cards = action.payload.data
+        state.userCards = action.payload.data
       })
       .addCase(getUserCards.rejected, (state) => {
         state.isLoading = false

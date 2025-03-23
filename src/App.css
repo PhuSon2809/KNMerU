@@ -26,6 +26,7 @@
   --gray-6: #4c4747;
   --gray-7: #383737;
   --gray-8: #d9d9d9;
+  --gray-9: #f6f6f6;
 }
 
 @font-face {
@@ -97,4 +98,76 @@ body {
 
 [data-vaul-drawer][data-vaul-drawer-direction='left']::after {
   background: transparent !important;
+}
+
+@keyframes rotateLeft {
+  from {
+    transform: translateX(100%) scale(0.3) rotate(0deg);
+  }
+  to {
+    transform: translateX(65%) scale(0.8) rotate(-10deg);
+  }
+}
+
+@keyframes rotateRight {
+  from {
+    transform: translateX(-100%) scale(0.3) rotate(0deg);
+  }
+  to {
+    transform: translateX(-65%) scale(0.8) rotate(10deg);
+  }
+}
+
+@keyframes scale {
+  from {
+    scale: 30%;
+  }
+  to {
+    scale: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Mobile nhỏ */
+  @keyframes rotateLeft {
+    from {
+      transform: translateX(100%) scale(0.3) rotate(0deg); /* Bắt đầu từ giữa */
+    }
+    to {
+      transform: translateX(70%) scale(0.8) rotate(-5deg); /* Xòe ra ít hơn */
+    }
+  }
+
+  @keyframes rotateRight {
+    from {
+      transform: translateX(-100%) scale(0.3) rotate(0deg);
+    }
+    to {
+      transform: translateX(-70%) scale(0.8) rotate(5deg);
+    }
+  }
+
+  .rotate-left {
+    animation: rotateLeft 1s ease-out forwards;
+  }
+
+  .rotate-right {
+    animation: rotateRight 1s ease-out forwards;
+  }
+
+  .scale {
+    animation: scale 0.8s linear forwards;
+  }
+}
+
+.rotate-left {
+  animation: rotateLeft 1s linear forwards;
+}
+
+.rotate-Right {
+  animation: rotateRight 1s linear forwards;
+}
+
+.scale {
+  animation: scale 1s linear forwards;
 }

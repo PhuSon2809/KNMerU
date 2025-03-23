@@ -52,7 +52,8 @@ export default {
           5: 'var(--gray-5)',
           6: 'var(--gray-6)',
           7: 'var(--gray-7)',
-          8: 'var(--gray-8)'
+          8: 'var(--gray-8)',
+          9: 'var(--gray-9)'
         }
       },
       borderRadius: {
@@ -63,7 +64,11 @@ export default {
         pink: '-4px 6px 0px 0px #FF92CB'
       },
       backgroundImage: {
-        certificate: "url('/src/assets/images/bg_certificate.png')"
+        certificate: "url('/src/assets/images/bg_certificate.png')",
+        'ln-white-pink':
+          'linear-gradient(0deg, rgba(255, 146, 203, 0.2), rgba(255, 146, 203, 0.2)), linear-gradient(0deg, #FFFFFF, #FFFFFF)',
+        'ln-white-blue':
+          'linear-gradient(0deg, rgba(93, 174, 255, 0.2), rgba(93, 174, 255, 0.2)), linear-gradient(0deg, #FFFFFF, #FFFFFF)'
       }
     }
   },

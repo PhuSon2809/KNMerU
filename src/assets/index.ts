@@ -23,6 +23,8 @@ import KV_photo from './images/KV-photo.png'
 import unbox from './images/unbox.png'
 import cards from './images/cards.png'
 import stamp from './images/stamp.png'
+import cohoi from './images/cohoi.png'
+import teacher from './images/teacher.png'
 import triangle from './images/triangle.png'
 import school from './images/school.png'
 import emptyBox from './lotties/empty-box.json'
@@ -64,7 +66,9 @@ export const images = {
   triangle,
   school,
   stamp,
-  cards
+  cards,
+  cohoi,
+  teacher
 }
 
 export const lotties = { emptyBox, BeKim, BeSon, BeLam, BeThach, flag }
