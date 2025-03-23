@@ -15,7 +15,7 @@ interface ICardItemProps {
 }
 
 const CardItem: FC<ICardItemProps> = memo(
-  ({ card, isUsed = false, variants = 'pink', status = 'default', className, onOpen }) => {
+  ({ card, isUsed = false, variants = 'green', status = 'default', className, onOpen }) => {
     const bgDefault = useMemo(
       () => ({
         pink: 'bg-ln-white-pink',

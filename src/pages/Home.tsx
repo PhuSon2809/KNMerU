@@ -136,7 +136,8 @@ const Home = memo(() => {
               LeftIcon={() => <span className='mgc_fire_fill' />}
               onClick={handleOpenEventDialog}
             >
-              Tham gia sự kiện
+              Tham gia sự kiện <br />
+              Khơi Nguồn Mer Ước
             </ButtonBase>
           </div>
         </div>
