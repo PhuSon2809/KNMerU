@@ -28,7 +28,7 @@ const SupportCard = memo(() => {
         const res = await dispatch(claimCards()).unwrap()
         if (isSuccessRes(res.status)) {
           dispatch(getUserCards())
-          toast.error('Chúc mừng bạn đã nhận được 3 thẻ!')
+          toast.success('Chúc mừng bạn đã nhận được 3 thẻ!')
           navigate(path.event)
         }
       } else if (userCards.length > 0) {
@@ -89,6 +89,7 @@ const SupportCard = memo(() => {
       )}
 
       <div className='mx-auto flex w-full max-w-[359px] flex-col items-center gap-8'>
+        <p className='text-dongle-24' style={{marginBottom: "0px"}}>Lướt sang phải, để xem thêm các thẻ khác nhé!</p>
         <Comment content='“Hãy sử dụng chúng một cách khéo léo để tạo ra cơ hội và vượt qua thử thách phía trước!”' />
         <ButtonBase
           variant='pink'
@@ -96,7 +97,7 @@ const SupportCard = memo(() => {
           LeftIcon={() => <span className='mgc_mailbox_fill' />}
           onClick={onClick}
         >
-          Xem chi tiết
+          Tiếp Tục
         </ButtonBase>
       </div>
     </div>
