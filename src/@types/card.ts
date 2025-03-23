@@ -3,6 +3,10 @@ export interface Card {
   title: string
   description: string
   imageUrl: string
+  cardId: number
+  cardName: string
+  cardDescription: string
+  cardImageUrl: string
   isUsed: boolean
   routeId: number | null
   routeTitle: string | null

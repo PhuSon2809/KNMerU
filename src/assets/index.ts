@@ -19,6 +19,7 @@ import bg_textarea from './images/bg-textarea.png'
 import bg_texture from './images/bg-texture.png'
 import bg_certificate from './images/bg_certificate.png'
 import characters from './images/characters.png'
+import cardWhite from './images/card-white.png'
 import KV_photo from './images/KV-photo.png'
 import unbox from './images/unbox.png'
 import cards from './images/cards.png'
@@ -68,7 +69,8 @@ export const images = {
   stamp,
   cards,
   cohoi,
-  teacher
+  teacher,
+  cardWhite
 }
 
 export const lotties = { emptyBox, BeKim, BeSon, BeLam, BeThach, flag }

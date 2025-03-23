@@ -1,15 +1,15 @@
 import { memo, useCallback, useEffect, useState } from 'react'
+import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import CardItem from '~/components/features/card/CardItem'
 import ButtonBase from '~/components/shared/ButtonBase'
+import CardSlide from '~/components/shared/CardSlide'
 import Comment from '~/components/shared/Comment'
 import Logo from '~/components/shared/Logo'
 import { path } from '~/constants/path'
 import { claimCards, getCards, getUserCards } from '~/store/card/card.slice'
 import { useAppDispatch, useAppSelector } from '~/store/configStore'
-import { Swiper, SwiperSlide } from 'swiper/react'
 import { getErrorMessage, isSuccessRes } from '~/utils'
-import toast from 'react-hot-toast'
 
 const SupportCard = memo(() => {
   const dispatch = useAppDispatch()
@@ -55,27 +55,7 @@ const SupportCard = memo(() => {
       </div>
 
       {showDetail ? (
-        <div className='my-10 flex flex-1 items-center justify-center'>
-          <Swiper
-            loop
-            initialSlide={1}
-            slidesPerView={1}
-            className='flex items-center justify-center'
-          >
-            {cards.map((card) => (
-              <SwiperSlide key={card.id}>
-                <CardItem
-                  card={card}
-                  className='mx-auto'
-                  isUsed={card.isUsed}
-                  onOpen={(idSelect) => setIdCardActive(idSelect)}
-                  status={card.id === idCardActive ? 'detail' : 'default'}
-                  variants={card.id === 1 ? 'green' : card.id === 2 ? 'pink' : 'blue'}
-                />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
+        <CardSlide cards={cards} idCardActive={idCardActive} setIdCardActive={setIdCardActive} />
       ) : (
         <div className='relative my-10 flex flex-1 items-center justify-center'>
           {cards[0] && (

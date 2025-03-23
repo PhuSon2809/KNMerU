@@ -52,7 +52,7 @@ const CardItem: FC<ICardItemProps> = memo(
       []
     )
 
-    const desc = cardDescs.find((d) => d.id === card.id)?.desc
+    const desc = cardDescs.find((d) => d.id === (card.id || card.cardId))?.desc
 
     return (
       <div
@@ -69,7 +69,7 @@ const CardItem: FC<ICardItemProps> = memo(
             bgDetail[variants]
           )}
         >
-          {card.id}
+          {card.id || card.cardId}
         </div>
 
         <div
@@ -79,7 +79,13 @@ const CardItem: FC<ICardItemProps> = memo(
           )}
         >
           <img
-            src={card.id === 1 ? card.imageUrl : card.id === 2 ? images.teacher : images.cohoi}
+            src={
+              card.id === 1 || card.cardId === 1
+                ? card.imageUrl || card.cardImageUrl
+                : card.id === 2 || card.cardId === 2
+                  ? images.teacher
+                  : images.cohoi
+            }
             alt={card.title}
             className={classNames(
               status === 'default' ? 'h-auto w-full' : 'size-[130px]',
@@ -87,7 +93,11 @@ const CardItem: FC<ICardItemProps> = memo(
             )}
           />
           {status === 'default' && (
-            <ButtonBase variant={variants} className='text-white' onClick={() => onOpen?.(card.id)}>
+            <ButtonBase
+              variant={variants}
+              className='text-white'
+              onClick={() => onOpen?.(card.id || card.cardId)}
+            >
               Xem chi tiết
             </ButtonBase>
           )}
@@ -125,7 +135,7 @@ const CardItem: FC<ICardItemProps> = memo(
             'flex flex-col items-center justify-center space-y-1 text-center transition-300'
           )}
         >
-          <p className='text-xl text-white'>{card.title}</p>
+          <p className='text-xl text-white'>{card.title || card.cardName}</p>
           <p
             className={classNames('text-xs', status === 'default' ? 'text-gray-7' : 'text-gray-1')}
           >

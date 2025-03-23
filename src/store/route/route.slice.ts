@@ -72,16 +72,19 @@ export const routeSlice = createSlice({
 const routeReducer = routeSlice.reducer
 export default routeReducer
 
-export const passRoute = createAsyncThunk('route/pass-route', async (code, { rejectWithValue }) => {
-  try {
-    const res: ApiResponse<any> = await axiosClient.post('/Route/PassRoute', { code })
-    console.log('passRoute res ===> ', res)
-    return res
-  } catch (error) {
-    console.log('passRoute error ===>  ' + error)
-    return rejectWithValue(error)
+export const passRoute = createAsyncThunk(
+  'route/pass-route',
+  async (code: string, { rejectWithValue }) => {
+    try {
+      const res: ApiResponse<any> = await axiosClient.post('/Route/PassRoute', { code })
+      console.log('passRoute res ===> ', res)
+      return res
+    } catch (error) {
+      console.log('passRoute error ===>  ' + error)
+      return rejectWithValue(error)
+    }
   }
-})
+)
 
 export const finishRoute = createAsyncThunk(
   'route/finish-route',

@@ -52,15 +52,15 @@ export const cardSlice = createSlice({
         state.isError = true
         state.isSuccess = false
       })
-      .addCase(useCard.pending, (state) => {
+      .addCase(chooseCard.pending, (state) => {
         state.isLoading = true
       })
-      .addCase(useCard.fulfilled, (state) => {
+      .addCase(chooseCard.fulfilled, (state) => {
         state.isLoading = false
         state.isError = false
         state.isSuccess = true
       })
-      .addCase(useCard.rejected, (state) => {
+      .addCase(chooseCard.rejected, (state) => {
         state.isLoading = false
         state.isError = true
         state.isSuccess = false
@@ -110,16 +110,19 @@ export const getUserCards = createAsyncThunk(
   }
 )
 
-export const useCard = createAsyncThunk('card/user-card', async (cardId, { rejectWithValue }) => {
-  try {
-    const res: ApiResponse<any> = await axiosClient.put(`/Card/UseCard/${cardId}`)
-    console.log('useCard res ===> ', res)
-    return res
-  } catch (error) {
-    console.log('useCard error ===>  ' + error)
-    return rejectWithValue(error)
+export const chooseCard = createAsyncThunk(
+  'card/user-card',
+  async (cardId: number, { rejectWithValue }) => {
+    try {
+      const res: ApiResponse<any> = await axiosClient.put(`/Card/UseCard/${cardId}`)
+      console.log('useCard res ===> ', res)
+      return res
+    } catch (error) {
+      console.log('useCard error ===>  ' + error)
+      return rejectWithValue(error)
+    }
   }
-})
+)
 
 export const claimCards = createAsyncThunk('card/claim-cards', async (_, { rejectWithValue }) => {
   try {
