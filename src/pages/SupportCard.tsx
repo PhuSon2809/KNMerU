@@ -63,6 +63,7 @@ const SupportCard = memo(() => {
               status='default'
               variants='green'
               card={cards[0]}
+              onOpen={(id) => setIdCardActive(id)}
               className='rotate-left absolute z-10 w-full'
             />
           )}
@@ -71,6 +72,7 @@ const SupportCard = memo(() => {
               status='default'
               variants='pink'
               card={cards[1]}
+              onOpen={(id) => setIdCardActive(id)}
               className='scale z-30 mr-5'
             />
           )}
@@ -79,6 +81,7 @@ const SupportCard = memo(() => {
               status='default'
               variants='blue'
               card={cards[2]}
+              onOpen={(id) => setIdCardActive(id)}
               className='rotate-Right absolute z-20'
             />
           )}
