@@ -21,6 +21,7 @@ import bg_certificate from './images/bg_certificate.png'
 import characters from './images/characters.png'
 import KV_photo from './images/KV-photo.png'
 import unbox from './images/unbox.png'
+import cards from './images/cards.png'
 import stamp from './images/stamp.png'
 import triangle from './images/triangle.png'
 import school from './images/school.png'
@@ -62,7 +63,8 @@ export const images = {
   bg_certificate,
   triangle,
   school,
-  stamp
+  stamp,
+  cards
 }
 
 export const lotties = { emptyBox, BeKim, BeSon, BeLam, BeThach, flag }
