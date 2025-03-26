@@ -70,3 +70,28 @@ export const charactersContent = [
     character: 'Nhẹ nhàng, tinh tế, hay mơ mộng. Nhìn ít nói nhưng khi thân thì nói siêu nhiều'
   }
 ]
+
+export const cardDescs = [
+  {
+    id: 1,
+    desc: [
+      'Miễn/giảm học phí và hỗ trợ học bổng 🎓',
+      'Cải thiện cơ sở vật chất trường học 🏫',
+      'Tổ chức lớp học song ngữ, bảo tồn văn hóa Khmer 🏮'
+    ]
+  },
+  {
+    id: 2,
+    desc: [
+      'Được hỗ trợ giảng dạy tận tình 🎓',
+      'Cung cấp tài liệu và lớp học bổ trợ 📖',
+      'Định hướng tương lai, truyền động lực 🌟'
+    ]
+  },
+  {
+    id: 3,
+    desc: [
+      'Sự nỗ lực của các em, cùng sự hỗ trợ từ cộng đồng và sinh viên, mở ra cơ hội để vươn lên trong học tập và cuộc sống'
+    ]
+  }
+]

@@ -9,6 +9,7 @@ import 'aos/dist/aos.css'
 import 'mingcute_icon/font/Mingcute.css'
 import './App.css'
 import 'swiper/css'
+import 'swiper/css/navigation'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

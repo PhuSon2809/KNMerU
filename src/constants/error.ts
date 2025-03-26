@@ -28,5 +28,22 @@ export const ERROR_MESSAGES: Record<string, string> = {
   GIFT_ERROR_003: 'Quà tặng đã hết hạn',
 
   STREAK_ERR_001: 'Người dùng đã điểm danh trước đó',
-  STREAK_ERR_002: 'Người dùng chưa hoàn thành câu hỏi trước khi điểm danh'
+  STREAK_ERR_002: 'Người dùng chưa hoàn thành câu hỏi trước khi điểm danh',
+
+  CARD_ERROR_001: 'Không tìm thấy thẻ',
+  CARD_ERROR_002: 'Thẻ đã được nhận',
+  CARD_ERROR_003: 'Thẻ đã được sử dụng',
+  CARD_ERROR_004: 'Thẻ đã hết hạn',
+  CARD_ERROR_005: 'Thẻ không hợp lệ',
+
+  ROUT_ERROR_001: 'Người dùng đã hoàn thành tất cả tuyến đường',
+  ROUT_ERROR_002: 'Mã không chính xác',
+  ROUT_ERROR_003: 'Người dùng đã sử dụng mã này',
+  ROUT_ERROR_004: 'Không tìm thấy tuyến đường',
+  ROUT_ERROR_005: 'Người dùng đã bắt đầu tuyến đường này',
+  ROUT_ERROR_006: 'Tuyến đường bị khóa',
+
+  REFE_ERROR_001: 'Không tìm thấy mã giới thiệu',
+  REFE_ERROR_002: 'Mã giới thiệu đã hết hạn',
+  REFE_ERROR_003: 'Mã giới thiệu đã được sử dụng'
 }
