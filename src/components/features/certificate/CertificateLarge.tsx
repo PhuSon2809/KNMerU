@@ -17,7 +17,7 @@ const CertificateLarge: FC<CertificateLargeProps> = memo(({ type = 'normal' }) =
       className={classNames(
         type === 'normal' && 'justify-between rounded-1 border-4 border-blue-main',
         type === 'final' &&
-          'bg-certificate h-full justify-center bg-contain bg-no-repeat object-center',
+          'bg-certificate-mobile h-full justify-center bg-cover bg-no-repeat object-center md:bg-certificate md:bg-contain',
         'relative flex max-h-[500px] w-full flex-1 flex-col items-center px-5 py-5 text-center md:max-h-[400px] md:px-0 lg:max-h-[460px]'
       )}
     >
@@ -26,15 +26,15 @@ const CertificateLarge: FC<CertificateLargeProps> = memo(({ type = 'normal' }) =
         {type === 'normal' && (
           <img src={icons.certificate} alt='certificate' className='size-10 md:size-[56px]' />
         )}
-        <div className='flex items-center gap-3'>
+        <div className='flex flex-col-reverse items-center gap-3 md:flex-row'>
           {type === 'final' && (
             <img
               src={icons.graduction}
               alt='graduction'
-              className='size-10 md:size-[40px] lg:size-[72px]'
+              className='hidden size-10 md:flex md:size-[40px] lg:size-[72px]'
             />
           )}
-          <h1 className='relative text-[40px]/[60px] uppercase text-pink-main md:text-[32px]/[36px] lg:text-[45px]/[68px]'>
+          <h1 className='relative text-2xl uppercase text-pink-main md:text-[32px]/[36px] lg:text-[45px]/[68px]'>
             Giấy khen{' '}
             {type === 'normal' && (
               <img
@@ -54,7 +54,7 @@ const CertificateLarge: FC<CertificateLargeProps> = memo(({ type = 'normal' }) =
         </div>
         <div className='flex flex-col items-center md:flex-row'>
           <p className='text-[20px]/[48px] uppercase text-blue-main'>Khen tặng bạn</p>
-          <span className='relative ml-1 text-[32px]/[48px] text-orange-main'>
+          <span className='relative ml-1 text-2xl text-orange-main md:text-[32px]/[48px]'>
             {userInfo?.fullName}{' '}
             {type === 'normal' && (
               <img
@@ -65,12 +65,12 @@ const CertificateLarge: FC<CertificateLargeProps> = memo(({ type = 'normal' }) =
             )}
           </span>
         </div>
-        <p className='font-dongle text-[24px]/[24px] text-orange-main md:text-[20px]/[20px] lg:text-[24px]/[24px]'>
+        <p className='px-5 font-dongle text-base text-orange-main md:px-0 md:text-[20px]/[20px] lg:text-[24px]/[24px]'>
           Đã đạt thành tích xuất sắc chăm bé {userInfo?.characterOriginalName?.split(' ')[2]}{' '}
           {generalInfo?.characterName}{' '}
           {type === 'normal' ? `lên lớp ${Number(generalInfo?.classLevel)}` : `tốt nghiệp Tiểu học`}
         </p>
-        <p className='font-dongle text-[24px]/[24px] text-orange-main md:text-[20px]/[20px] lg:text-[24px]/[24px]'>
+        <p className='font-dongle text-base text-orange-main md:text-[20px]/[20px] lg:text-[24px]/[24px]'>
           (Hoàn thành {(Number(generalInfo?.classLevel) - 1) * 25}% tiến độ)
         </p>
       </div>

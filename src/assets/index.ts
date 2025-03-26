@@ -19,6 +19,7 @@ import bg_input from './images/bg-input.png'
 import bg_textarea from './images/bg-textarea.png'
 import bg_texture from './images/bg-texture.png'
 import bg_certificate from './images/bg_certificate.png'
+import bg_certificate_mobile from './images/bg-certificate-mobile.png'
 import characters from './images/characters.png'
 import cardWhite from './images/card-white.png'
 import KV_photo from './images/KV-photo.png'
@@ -65,6 +66,7 @@ export const images = {
   characters,
   unbox,
   bg_certificate,
+  bg_certificate_mobile,
   triangle,
   school,
   stamp,

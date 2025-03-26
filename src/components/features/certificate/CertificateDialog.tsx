@@ -19,7 +19,7 @@ const CertificateDialog: FC<CertificateDialogProps> = memo(({ open, setOpen }) =
         <VisuallyHidden>
           <DialogTitle>Hidden Title</DialogTitle>
         </VisuallyHidden>
-        <div className='relative flex h-full flex-col gap-6 overflow-hidden overflow-y-auto p-5 md:p-6'>
+        <div className='relative flex h-full flex-1 flex-col gap-6 overflow-y-auto p-5 md:p-6'>
           <div className='flex flex-col-reverse items-start justify-between gap-3 md:flex-row md:gap-0'>
             <h4 className='mr-[50px] text-[24px]/[32px] text-blue-main lg:text-[32px]/[48px]'>
               Chúc mừng bạn đã hoàn thành mốc

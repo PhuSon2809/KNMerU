@@ -65,6 +65,7 @@ export default {
       },
       backgroundImage: {
         certificate: "url('/src/assets/images/bg_certificate.png')",
+        'certificate-mobile': "url('/src/assets/images/bg-certificate-mobile.png')",
         'ln-white-pink':
           'linear-gradient(0deg, rgba(255, 146, 203, 0.2), rgba(255, 146, 203, 0.2)), linear-gradient(0deg, #FFFFFF, #FFFFFF)',
         'ln-white-blue':

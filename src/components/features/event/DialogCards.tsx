@@ -47,12 +47,12 @@ const DialogCards: FC<DialogCardsProps> = ({ open, setOpen }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent disabledBgDialog hideClose>
-        <div className='relative flex h-full flex-col items-center gap-6 overflow-hidden p-5 md:p-6'>
+        <div className='relative flex flex-col items-center gap-6 overflow-y-auto p-5 md:p-6'>
           <ButtonBase
             isLoading={isLoading}
             variant='pink'
             size='circleIcon'
-            className='ml-1 mr-auto'
+            className='ml-1 mr-auto shrink-0'
             onClick={() => setOpen(false)}
           >
             <span className='mgc_fullscreen_exit_2_fill' />
@@ -72,7 +72,7 @@ const DialogCards: FC<DialogCardsProps> = ({ open, setOpen }) => {
           )}
           <button
             onClick={() => setOpen(false)}
-            className='flex size-[87px] items-center justify-center rounded-full bg-pink-main'
+            className='flex size-[87px] shrink-0 items-center justify-center rounded-full bg-pink-main'
           >
             <img src={images.cardWhite} alt='card-white' />
           </button>
