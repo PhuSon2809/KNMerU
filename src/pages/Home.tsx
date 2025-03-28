@@ -74,6 +74,19 @@ const Home = memo(() => {
     []
   )
 
+  const handleOpenEventDialog1 = () => {
+    toast.error(
+      <>
+        Sự kiện "Khơi Nguồn Mer Ước" diễn ra vào ngày 24 - 25/03/2025 đã kết thúc.
+      </>,
+      {
+        position: 'top-right',
+        autoClose: 3000,
+      }
+    );
+  };
+  
+
   const handleOpenEventDialog = useCallback(() => {
     if (userCards.length === 0) {
       navigate(path.supportCard)
@@ -134,7 +147,7 @@ const Home = memo(() => {
               size='lg'
               className='min-w-[212px]'
               LeftIcon={() => <span className='mgc_fire_fill' />}
-              onClick={handleOpenEventDialog}
+              onClick={handleOpenEventDialog1}
             >
               Tham gia sự kiện <br />
               Khơi Nguồn Mer Ước
