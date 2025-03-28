@@ -81,7 +81,6 @@ const Home = memo(() => {
       </>,
       {
         position: 'top-right',
-        autoClose: 3000,
       }
     );
   };
