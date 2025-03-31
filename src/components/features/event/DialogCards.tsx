@@ -46,8 +46,12 @@ const DialogCards: FC<DialogCardsProps> = ({ open, setOpen }) => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent disabledBgDialog hideClose>
-        <div className='relative flex flex-col items-center gap-6 overflow-y-auto p-5 md:p-6'>
+      <DialogContent
+        disabledBgDialog
+        hideClose
+        className='hide-scrollbar max-h-[100vh] !overflow-visible overflow-y-auto sm:!overflow-y-auto'
+      >
+        <div className='hide-scrollbar relative flex h-full flex-col items-center gap-6 overflow-y-auto p-5 md:p-6'>
           <ButtonBase
             isLoading={isLoading}
             variant='pink'

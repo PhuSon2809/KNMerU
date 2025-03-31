@@ -27,6 +27,17 @@ const ClassPercent = memo(() => {
     [generalInfo]
   )
 
+  const progress = generalInfo?.classLevelProgress || {}
+  const learnedLevels = new Set() // Tập hợp các lớp đã học
+  let currentLevel = 1 // Bắt đầu từ lớp 1
+  for (const grade in progress) {
+    const maxInGrade = progress[grade] // Giá trị tối đa của từng cấp
+    for (let i = currentLevel; i < currentLevel + maxInGrade; i++) {
+      learnedLevels.add(i) // Thêm vào danh sách đã học
+    }
+    currentLevel += 5 // Tăng lên 5 lớp mỗi cấp
+  }
+
   useEffect(() => {
     if (!divRef.current) return
     const observer = new ResizeObserver(([entry]) => {
@@ -35,10 +46,15 @@ const ClassPercent = memo(() => {
     observer.observe(divRef.current)
     return () => observer.disconnect()
   }, [])
-
+  console.log(
+    'divWidth * 1.1 * (skippedLevels.length + Number(generalInfo?.streak)) + 20',
+    skippedLevels.length + Number(generalInfo?.streak),
+    divWidth * (skippedLevels.length + Number(generalInfo?.streak))
+  )
+  console.log('divWidth', divWidth)
   return (
     <>
-      <div className='flex w-full flex-row justify-center gap-8 rounded-1 border-[3px] border-dashed border-blue-main bg-gray-1 p-5 md:flex-col lg:p-6'>
+      <div className='flex w-full flex-row justify-center gap-8 overflow-hidden rounded-1 border-[3px] border-dashed border-blue-main bg-gray-1 p-5 md:flex-col lg:p-6'>
         <div className='flex flex-col items-center justify-between md:flex-row'>
           {/* <img
             src={userInfo?.characterImageUrl || images.characters}
@@ -74,18 +90,9 @@ const ClassPercent = memo(() => {
         <div className='mt-5 h-fit rounded-1 border border-gray-2 bg-gray-1 p-1 shadow-pink md:h-9'>
           <div className='relative flex size-full flex-col rounded-1 bg-gray-2 md:flex-row'>
             {streak.map((str, idx) => {
-              const progress = generalInfo?.classLevelProgress || {}
-              const learnedLevels = new Set() // Tập hợp các lớp đã học
-              let currentLevel = 1 // Bắt đầu từ lớp 1
-              for (const grade in progress) {
-                const maxInGrade = progress[grade] // Giá trị tối đa của từng cấp
-                for (let i = currentLevel; i < currentLevel + maxInGrade; i++) {
-                  learnedLevels.add(i) // Thêm vào danh sách đã học
-                }
-                currentLevel += 5 // Tăng lên 5 lớp mỗi cấp
-              }
               const isSkipped = skippedLevels.includes(str)
               console.log('learnedLevels', learnedLevels)
+              console.log('skippedLevels', skippedLevels)
               return (
                 <>
                   <div
@@ -124,8 +131,8 @@ const ClassPercent = memo(() => {
               )}
               style={{
                 transform: mdDown
-                  ? `translateY(${(divWidth + 12) * (skippedLevels.length + Number(generalInfo?.streak)) + 20}%)`
-                  : `translateX(${divWidth * 1.1 * (skippedLevels.length + Number(generalInfo?.streak)) + 20}%)`
+                  ? `translateY(${(divWidth + 10) * (skippedLevels.length + learnedLevels.size - 1)}px)`
+                  : `translateX(${divWidth * (skippedLevels.length + learnedLevels.size - 1.5)}px)`
               }}
             />
           </div>

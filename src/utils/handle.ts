@@ -35,37 +35,29 @@ export const getSkippedLevels = (progress: ClassLevelProgress, infor: GeneralInf
   let skippedLevels: number[] = []
 
   const maxLevelPerGrade = 5
-  const baseLevels = [1, 6, 11, 16, 21] // Cấp độ bắt đầu của từng Grade
+  const baseLevels = [1, 6, 11, 16] // Cấp độ bắt đầu của từng Grade
 
-  // Kiểm tra nếu có bỏ qua từ FirstGrade → SecondGrade
-  if (
-    progress.SecondGrade > 0 ||
-    (progress.SecondGrade === 0 && infor.classLevel === 2 && infor.isSkippedClass)
-  ) {
-    const currentLevel = baseLevels[0] + progress.FirstGrade - 1 // Cấp độ đang học
-    const expectedEnd = baseLevels[0] + maxLevelPerGrade - 1 // Cấp độ tối đa
+  // Hàm kiểm tra cấp độ bị bỏ qua giữa hai cấp
+  const checkSkipped = (currentProgress: number, nextProgress: number, gradeIndex: number) => {
+    if (
+      nextProgress > 0 ||
+      (nextProgress === 0 && infor.classLevel === gradeIndex + 2 && infor.isSkippedClass)
+    ) {
+      const currentLevel = baseLevels[gradeIndex] + currentProgress - 1
+      const expectedEnd = baseLevels[gradeIndex] + maxLevelPerGrade - 1
 
-    if (currentLevel < expectedEnd) {
-      for (let i = currentLevel + 1; i <= expectedEnd; i++) {
-        skippedLevels.push(i)
+      if (currentLevel < expectedEnd) {
+        for (let i = currentLevel + 1; i <= expectedEnd; i++) {
+          skippedLevels.push(i)
+        }
       }
     }
   }
 
-  // Kiểm tra nếu có bỏ qua từ SecondGrade → ThirdGrade
-  if (
-    progress.ThirdGrade > 0 ||
-    (progress.ThirdGrade === 0 && infor.classLevel === 3 && infor.isSkippedClass)
-  ) {
-    const currentLevel = baseLevels[1] + progress.SecondGrade - 1
-    const expectedEnd = baseLevels[1] + maxLevelPerGrade - 1
-
-    if (currentLevel < expectedEnd) {
-      for (let i = currentLevel + 1; i <= expectedEnd; i++) {
-        skippedLevels.push(i)
-      }
-    }
-  }
+  checkSkipped(progress.FirstGrade, progress.SecondGrade, 0)
+  checkSkipped(progress.SecondGrade, progress.ThirdGrade, 1)
+  checkSkipped(progress.ThirdGrade, progress.FourthGrade, 2)
+  // checkSkipped(progress.FourthGrade, progress.FifthGrade, 3)
 
   return skippedLevels
 }

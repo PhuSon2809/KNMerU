@@ -37,6 +37,8 @@ const Home = memo(() => {
   // const { userCards } = useAppSelector((s) => s.card)
   const { generalInfo } = useAppSelector((s) => s.rootData)
 
+  console.log('generalInfo', generalInfo)
+
   const [questionType, setQuestionType] = useState<EnumQuestionType>(EnumQuestionType.daily)
   const [titleProfile, setTitleProfile] = useState<TitleDialog>(TitleDialog.infor)
   const [open, setOpen] = useState<OpenState>({
@@ -45,7 +47,7 @@ const Home = memo(() => {
     question: false,
     drawer: false,
     profile: false,
-    certificate: true
+    certificate: false
   })
 
   const setOpenState = useCallback(
@@ -75,15 +77,10 @@ const Home = memo(() => {
   )
 
   const handleOpenEventDialog = () => {
-    toast.error(
-      <>
-        Sự kiện "Khơi Nguồn Mer Ước" diễn ra vào ngày 24 - 25/03/2025 đã kết thúc.
-      </>,
-      {
-        position: 'top-right',
-      }
-    );
-  };
+    toast.error(<>Sự kiện "Khơi Nguồn Mer Ước" diễn ra vào ngày 24 - 25/03/2025 đã kết thúc.</>, {
+      position: 'top-right'
+    })
+  }
 
   // const handleOpenEventDialog = useCallback(() => {
   //   if (userCards.length === 0) {
