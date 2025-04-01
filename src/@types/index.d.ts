@@ -11,6 +11,7 @@ declare global {
     id: number
     icon: string
     variant: Color
+    link: string
   }
 
   interface Information {

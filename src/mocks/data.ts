@@ -2,12 +2,20 @@ export const socials: Social[] = [
   {
     id: 1,
     icon: 'mgc_mail_fill',
-    variant: 'orange'
+    variant: 'orange',
+    link: 'mailto:khoinguonmeruoc@gmail.com'
   },
   {
     id: 2,
     icon: 'mgc_facebook_fill',
-    variant: 'blue'
+    variant: 'blue',
+    link: 'https://www.facebook.com/KhoiNguonMerUoc'
+  },
+  {
+    id: 3,
+    icon: 'mgc_tiktok_fill',
+    variant: 'pink',
+    link: 'https://www.tiktok.com/@khoinguonmeruoc'
   }
 ]
 

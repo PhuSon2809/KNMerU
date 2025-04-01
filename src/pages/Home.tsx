@@ -157,22 +157,24 @@ const Home = memo(() => {
             ))}
           </div>
           <div className='w-full min-w-[171px] rounded-1 border border-gray-2 bg-gray-1 p-[14px] xl:w-fit xl:rounded-br-none xl:rounded-tr-none xl:pr-[50px]'>
-            <p className='mb-3 text-center text-[20px]/[30px] text-gray-7 xl:mb-0 xl:text-left'>
+            <p className='mb-3 text-center text-[20px]/[30px] text-gray-7 xl:mb-0 xl:text-left' style={{ marginBottom: '10px' }}>
               Contact us
             </p>
             <div className='flex w-full items-center justify-center gap-5 xl:w-fit xl:justify-start'>
               {socials.map((social) => (
-                <ButtonBase
-                  key={social.id}
-                  variant={social.variant}
-                  size='circleIcon'
-                  className='!rounded-1'
-                >
-                  <span className={social.icon} />
-                </ButtonBase>
+                <a key={social.id} href={social.link} target="_blank" rel="noopener noreferrer">
+                  <ButtonBase
+                    variant={social.variant}
+                    size='circleIcon'
+                    className='!rounded-1'
+                  >
+                    <span className={social.icon} />
+                  </ButtonBase>
+                </a>
               ))}
             </div>
           </div>
+
           <img src={icons.flower} alt='icon-flower' className='absolute -left-40 bottom-5 z-[-1]' />
           <img src={icons.coffee} alt='icon-coffee' className='absolute -right-16 top-5 z-[-1]' />
         </div>
