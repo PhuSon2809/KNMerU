@@ -3,7 +3,7 @@ export const socials: Social[] = [
     id: 1,
     icon: 'mgc_mail_fill',
     variant: 'orange',
-    link: 'mailto:khoinguonmeruoc@gmail.com'
+    link: 'mailto:khoinguonmeruoc@gmail.com?subject=Website Feedback (khoi-nguon-mer-uoc) - <Replace your content here!>&bcc=maiphuongfpt120223@gmail.com'
   },
   {
     id: 2,
