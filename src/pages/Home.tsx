@@ -84,11 +84,11 @@ const Home = memo(() => {
     }
   }, [userCards])
 
-  const handleCloseEventDialog = () => {
-    toast.error(<>Sự kiện "Khơi Nguồn Mer Ước" diễn ra vào ngày 24 - 25/03/2025 đã kết thúc.</>, {
-      position: 'top-right'
-    })
-  }
+  // const handleCloseEventDialog = () => {
+  //   toast.error(<>Sự kiện "Khơi Nguồn Mer Ước" diễn ra vào ngày 24 - 25/03/2025 đã kết thúc.</>, {
+  //     position: 'top-right'
+  //   })
+  // }
   
   useEffect(() => {
     dispatch(getUserGifts())
@@ -142,8 +142,8 @@ const Home = memo(() => {
               size='lg'
               className='min-w-[212px]'
               LeftIcon={() => <span className='mgc_fire_fill' />}
-              // onClick={handleOpenEventDialog}
-              onClick={handleCloseEventDialog}
+              onClick={handleOpenEventDialog}
+              // onClick={handleCloseEventDialog}
             >
               Tham gia sự kiện <br />
               Khơi Nguồn Mer Ước
