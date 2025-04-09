@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import { memo, useCallback, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-// import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { EnumQuestionType } from '~/@types/question'
 import { icons } from '~/assets'
 import CertificateDialog from '~/components/features/certificate/CertificateDialog'
@@ -11,7 +11,7 @@ import InformationItem from '~/components/features/home/InformationItem'
 import ProfileDialog, { TitleDialog } from '~/components/features/profile/ProfileDialog'
 import QuestionDialog from '~/components/features/question/QuestionDialog'
 import ButtonBase from '~/components/shared/ButtonBase'
-// import { path } from '~/constants/path'
+import { path } from '~/constants/path'
 import Header from '~/layouts/components/Header'
 import { informations, socials } from '~/mocks/data'
 import { getCards } from '~/store/card/card.slice'
@@ -31,10 +31,10 @@ export type OpenState = {
 
 const Home = memo(() => {
   const dispatch = useAppDispatch()
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
 
   const { isLoading } = useAppSelector((s) => s.auth)
-  // const { userCards } = useAppSelector((s) => s.card)
+  const { userCards } = useAppSelector((s) => s.card)
   const { generalInfo } = useAppSelector((s) => s.rootData)
 
   console.log('generalInfo', generalInfo)
@@ -76,19 +76,19 @@ const Home = memo(() => {
     []
   )
 
-  const handleOpenEventDialog = () => {
-    toast.error(<>Sự kiện "Khơi Nguồn Mer Ước" diễn ra vào ngày 24 - 25/03/2025 đã kết thúc.</>, {
-      position: 'top-right'
-    })
-  }
+  // const handleOpenEventDialog = () => {
+  //   toast.error(<>Sự kiện "Khơi Nguồn Mer Ước" diễn ra vào ngày 24 - 25/03/2025 đã kết thúc.</>, {
+  //     position: 'top-right'
+  //   })
+  // }
 
-  // const handleOpenEventDialog = useCallback(() => {
-  //   if (userCards.length === 0) {
-  //     navigate(path.supportCard)
-  //   } else {
-  //     navigate(path.event)
-  //   }
-  // }, [userCards])
+  const handleOpenEventDialog = useCallback(() => {
+    if (userCards.length === 0) {
+      navigate(path.supportCard)
+    } else {
+      navigate(path.event)
+    }
+  }, [userCards])
 
   useEffect(() => {
     dispatch(getUserGifts())
