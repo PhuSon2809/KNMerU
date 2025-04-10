@@ -65,8 +65,20 @@ export const getRandomGift = createAsyncThunk(
   'gift/get-random-gift',
   async (classLevel: number, { rejectWithValue }) => {
     try {
-      const res: ApiResponse<Gift> = await axiosClient.post('/Gift/GetRandomGift', { classLevel })
+      const res: ApiResponse<any> = await axiosClient.post('/Gift/GetRandomGift', { classLevel })
       console.log('getRandomGift res ===> ', res)
+
+      if (res.data) {
+        const formattedData = {
+          giftId: res.data.id,
+          giftName: res.data.name,
+          giftDescription: res.data.description || "",
+          giftImageUrl: res.data.imageUrl,
+          classLevel: classLevel
+        };
+        return { ...res, data: formattedData };
+      }
+      
       return res
     } catch (error) {
       console.log('getRandomGift error ===>  ' + error)
@@ -74,6 +86,20 @@ export const getRandomGift = createAsyncThunk(
     }
   }
 )
+
+// export const getRandomGift = createAsyncThunk(
+//   'gift/get-random-gift',
+//   async (classLevel: number, { rejectWithValue }) => {
+//     try {
+//       const res: ApiResponse<Gift> = await axiosClient.post('/Gift/GetRandomGift', { classLevel })
+//       console.log('getRandomGift res ===> ', res)
+//       return res
+//     } catch (error) {
+//       console.log('getRandomGift error ===>  ' + error)
+//       return rejectWithValue(error)
+//     }
+//   }
+// )
 
 export const getUserGifts = createAsyncThunk(
   'gift/get-user-gifts',
