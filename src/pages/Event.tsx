@@ -76,7 +76,6 @@ const Event = memo(() => {
         toast.success('Chúc mừng bạn đã hoàn hành trạm!')
         dispatch(getUserCards())
         dispatch(getUserRoutes())
-        swiperRef.current?.swiper.slideNext()
         form.reset()
       }
     } catch (error) {
@@ -98,6 +97,15 @@ const Event = memo(() => {
       toast.error(getErrorMessage(error))
     }
   }, [])
+
+  useEffect(() => {
+    if (swiperRef.current?.swiper && routeData?.currentRouteIndex) {
+      const slideIndex = Number(routeData.currentRouteIndex) - 1;
+      if (swiperRef.current.swiper.activeIndex !== slideIndex) {
+        swiperRef.current.swiper.slideTo(slideIndex);
+      }
+    }
+  }, [routes, routeData]);
 
   useEffect(() => {
     dispatch(getUserRoutes())
@@ -129,7 +137,7 @@ const Event = memo(() => {
               <p className='text-3xl text-pink-main'>Cảm ơn</p>
               <p className='text-sm text-blue-main'>
                 {userInfo?.characterOriginalName?.split(' ')[2]}{' '}
-                {userInfo?.characterName || 'TÊN NHÂN VẬT'} đã chung tay ‘Khơi nguồn Mơ Ước’, mang
+                {userInfo?.characterName || 'TÊN NHÂN VẬT'} đã chung tay 'Khơi nguồn Mơ Ước', mang
                 tri thức đến gần hơn với trẻ em Khmer!
               </p>
             </div>
@@ -200,6 +208,8 @@ const Event = memo(() => {
                   prevEl: prevRef.current ? prevRef.current : undefined,
                   nextEl: nextRef.current ? nextRef.current : undefined
                 }}
+                onSlideChange={(swiper) => {
+                }}
               >
                 {routes.map((route, idx) => (
                   <SwiperSlide key={route.routeId} className='h-full'>
@@ -240,7 +250,14 @@ const Event = memo(() => {
                   isLoading ? 'opacity-0' : 'opacity-1000',
                   '-left-1 z-10 rotate-180 absolute-center-y transition-300'
                 )}
-                onClick={() => swiperRef.current?.swiper.slidePrev()}
+                onClick={() => {
+                  // Chỉ cho phép di chuyển đến các trạm đã hoàn thành
+                  const currentIndex = swiperRef.current?.swiper.activeIndex;
+                  const prevIndex = currentIndex - 1;
+                  if (prevIndex >= 0 && routes[prevIndex]?.isCompleted) {
+                    swiperRef.current?.swiper.slideTo(prevIndex);
+                  }
+                }}
               >
                 <Arrow />
               </button>
@@ -251,7 +268,16 @@ const Event = memo(() => {
                   isLoading ? 'opacity-0' : 'opacity-1000',
                   '-right-1 z-10 absolute-center-y transition-300'
                 )}
-                onClick={() => swiperRef.current?.swiper.slideNext()}
+                onClick={() => {
+                  const currentIndex = swiperRef.current?.swiper.activeIndex;
+                  const nextIndex = currentIndex + 1;
+                  if (
+                    nextIndex < routes.length && 
+                    (routes[nextIndex]?.isCompleted || nextIndex + 1 === Number(routeData?.currentRouteIndex))
+                  ) {
+                    swiperRef.current?.swiper.slideTo(nextIndex);
+                  }
+                }}
               >
                 <Arrow />
               </button>
