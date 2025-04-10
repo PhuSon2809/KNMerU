@@ -76,7 +76,6 @@ const Event = memo(() => {
         toast.success('Chúc mừng bạn đã hoàn hành trạm!')
         dispatch(getUserCards())
         dispatch(getUserRoutes())
-        // Không cần tự động next slide vì sẽ đồng bộ từ currentRouteIndex
         form.reset()
       }
     } catch (error) {
@@ -99,10 +98,8 @@ const Event = memo(() => {
     }
   }, [])
 
-  // Đồng bộ swiper với currentRouteIndex khi routes hoặc routeData thay đổi
   useEffect(() => {
     if (swiperRef.current?.swiper && routeData?.currentRouteIndex) {
-      // Đảm bảo slide đến đúng trạm hiện tại (index bắt đầu từ 0 nên cần trừ 1)
       const slideIndex = Number(routeData.currentRouteIndex) - 1;
       if (swiperRef.current.swiper.activeIndex !== slideIndex) {
         swiperRef.current.swiper.slideTo(slideIndex);
@@ -252,7 +249,6 @@ const Event = memo(() => {
                   '-left-1 z-10 rotate-180 absolute-center-y transition-300'
                 )}
                 onClick={() => {
-                  // Chỉ cho phép di chuyển đến các trạm đã hoàn thành
                   const currentIndex = swiperRef.current?.swiper.activeIndex;
                   const prevIndex = currentIndex - 1;
                   if (prevIndex >= 0 && routes[prevIndex]?.isCompleted) {
@@ -270,7 +266,6 @@ const Event = memo(() => {
                   '-right-1 z-10 absolute-center-y transition-300'
                 )}
                 onClick={() => {
-                  // Chỉ cho phép di chuyển đến trạm hiện tại hoặc các trạm đã hoàn thành
                   const currentIndex = swiperRef.current?.swiper.activeIndex;
                   const nextIndex = currentIndex + 1;
                   if (

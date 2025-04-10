@@ -64,12 +64,12 @@ export const routers = createHashRouter([
             element: <Home />
           },
           {
-            path: path.event,
-            element: <Event />
-          },
-          {
             path: path.supportCard,
             element: <SupportCard />
+          },
+          {
+            path: path.event,
+            element: <Event />
           }
         ]
       }
