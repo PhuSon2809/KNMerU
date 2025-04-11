@@ -100,12 +100,12 @@ const Event = memo(() => {
 
   useEffect(() => {
     if (swiperRef.current?.swiper && routeData?.currentRouteIndex) {
-      const slideIndex = Number(routeData.currentRouteIndex) - 1;
+      const slideIndex = Number(routeData.currentRouteIndex) - 1
       if (swiperRef.current.swiper.activeIndex !== slideIndex) {
-        swiperRef.current.swiper.slideTo(slideIndex);
+        swiperRef.current.swiper.slideTo(slideIndex)
       }
     }
-  }, [routes, routeData]);
+  }, [routes, routeData])
 
   useEffect(() => {
     dispatch(getUserRoutes())
@@ -173,7 +173,6 @@ const Event = memo(() => {
                           className={classNames(
                             idx === 0 && 'rounded-l-full',
                             idx === 4 && 'rounded-r-full',
-
                             route.isCompleted
                               ? 'bg-pink-main'
                               : routeData?.currentRouteIndex === idx + 1
@@ -236,6 +235,22 @@ const Event = memo(() => {
                         <span className='mgc_location_fill text-pink-main' />
                         <p className='text-xl text-gray-4'>Trạm {route.routeName}</p>
                       </div>
+
+                      {/* Hiển thị thông tin thẻ đã dùng nếu có */}
+                      <div>
+                        {route.usedCard && (
+                          <div className="text-center text-sm text-gray-600 mt-2">
+                            Đã sử dụng thẻ: <span className="font-bold text-pink-main">
+                              {route.usedCard.cardName}
+                            </span>
+                            {route.usedCard.usedAt && (
+                              <span className="block text-xs text-gray-500">
+                                {new Date(route.usedCard.usedAt).toLocaleString()}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </SwiperSlide>
                 ))}
@@ -249,10 +264,10 @@ const Event = memo(() => {
                   '-left-1 z-10 rotate-180 absolute-center-y transition-300'
                 )}
                 onClick={() => {
-                  const currentIndex = swiperRef.current?.swiper.activeIndex;
-                  const prevIndex = currentIndex - 1;
+                  const currentIndex = swiperRef.current?.swiper.activeIndex
+                  const prevIndex = currentIndex - 1
                   if (prevIndex >= 0 && routes[prevIndex]?.isCompleted) {
-                    swiperRef.current?.swiper.slideTo(prevIndex);
+                    swiperRef.current?.swiper.slideTo(prevIndex)
                   }
                 }}
               >
@@ -266,13 +281,13 @@ const Event = memo(() => {
                   '-right-1 z-10 absolute-center-y transition-300'
                 )}
                 onClick={() => {
-                  const currentIndex = swiperRef.current?.swiper.activeIndex;
-                  const nextIndex = currentIndex + 1;
+                  const currentIndex = swiperRef.current?.swiper.activeIndex
+                  const nextIndex = currentIndex + 1
                   if (
-                    nextIndex < routes.length && 
+                    nextIndex < routes.length &&
                     (routes[nextIndex]?.isCompleted || nextIndex + 1 === Number(routeData?.currentRouteIndex))
                   ) {
-                    swiperRef.current?.swiper.slideTo(nextIndex);
+                    swiperRef.current?.swiper.slideTo(nextIndex)
                   }
                 }}
               >
@@ -312,6 +327,7 @@ const Event = memo(() => {
                   />
                 </div>
               </FormProvider>
+
               <button
                 disabled={isLoading}
                 onClick={() => setOpenState('cards')(true)}
