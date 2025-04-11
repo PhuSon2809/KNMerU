@@ -78,7 +78,7 @@ export const getRandomGift = createAsyncThunk(
         };
         return { ...res, data: formattedData };
       }
-      
+
       return res
     } catch (error) {
       console.log('getRandomGift error ===>  ' + error)

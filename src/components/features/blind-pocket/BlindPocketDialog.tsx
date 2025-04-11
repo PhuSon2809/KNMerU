@@ -23,7 +23,7 @@ const BlindPocketDialog: FC<BlindPocketDialogProps> = memo(({ open, setOpen, idx
   const { userInfo } = useAppSelector((s) => s.auth)
   const { characters } = useAppSelector((s) => s.character)
   const { generalInfo } = useAppSelector((s) => s.rootData)
-  const {randomGifts, isLoading } = useAppSelector((s) => s.gift)
+  const { randomGifts, isLoading } = useAppSelector((s) => s.gift)
 
   const [isViewPocket, setIsViewPocket] = useState<boolean>(false)
   const [isUnboxed, setIsUnboxed] = useState<boolean>(false)
@@ -71,7 +71,7 @@ const BlindPocketDialog: FC<BlindPocketDialogProps> = memo(({ open, setOpen, idx
       toast.error(getErrorMessage(error) || 'Không thể lấy danh sách quà! Thử lại nhé')
     }
   }, [dispatch])
-  
+
   useEffect(() => {
     if (randomGifts) {
       console.log('randomGifts updated:', randomGifts)
@@ -112,8 +112,8 @@ const BlindPocketDialog: FC<BlindPocketDialogProps> = memo(({ open, setOpen, idx
                   variant={isUnboxed ? 'gift' : 'unbox'}
                 />
                 {generalInfo?.classLevel === 1 ||
-                generalInfo?.classLevel === 2 ||
-                generalInfo?.classLevel === 4 ? (
+                  generalInfo?.classLevel === 2 ||
+                  generalInfo?.classLevel === 4 ? (
                   <p className='text-xl'>Bạn chỉ có thể mở khi lên lớp {idxPocket === 0 ? 3 : 5}</p>
                 ) : (
                   <ButtonBase

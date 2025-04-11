@@ -26,8 +26,6 @@ const GiftItem: FC<GiftItemProps> = memo(({ gift, variant = 'unbox', className }
           'text-[20px]/[30px] transition-300 group-hover:text-gray-1'
         )}
       >
-
-        {/* {gift && isGift ? gift.giftName : 'Món quà của bạn là ?'} */}
       </p>
       <div className={classNames('z-10 size-full flex-1')}>
         <img
