@@ -1,14 +1,38 @@
 import { memo, useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 import ButtonBase from '~/components/shared/ButtonBase'
 import Logo from '~/components/shared/Logo'
-import { path } from '~/constants/path'
-import { setIsSuccess } from '~/store/auth/auth.slice'
-import { useAppDispatch } from '~/store/configStore'
+import toast from 'react-hot-toast'
+// import { path } from '~/constants/path'
+// import { setIsSuccess } from '~/store/auth/auth.slice'
+// import { useAppDispatch } from '~/store/configStore'
 
 const Welcome = memo(() => {
-  const navigate = useNavigate()
-  const dispatch = useAppDispatch()
+  // const navigate = useNavigate()
+  // const dispatch = useAppDispatch()
+
+  // const buttons = useMemo(
+  //   () => [
+  //     {
+  //       id: 1,
+  //       variant: 'blue',
+  //       label: 'Đăng nhập',
+  //       icon: 'mgc_moon_stars_fill',
+  //       onClick: () => navigate(path.login)
+  //     },
+  //     {
+  //       id: 2,
+  //       variant: 'pink',
+  //       label: 'Đăng ký ngay',
+  //       icon: 'mgc_sun_fill',
+  //       onClick: () => {
+  //         dispatch(setIsSuccess(false))
+  //         navigate(path.register)
+  //       }
+  //     }
+  //   ],
+  //   []
+  // )
 
   const buttons = useMemo(
     () => [
@@ -17,7 +41,17 @@ const Welcome = memo(() => {
         variant: 'blue',
         label: 'Đăng nhập',
         icon: 'mgc_moon_stars_fill',
-        onClick: () => navigate(path.login)
+        onClick: () => {
+          toast.error(
+            'Hành trình Chăm Mer hiện đã kết thúc. Cảm ơn các bạn đã quan tâm đến dự án "Khơi Nguồn Mer Ước".',
+            {
+              position: 'top-right',
+              style: {
+                whiteSpace: 'pre-line'
+              }
+            }
+          );
+        }
       },
       {
         id: 2,
@@ -25,8 +59,15 @@ const Welcome = memo(() => {
         label: 'Đăng ký ngay',
         icon: 'mgc_sun_fill',
         onClick: () => {
-          dispatch(setIsSuccess(false))
-          navigate(path.register)
+          toast.error(
+            'Hành trình Chăm Mer hiện đã kết thúc. Cảm ơn các bạn đã quan tâm đến dự án "Khơi Nguồn Mer Ước".',
+            {
+              position: 'top-right',
+              style: {
+                whiteSpace: 'pre-line'
+              }
+            }
+          );
         }
       }
     ],
