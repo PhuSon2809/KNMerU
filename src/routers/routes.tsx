@@ -5,11 +5,11 @@ import BaseLayout from '~/layouts/BaseLayout'
 import ChooseCharacters from '~/pages/ChooseCharacters'
 import Home from '~/pages/Home'
 import NameCharacters from '~/pages/NameCharacters'
-// import Register from '~/pages/Register'
+import Register from '~/pages/Register'
 import Welcome from '~/pages/Welcome'
 import PrivateRouter from './PrivateRouter'
 import PublicRouter from './PublicRouter'
-// import Login from '~/pages/Login'
+import Login from '~/pages/Login'
 import Event from '~/pages/Event'
 import SupportCard from '~/pages/SupportCard'
 
@@ -28,14 +28,14 @@ export const routers = createHashRouter([
             path: path.welcome,
             element: <Welcome />
           },
-          // {
-          //   path: path.login,
-          //   element: <Login />
-          // },
-          // {
-          //   path: path.register,
-          //   element: <Register />
-          // }
+          {
+            path: path.login,
+            element: <Login />
+          },
+          {
+            path: path.register,
+            element: <Register />
+          }
         ]
       },
       {
