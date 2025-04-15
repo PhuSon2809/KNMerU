@@ -1,88 +1,89 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import { CredentialResponse, GoogleLogin } from '@react-oauth/google'
-import { jwtDecode } from 'jwt-decode'
-import { memo, useCallback, useState } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
-import toast from 'react-hot-toast'
+// import { zodResolver } from '@hookform/resolvers/zod'
+// import { CredentialResponse, GoogleLogin } from '@react-oauth/google'
+// import { jwtDecode } from 'jwt-decode'
+// import { memo, useCallback, useState } from 'react'
+import { memo} from 'react' // xóa lun 
+// import { FormProvider, useForm } from 'react-hook-form'
+// import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
-import { z } from 'zod'
-import { UserGGInfor } from '~/@types'
+// import { z } from 'zod'
+// import { UserGGInfor } from '~/@types'
 import { icons } from '~/assets'
 import ButtonBase from '~/components/shared/ButtonBase'
-import { FormControl, FormField, FormItem, FormMessage } from '~/components/shared/Form'
-import InputBase from '~/components/shared/InputBase'
+// import { FormControl, FormField, FormItem, FormMessage } from '~/components/shared/Form'
+// import InputBase from '~/components/shared/InputBase'
 import Logo from '~/components/shared/Logo'
 import { path } from '~/constants/path'
-import { socials } from '~/mocks/data'
-import { getUserInfor, login, loginSocial } from '~/store/auth/auth.slice'
-import { useAppDispatch, useAppSelector } from '~/store/configStore'
-import { getErrorMessage, isSuccessRes } from '~/utils'
+// import { socials } from '~/mocks/data'
+// import { getUserInfor, login, loginSocial } from '~/store/auth/auth.slice'
+// import { useAppDispatch, useAppSelector } from '~/store/configStore'
+// import { getErrorMessage, isSuccessRes } from '~/utils'
 
-export const loginFormSchema = z.object({
-  email: z.string().min(1, 'Vui lòng nhập email').email('Email không đúng định dạng'),
-  password: z.string().min(1, 'Vui lòng nhập mật khẩu')
-})
+// export const loginFormSchema = z.object({
+//   email: z.string().min(1, 'Vui lòng nhập email').email('Email không đúng định dạng'),
+//   password: z.string().min(1, 'Vui lòng nhập mật khẩu')
+// })
 
 const Login = memo(() => {
   const navigate = useNavigate()
-  const dispatch = useAppDispatch()
+  // const dispatch = useAppDispatch()
 
-  const { isLoading } = useAppSelector((s) => s.auth)
+  // const { isLoading } = useAppSelector((s) => s.auth)
 
-  const [showPassword, setShowPassword] = useState<boolean>(false)
-  const [ggInor, setGGInfor] = useState<UserGGInfor | null>(null)
+  // const [showPassword, setShowPassword] = useState<boolean>(false)
+  // const [ggInor, setGGInfor] = useState<UserGGInfor | null>(null)
 
-  const form = useForm<z.infer<typeof loginFormSchema>>({
-    resolver: zodResolver(loginFormSchema),
-    defaultValues: { email: '', password: '' }
-  })
+  // const form = useForm<z.infer<typeof loginFormSchema>>({
+  //   resolver: zodResolver(loginFormSchema),
+  //   defaultValues: { email: '', password: '' }
+  // })
 
-  const onSubmitForm = useCallback(async (values: z.infer<typeof loginFormSchema>) => {
-    if (isLoading) return
-    try {
-      const payload = await dispatch(login(values)).unwrap()
-      if (!isSuccessRes(payload.status)) return toast.error('Đăng nhập thất bại! Thử lại nhé.')
-      const payloadUserInfor = await dispatch(getUserInfor()).unwrap()
-      if (isSuccessRes(payloadUserInfor.status) && payloadUserInfor.data.characterId !== null) {
-        navigate(path.home)
-      } else {
-        navigate(path.chooseCharacters)
-      }
-    } catch (error) {
-      console.log('error', error)
-      toast.error(getErrorMessage(error) || 'Đăng nhâp thất bại! Thử lại nhé.')
-    }
-  }, [])
+  // const onSubmitForm = useCallback(async (values: z.infer<typeof loginFormSchema>) => {
+  //   if (isLoading) return
+  //   try {
+  //     const payload = await dispatch(login(values)).unwrap()
+  //     if (!isSuccessRes(payload.status)) return toast.error('Đăng nhập thất bại! Thử lại nhé.')
+  //     const payloadUserInfor = await dispatch(getUserInfor()).unwrap()
+  //     if (isSuccessRes(payloadUserInfor.status) && payloadUserInfor.data.characterId !== null) {
+  //       navigate(path.home)
+  //     } else {
+  //       navigate(path.chooseCharacters)
+  //     }
+  //   } catch (error) {
+  //     console.log('error', error)
+  //     toast.error(getErrorMessage(error) || 'Đăng nhâp thất bại! Thử lại nhé.')
+  //   }
+  // }, [])
 
-  const onLoginGoogle = useCallback(async (response: CredentialResponse) => {
-    if (!response.credential) return toast.error('Đăng nhập Google thất bại! Thử lại nhé.')
-    if (isLoading) return
-    try {
-      const decodedToken: any = jwtDecode(response.credential)
-      setGGInfor({
-        email: decodedToken.email,
-        imageUrl: decodedToken.picture,
-        name: decodedToken.name
-      })
-      const payload = await dispatch(
-        loginSocial({
-          idToken: response.credential,
-          provider: 2
-        })
-      ).unwrap()
-      if (!isSuccessRes(payload.status))
-        return toast.error('Đăng nhập Google thất bại! Thử lại nhé.')
-      const payloadUserInfor = await dispatch(getUserInfor()).unwrap()
-      if (isSuccessRes(payloadUserInfor.status) && payloadUserInfor.data.characterId !== null) {
-        navigate(path.home)
-      } else {
-        navigate(path.chooseCharacters)
-      }
-    } catch (error) {
-      console.log('error', error)
-      toast.error(getErrorMessage(error) || 'Đăng nhâp thất bại! Thử lại nhé.')
-    }
-  }, [])
+  // const onLoginGoogle = useCallback(async (response: CredentialResponse) => {
+  //   if (!response.credential) return toast.error('Đăng nhập Google thất bại! Thử lại nhé.')
+  //   if (isLoading) return
+  //   try {
+  //     const decodedToken: any = jwtDecode(response.credential)
+  //     setGGInfor({
+  //       email: decodedToken.email,
+  //       imageUrl: decodedToken.picture,
+  //       name: decodedToken.name
+  //     })
+  //     const payload = await dispatch(
+  //       loginSocial({
+  //         idToken: response.credential,
+  //         provider: 2
+  //       })
+  //     ).unwrap()
+  //     if (!isSuccessRes(payload.status))
+  //       return toast.error('Đăng nhập Google thất bại! Thử lại nhé.')
+  //     const payloadUserInfor = await dispatch(getUserInfor()).unwrap()
+  //     if (isSuccessRes(payloadUserInfor.status) && payloadUserInfor.data.characterId !== null) {
+  //       navigate(path.home)
+  //     } else {
+  //       navigate(path.chooseCharacters)
+  //     }
+  //   } catch (error) {
+  //     console.log('error', error)
+  //     toast.error(getErrorMessage(error) || 'Đăng nhâp thất bại! Thử lại nhé.')
+  //   }
+  // }, [])
 
   return (
     <div className='relative size-full flex-1 pb-40 pt-20 flex-center'>
@@ -96,22 +97,23 @@ const Login = memo(() => {
         </div>
 
         <div className='space-y-5 rounded-1 border-[3px] border-dashed border-pink-main bg-white/90 p-5 backdrop-blur-[20px] md:p-6'>
-          <FormProvider {...form}>
+          {/* <FormProvider {...form}>
             <div className='space-y-[18px]'>
               <FormField
                 control={form.control}
                 name='email'
                 render={({ field, fieldState }) => (
                   <FormItem>
-                    <FormControl>
-                      <InputBase
-                        {...field}
-                        label='Email*'
-                        placeholder='VanA111@gmail.com'
-                        value={field.value || ''}
-                        error={fieldState.error?.message}
-                      />
-                      {fieldState.error?.message && (
+                    <FormControl> */}
+                    <p>Hành trình Chăm Mer hiện đã kết thúc. Cảm ơn các bạn đã quan tâm đến dự án "Khơi Nguồn Mer Ước".</p>
+                      {/* <InputBase
+                        // {...field}
+                        // label='Hành trình Chăm Mer hiện đã kết thúc. Cảm ơn các bạn đã quan tâm đến dự án "Khơi Nguồn Mer Ước".*'
+                        // placeholder='VanA111@gmail.com'
+                        // value={field.value || ''}
+                        // error={fieldState.error?.message}
+                      /> */}
+                      {/* {fieldState.error?.message && (
                         <FormMessage>{fieldState.error?.message}</FormMessage>
                       )}
                     </FormControl>
@@ -196,7 +198,7 @@ const Login = memo(() => {
                 )}
               </ButtonBase>
             ))}
-          </div>
+          </div>*/}
         </div>
       </div>
 
