@@ -75,8 +75,8 @@ export const routers = createHashRouter([
       }
     ]
   },
-  {
-    path: '*',
-    element: <Home />
-  }
+  // {
+  //   path: '*',
+  //   element: <Home />
+  // }
 ])
